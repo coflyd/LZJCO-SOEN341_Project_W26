@@ -9,3 +9,10 @@ Baseline features:
 1. User Account Management
 - User registration and login
 - Profile management (diet preferences, allergies)
+
+Team : LZJCO
+Constance Fleury
+Jean-Cedrik Dorelas
+Louay Dridi
+Octavian Mihai
+Zaree Choudhry Hameed

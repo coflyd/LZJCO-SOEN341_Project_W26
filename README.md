@@ -7,5 +7,5 @@ For the first Sprint : 6 february
 
 Baseline features:
 1. User Account Management
-● User registration and login
-● Profile management (diet preferences, allergies)
+- User registration and login
+- Profile management (diet preferences, allergies)

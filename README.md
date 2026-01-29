@@ -11,8 +11,8 @@ Baseline features:
 - Profile management (diet preferences, allergies)
 
 Team : LZJCO
-Constance Fleury
-Jean-Cedrik Dorelas
-Louay Dridi
-Octavian Mihai
+Constance Fleury,
+Jean-Cedrik Dorelas,
+Louay Dridi,
+Octavian Mihai,
 Zaree Choudhry Hameed

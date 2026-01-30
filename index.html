@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">   
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <form onsubmit="return false;">
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter email">
+            </div>
+
+            <div class="field" class="password-container">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <div class="forgot-password">
+                    <a href="#">Forgot password?</a>
+                    <i class="far fa-eye" id="togglePassword">ssd</i>
+                </div>
+            </div>
+
+            <button type="button" class="login-btn" onclick="login()">Login</button>
+
+            <div class="alt-action">
+                <a href="RegisterPage.html">or Register?</a>
+            </div>
+        </form>
+    </div>
+ 
+    <script type="module" src="./auth.js"></script>
+</body>
+</html>

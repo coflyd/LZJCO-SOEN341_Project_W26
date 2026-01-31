@@ -1,29 +1,37 @@
 
-23/01/2026 
-Create a GitHub repository 
-Add everyone - create the ReadMe (Description of the Project and Team Members and Roles)
-organize all project deliverables
+23/01/2026 (1h30)
+    Create a GitHub repository 
+    Add everyone - create the ReadMe 
+    (Description of the Project and Team Members and Roles)
+    organize all project deliverables
 
-29/01/2026
-sketch - the logo and the protype
-
-(+propose idea in addition for the project
--> shopping list on the app in real time to create right receipes
--> list in your fidge now and propse receipes with what you have now
--> inspiration link to content of food to give idea to the user)
-
-start the Home page in HTML by the protype - send then to Cedric 
-
-Profile management 
--> page HTML User profile 
-    First name 
-    email
-    password
-    Allergies
-    Preferences
+29/01/2026 (2h00)
+    sketch - the logo and the protype
+    (+propose idea in addition for the project
+    -> shopping list on the app in real time to create right receipes
+    -> list in your fidge now and propse receipes with what you have now
+    -> inspiration link to content of food to give idea to the user)
     
-    log out 
+    start the Home page in HTML by the protype - send then to Cedric 
+    
+    Notes : 
+    Profile management 
+    -> page HTML User profile 
+        First name 
+        email
+        password
+        Allergies
+        Preferences
+        
+        log out 
 
-30/01/2026
-github on VScode to commi and push
-(manipulation see in tutorial en terminal and IDE)
+30/01/2026 (3h00)
+    github (commit and push) on terminal and VScode
+    (manipulation see in tutorial)
+    Continue Home page (CSS/HTML)
+    Sketch Login page visual
+
+    Note : 
+        User Login(Show/Hide password)
+   
+

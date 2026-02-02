@@ -1,73 +1,205 @@
 <!DOCTYPE html>
 <html lang="fr">
-<!-- First Prototype -->
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MealMajor</title>
-  </head>
-
-  <style>
+    <title>MealMajorPrep</title>
     
-    /* Header */
-    header {
-    display: flex;               /* aligner horizontalement */
-    justify-content: space-between; /* Espace menu gauche et login droite */
-    align-items: center;
-    background-color: #FF6600; 
-    padding: 10px 20px;
-    color: white;
-    }
+    <!-- SECOND PROTOTYPE-->
+    
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* COLORS */
+        body {
+            --orange: #FF6633;
+            --vert: #9ACD32;
+            --gris-fonce: #2A2A2A;
+            font-family: Arial, sans-serif;
+        }
 
-    .menu {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* espace entre le bouton et les liens */
-    }
+        /* HEADER */
+        header {
+            background-color: #FF6633;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* ICON MENU (3 BAR) */
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+        /* EACH BAR MENU */
+        .menu div {
+            width: 40px;
+            height: 5px;
+            background-color: #9ACD32;
+            border-radius: 3px;
+        }
+        /* USER ICON */
+        .icon-user {
+            width: 40px;
+            height: 40px;
+            background-color: #9ACD32;
+            border-radius: 20%;
+            cursor: pointer;
+        }
 
-    .menu-button {
-    padding: 8px 12px;
-    background-color: #00FF80;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-}
+        /* MAIN BODY */
+        main {
+            background-color: #9ACD32;
+            min-height: 600px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        /* MEAL PREP */
+        .logo {
+            font-size: 50px;
+            font-weight: bold;
+            color: #2A2A2A;
+            margin-bottom: 10px;
+            letter-spacing: 5px;
+        }
+        /* LOGO */
+        .icone-logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        /* REAL FOOD REAL RESULT*/
+        .slogan {
+            font-size: 35px;
+            font-weight: bold;
+            color: #2A2A2A;
+            margin-bottom: 35px;
+            letter-spacing: 2px;
+        }
+        /* OVERALL PLACEMENT OF THE 3 CARDS*/
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* FOR EACH CARDS */
+        .card {
+            width: 300px;
+            background-color: #FF6633;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            position: relative;
+        }
+        /* MOVING CARDS */
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        /* IMAGE CARDS */
+        .card img {
+            width: 100%; 
+            height: 400px;
+            object-fit: cover;
+        }
+        /* LOGO CENTER CARDS */
+        .icone-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;   
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background-color: white; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+        /* FOOTER LABEL CARDS */
+        .label-card {
+            position: absolute; 
+            bottom: 30px; 
+            left: 50%;  
+            transform: translateX(-50%);
+            background-color: #9ACD32;
+            color: #2A2A2A;
+            padding: 10px 30px; 
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 20px;
+            border: 2px solid #2A2A2A;
+        }
 
-  </style>
+        /* FOOTER */
+        footer {
+            background-color: #FF6633;
+            padding: 20px;
+            text-align: center;
+            color: #2A2A2A;
+        }
+    </style>
+</head>
 
-  <body>
-    <!-- Header -->
+<body>
+    <!-- HEADER -->
     <header>
+        <!-- MENU (3 BAR) -->
         <div class="menu">
-            <button class="menu-button">Menu</button>
-                <nav class ="menu-nav">
-                    <ul>
-                        <li><a href="#">Page1</a></li>
-                        <li><a href="#">Page2</a></li>
-                        <li><a href="#">Page3</a></li>
-                    </ul>
-                </nav>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-
-        <div class="user-login">
-            <img src="account.png" alt="Compte" class="user-icon">
-            <button class="login-button">User</button>
-            <!-- <a href="#">User login</a> -->
-        </div>
+        <!-- TITLE -->
+        <div class="logo">MEAL | MAJOR | PREP</div>
+        <!-- USER -->
+        <div class="icon-user"></div>
     </header>
 
-
+    <!-- BODY -->
     <main>
-        <h1>MealMajor - Meal Prep</h1>
-        <h2>The new way to Meal Prep</h2>
-        <p>MealMajor aide les étudiants à manger sainement
-            sans perdre de temps.</p>
+        <div class="icone-logo">🍴</div>
+        <h2 class="slogan">REAL FOOD REAL RESULT</h2>
+
+        <div class="cards">
+            <!-- CARDS 1 : INSPIRATIONS -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800" 
+                     alt="Plateau de fromages">
+                <div class="icone-card">💡</div>
+                <div class="label-card">INSPIRATIONS</div>
+            </div>
+
+            <!-- CARDS 2 : SHOPPING LIST -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800" alt="food2">
+                <div class="icone-card">🛒</div>
+                <div class="label-card">SHOPPING LIST</div>
+            </div>
+
+            <!-- CARDS N°3 : YOUR FRIDGE -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800" alt="food3">
+                <div class="icone-card">&</div>
+                <div class="label-card">YOUR FRIDGE</div>
+            </div>
+
+        </div>
     </main>
 
+    <!-- FOOTER -->
     <footer>
-        <p>© 2026 MealMajor - Concordia Project- Team 10</p>
+        <p>© 2024 Meal Prep - Tous droits réservés</p>
     </footer>
 
-  </body>
+</body>
 </html>

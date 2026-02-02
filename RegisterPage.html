@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Register</h2>
+
+        <form onsubmit="return false;">
+            <div class="field">
+                <label for="name">Name<span class="error-text" id="name-error"></span></label>
+                <input type="text" id="name" placeholder="Enter name">
+            </div>
+
+            <div class="field">
+                <label for="email">Email<span class="error-text" id="email-error"></span></label>
+                <input type="email" id="email" placeholder="Enter email">
+            </div>
+
+            <div class="field">
+                <label for="password">Password<span class="error-text" id="password-error"></span></label>
+                <input type="password" id="password" placeholder="Enter password">
+            </div>
+
+            <div class="field">
+                <label for="confirm-password">Confirm Password<span class="error-text" id="password-error"></span></label>
+                <input type="password" id="confirm-password" placeholder="Confirm password">
+            </div>
+
+            <button type="button" class="login-btn" onclick="register()">Create Account</button>
+            <p class="form-error" id="form-error"></p>
+            <div class="alt-action">
+                <a href="LoginPage.html">or Login?</a>
+            </div>
+        </form>
+    </div>
+
+    <script type="module" src="./auth.js"></script>
+</body>
+</html>

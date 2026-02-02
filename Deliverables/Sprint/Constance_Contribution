@@ -1,8 +1,9 @@
 
-23/01/2026 
-Create a GitHub repository 
-Add everyone - create the ReadMe (Description of the Project and Team Members and Roles)
-organize all project deliverables
+23/01/2026 (1h30)
+    Create a GitHub repository 
+    Add everyone - create the ReadMe 
+    (Description of the Project and Team Members and Roles)
+    organize all project deliverables
 
 29/01/2026
 sketch - the logo and the protype
@@ -23,13 +24,28 @@ Profile management
     Allergies
     Preferences
     
-    log out 
+    start the Home page in HTML by the protype - send then to Cedric 
+    
+    Notes : 
+    Profile management 
+    -> page HTML User profile 
+        First name 
+        email
+        password
+        Allergies
+        Preferences
+        
+        log out 
+
+30/01/2026 (3h00)
+    github (commit and push) on terminal and VScode
+    (manipulation see in tutorial)
+    Continue Home page (CSS/HTML)
+    Sketch Login page visual
 
 30/01/2026
 github on VScode to commi and push
 (manipulation see in tutorial en terminal and IDE)
-
-30/01/26
 
 remark : 
 Login
@@ -38,5 +54,5 @@ Login
 Use of github (commet-push) terminal and visualStudio Code - see tutorial
 
 Sketch visuals for login user page
-finish the structure home page (CSS/HTML) -> send to Cedrik to do JavaS (visual lokk like sketchs)
+finish the structure home page (CSS/HTML) -> send to Cedrik to do JavaS (visual look like sketchs)
 

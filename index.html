@@ -1,45 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">   
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - MealMajor</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
+    <!-- Logo -->
+    <img src="LOGO_MP.png" class="page-logo" alt="MealMajor Logo">
 
-        <form onsubmit="return false;">
-            <div class="field">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter email">
-            </div>
+    <div class="auth-wrapper"> 
+        <div class="auth-card">
+            <h1>Login</h1>
 
-            <div class="field">
-                <label for="password">Password</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Enter password">
-                    <span class="password-toggle" onclick="togglePassword('password', this)">
-                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </span>
+            <form onsubmit="return false;">
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter email">
                 </div>
-                <div class="forgot-password">
-                    <a href="#">Forgot password?</a>
+
+                <div class="field">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="password" placeholder="Enter password">
+                        <span class="eye-btn" onclick="togglePassword('password', this)">
+                            <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="forgot-row">
+                        <a class="forgot-link" href="#">Forgot password?</a>
+                    </div>
                 </div>
-            </div>
 
-            <button type="button" class="login-btn" onclick="login()">Login</button>
-            <p class="form-error" id="form-error"></p>
+                <button type="button" class="primary-btn" onclick="login()">Login</button>
+                <p class="form-error" id="form-error"></p>
 
-            <div class="alt-action">
-                <a href="RegisterPage.html">or Register?</a>
-            </div>
-        </form>
+                <a class="secondary-btn" href="RegisterPage.html">Register</a>
+            </form>
+        </div>
     </div>
- 
+
     <script type="module" src="./auth.js"></script>
 </body>
 </html>

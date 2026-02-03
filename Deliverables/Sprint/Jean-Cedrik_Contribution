@@ -1,1 +1,14 @@
+02/02/2026
+- Setup Firebase configuration for the project
+- Implement user registration with Firebase Authentication
+- Implement user login with Firebase Authentication
+- Retrieve user data from database upon login
+- Add show/hide password toggle functionality (SVG icons)
+- Update index.html with password toggle for login page
+- Update RegisterPage.html with password toggle for register page
+- Update styles.css for password toggle styling
+- Test registration and login functionality
 
+Tasks completed:
+-Task.3 (US.2) : Backend authentication with Firebase
+-Task.4 (US.1) : Password visibility toggle

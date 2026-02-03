@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Register - MealMajor</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -22,18 +22,35 @@
 
             <div class="field">
                 <label for="password">Password<span class="error-text" id="password-error"></span></label>
-                <input type="password" id="password" placeholder="Enter password">
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter password">
+                    <span class="password-toggle" onclick="togglePassword('password', this)">
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
+                </div>
             </div>
 
             <div class="field">
-                <label for="confirm-password">Confirm Password<span class="error-text" id="password-error"></span></label>
-                <input type="password" id="confirm-password" placeholder="Confirm password">
+                <label for="confirm-password">Confirm Password<span class="error-text" id="confirm-password-error"></span></label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirm-password" placeholder="Confirm password">
+                    <span class="password-toggle" onclick="togglePassword('confirm-password', this)">
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
+                </div>
             </div>
 
             <button type="button" class="login-btn" onclick="register()">Create Account</button>
             <p class="form-error" id="form-error"></p>
+
             <div class="alt-action">
-                <a href="LoginPage.html">or Login?</a>
+                <a href="index.html">or Login?</a>
             </div>
         </form>
     </div>

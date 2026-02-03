@@ -227,6 +227,6 @@ function handleAuthError(error) {
     };
 
     const message = errorMessages[error.code] || 'An error occurred. Please try again.';
-    showFormError(message) ;
+    showFormError(message);
 }
 

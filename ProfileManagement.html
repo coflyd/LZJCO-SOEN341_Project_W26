@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+   
+  <img src="LOGO_MP.png" class="page-logo" alt="Logo">
+
+
+  <div class="auth-wrapper-profile-management"> 
+    
+   
+    <div class="auth-card">
+
+      
+      <h1>Profile Management</h1>
+      
+
+      <form id="settingsForm">
+        
+        <input id="name" placeholder="Name" />
+        <input id="email" placeholder="Email" />
+        <input id="password" type="password" placeholder="New Password" />
+
+        <h3>Allergies</h3>
+        <div id="allergyGroup">
+            <label><input type="checkbox" value="milk"> Milk</label>
+            <label><input type="checkbox" value="eggs"> Eggs</label>
+            <label><input type="checkbox" value="peanuts"> Peanuts</label>
+            <label><input type="checkbox" value="gluten"> Gluten</label>
+            <label><input type="checkbox" value="soy"> Soy</label>
+            <input id="Allergies" placeholder="Other"/>
+        </div>
+        
+        <h3>Preferences</h3>
+        <div id="prefGroup">
+            <label><input type="checkbox" value="vegan"> Vegan</label>
+            <label><input type="checkbox" value="vegetarian"> Vegetarian</label>
+            <label><input type="checkbox" value="keto"> Keto</label>
+            <label><input type="checkbox" value="low-carb"> Low Carb</label>
+            <label><input type="checkbox" value="high-protein"> High Protein</label>
+        </div>
+
+        <button type="submit">Save</button>
+       
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = (input.type === "password") ? "text" : "password";
+    }
+  </script>
+
+  <script type="module" src="./auth.js"></script>
+</body>
+</html>

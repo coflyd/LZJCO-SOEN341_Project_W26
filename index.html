@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">   
+<head>
+    <meta charset="UTF-8">
+    <title>Login - MealMajor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <form onsubmit="return false;">
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter email">
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter password">
+                    <span class="password-toggle" onclick="togglePassword('password', this)">
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+
+            <button type="button" class="login-btn" onclick="login()">Login</button>
+            <p class="form-error" id="form-error"></p>
+
+            <div class="alt-action">
+                <a href="RegisterPage.html">or Register?</a>
+            </div>
+        </form>
+    </div>
+ 
+    <script type="module" src="./auth.js"></script>
+</body>
+</html>

@@ -230,4 +230,3 @@ function handleAuthError(error) {
     showFormError(message);
 }
 
-// TODO: Add login function

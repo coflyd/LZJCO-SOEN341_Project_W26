@@ -75,20 +75,60 @@ input.error {
     border: 1px solid red;
 }
 
-.password-container {
-    position: relative; /* Needed for positioning the icon inside */
+/* Password toggle styling */
+.password-wrapper {
+    position: relative;
 }
 
-.password-container input {
-    padding-right: 30px; /* Make space for the icon */
+.password-wrapper input {
+    padding-right: 40px;
     width: 100%;
 }
 
-#togglePassword {
+.password-toggle {
     position: absolute;
-    right: 100px;
-    top: 60%;
+    right: 10px;
+    top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #ccc; /* Adjust color as needed */
+    user-select: none;
+    color: #666;
+}
+
+.password-toggle:hover {
+    color: #333;
+}
+
+.eye-icon {
+    display: block;
+}
+
+.forgot-password {
+    margin-top: 8px;
+    text-align: right;
+}
+
+.forgot-password a {
+    color: #007bff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.alt-action {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.alt-action a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.alt-action a:hover {
+    text-decoration: underline;
 }

@@ -1,60 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Register - MealMajor</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+
+<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="login-container">
-        <h2>Register</h2>
 
-        <form onsubmit="return false;">
-            <div class="field">
-                <label for="name">Name<span class="error-text" id="name-error"></span></label>
-                <input type="text" id="name" placeholder="Enter name">
-            </div>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h1>Register</h1>
 
-            <div class="field">
-                <label for="email">Email<span class="error-text" id="email-error"></span></label>
-                <input type="email" id="email" placeholder="Enter email">
-            </div>
+    <form>
 
-            <div class="field">
-                <label for="password">Password<span class="error-text" id="password-error"></span></label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Enter password">
-                    <span class="password-toggle" onclick="togglePassword('password', this)">
-                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </span>
-                </div>
-            </div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" placeholder="Enter name">
+      </div>
 
-            <div class="field">
-                <label for="confirm-password">Confirm Password<span class="error-text" id="confirm-password-error"></span></label>
-                <div class="password-wrapper">
-                    <input type="password" id="confirm-password" placeholder="Confirm password">
-                    <span class="password-toggle" onclick="togglePassword('confirm-password', this)">
-                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </span>
-                </div>
-            </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="Enter email">
+        <small class="hint">example@email.com</small>
+      </div>
 
-            <button type="button" class="login-btn" onclick="register()">Create Account</button>
-            <p class="form-error" id="form-error"></p>
+      <div class="field">
+        <label>Password</label>
+        <div class="input-with-icon">
+          <input id="password" type="password" placeholder="Enter password">
+          <button type="button" class="eye-btn" onclick="togglePassword('password')">👁</button>
+        </div>
+        <small class="hint">At least 8 characters</small>
+      </div>
 
-            <div class="alt-action">
-                <a href="index.html">or Login?</a>
-            </div>
-        </form>
-    </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <div class="input-with-icon">
+          <input id="confirm" type="password" placeholder="Confirm password">
+          <button type="button" class="eye-btn" onclick="togglePassword('confirm')">👁</button>
+        </div>
+        <small id="pwError" class="error">Passwords do not match</small>
+      </div>
 
-    <script type="module" src="./auth.js"></script>
+      <button class="primary-btn">Create Account</button>
+      <a class="secondary-btn" href="Login.html">Log In</a>
+
+
+    </form>
+  </div>
+</div>
+
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+}
+
+const pw = document.getElementById("password");
+const confirmPw = document.getElementById("confirm");
+const error = document.getElementById("pwError");
+
+function checkMatch(){
+  if(!pw.value || !confirmPw.value){
+    error.style.display = "none";
+    return;
+  }
+  error.style.display = pw.value === confirmPw.value ? "none" : "block";
+}
+
+pw.addEventListener("input", checkMatch);
+confirmPw.addEventListener("input", checkMatch);
+</script>
+
 </body>
 </html>

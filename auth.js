@@ -12,7 +12,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword 
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { 
     getDatabase, 
@@ -43,54 +44,44 @@ const database = getDatabase(app);
  * register() - Creates a new user account
  * Validates inputs, creates Firebase Auth user, saves profile to database
  */
+
 window.register = async function() {
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmInput = document.getElementById("confirm-password");
 
-    clearErrors();
+    const nameError = document.getElementById("name-error");
+    const emailError = document.getElementById("email-error");
+    const passwordError = document.getElementById("password-error");
+    const formError = document.getElementById("form-error");
 
-    // Validation
-    let hasError = false;
+    clearErrors({
+        inputs: [nameInput, emailInput, passwordInput, confirmInput],
+        errors: [nameError, emailError, passwordError, formError]
+    });
 
-    if (!name) {
-        showError('name', 'Name is required');
-        hasError = true;
+    if (!verifyFields({
+        nameInput,
+        emailInput,
+        passwordInput,
+        confirmInput,
+        nameError,
+        emailError,
+        passwordError
+    })) {
+        return;
     }
-
-    if (!email) {
-        showError('email', 'Email is required');
-        hasError = true;
-    } else if (!isValidEmail(email)) {
-        showError('email', 'Invalid email format');
-        hasError = true;
-    }
-
-    if (!password) {
-        showError('password', 'Password is required');
-        hasError = true;
-    } else if (password.length < 6) {
-        showError('password', 'Minimum 6 characters');
-        hasError = true;
-    }
-
-    if (password !== confirmPassword) {
-        showError('confirm-password', 'Passwords do not match');
-        hasError = true;
-    }
-
-    if (hasError) return;
 
     try {
         // Create user in Firebase Auth
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
         const user = userCredential.user;
 
         // Save user profile to Realtime Database
         await set(ref(database, 'users/' + user.uid), {
-            name: name,
-            email: email,
+            name: nameInput.value.trim(),
+            email: emailInput.value.trim(),
             createdAt: new Date().toISOString(),
             preferences: {
                 dietType: '',
@@ -112,19 +103,30 @@ window.register = async function() {
  * Verifies credentials with Firebase Auth, retrieves user data from database
  */
 window.login = async function() {
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const emailError = document.getElementById("email-error");
+    const passwordError = document.getElementById("password-error");
+    const formError = document.getElementById("form-error");
 
-    clearErrors();
+    clearErrors({
+        inputs: [email, password],
+        errors: [emailError, passwordError, formError]
+    });
 
-    if (!email || !password) {
-        showFormError('Please enter email and password');
+    // check if either field is empty
+    if (!email.value) {
+        setFieldError(email, emailError, "Email is required");
+        return;
+    }
+    if (!password.value) {
+        setFieldError(password, passwordError, "Password is required");
         return;
     }
 
     try {
         // Sign in with Firebase
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
         const user = userCredential.user;
 
         // Get user data from database
@@ -179,38 +181,119 @@ window.togglePassword = function(inputId, toggleSpan) {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const forgotLink = document.getElementById("forgot-password-link");
 
-// Helper function to show field-specific error
-function showError(fieldId, message) {
-    const errorSpan = document.getElementById(fieldId + '-error');
-    const input = document.getElementById(fieldId);
-    
-    if (errorSpan) errorSpan.textContent = ' - ' + message;
-    if (input) input.classList.add('error');
+    if (forgotLink) {
+        forgotLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            forgotPassword();
+        });
+    }
+});
+
+window.forgotPassword = async function () {
+    alert("Forgot password clicked");
+
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("email-error");
+    const formError = document.getElementById("form-error");
+
+    clearErrors({
+        inputs: [emailInput],
+        errors: [emailError, formError]
+    });
+
+    if (!emailInput.value) {
+        setFieldError(emailInput, emailError, "Enter your email first");
+        return;
+    }
+
+    try {
+        await sendPasswordResetEmail(auth, emailInput.value.trim());
+        formError.textContent = "Password reset email sent!";
+        formError.style.color = "#4CAF50";
+    } catch (error) {
+        handleAuthError(error);
+    }
+};
+
+
+
+
+
+//========================Helpers========================//
+function verifyFields({nameInput, emailInput, passwordInput, confirmInput, nameError, emailError, passwordError}) {
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirm = confirmInput.value;
+
+    // NAME
+    if (!name) {
+        setFieldError(nameInput, nameError, "Name is required");
+        return false;
+    }
+
+    // EMAIL
+    if (!isValidEmail(email)) {
+        setFieldError(emailInput, emailError, "Invalid email");
+        return false;
+    }
+
+    // PASSWORD STRENGTH
+    if (!isStrongPassword(password)) {
+        setFieldError(
+            passwordInput,
+            passwordError,
+            "Min 6 chars, 1 uppercase letter, 1 number"
+        );
+        confirmInput.classList.add("error");
+        return false;
+    }
+
+    // PASSWORD MATCH
+    if (password !== confirm) {
+        setFieldError(passwordInput, passwordError, "Passwords do not match");
+        confirmInput.classList.add("error");
+        return false;
+    }
+
+    return true;
 }
+
+function clearErrors({ inputs = [], errors = [] }) {
+    inputs.forEach(input => {
+        if (input) input.classList.remove("error");
+    });
+
+    errors.forEach(err => {
+        if (err) err.textContent = "";
+    });
+}
+
+
+function setFieldError(input, errorElement, message) {
+    errorElement.textContent = message;
+    input.classList.add("error");
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function isStrongPassword(password) {
+    // Min 6 chars, 1 uppercase, 1 digit
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+    return passwordRegex.test(password);
+}
+
 
 // Helper function to show form-level error
 function showFormError(message) {
     const formError = document.getElementById('form-error');
     if (formError) formError.textContent = message;
-}
-
-// Clear all error messages
-function clearErrors() {
-    document.querySelectorAll('.error-text').forEach(el => el.textContent = '');
-    
-    const formError = document.getElementById('form-error');
-    if (formError) formError.textContent = '';
-    
-    document.querySelectorAll('input.error').forEach(input => {
-        input.classList.remove('error');
-    });
-}
-
-// Email validation with regex
-function isValidEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
 }
 
 // Handle Firebase error codes
@@ -223,10 +306,10 @@ function handleAuthError(error) {
         'auth/weak-password': 'Password is too weak',
         'auth/user-not-found': 'No account found with this email',
         'auth/wrong-password': 'Incorrect password',
-        'auth/too-many-requests': 'Too many attempts. Try again later'
+        'auth/too-many-requests': 'Too many attempts. Try again later',
+        'auth/invalid-credentials': 'Invalid credentials provided',
     };
 
-    const message = errorMessages[error.code] || 'An error occurred. Please try again.';
+    const message = errorMessages[error.code] || 'An unexpected error occurred. Please try again.';
     showFormError(message);
 }
-

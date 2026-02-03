@@ -1,94 +1,155 @@
-* {
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
+* { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
 
 body {
-    margin: 0;
-    height: 100vh;
-    background: #f2f4f7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;   /* <<< THIS stacks logo above card */
+  align-items: center;      /* center horizontally */
+  background: linear-gradient(180deg, #5bbf3a, #6ac04b);
 }
 
-.login-container {
-    background: #ffffff;
-    padding: 30px;
-    width: 320px;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+.auth-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px 30px;     /* no top padding since logo already has margin */
 }
 
-.login-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
+.auth-card {
+  width: 420px;
+  background: #dff0d8;
+  border-radius: 18px;
+  padding: 38px 34px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
-.field {
-    margin-bottom: 18px;
+.auth-card h1 {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: 44px;
+  font-weight: 800;
+  color: #111;
 }
 
-.field label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
+.field { margin-bottom: 18px; }
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
 }
 
-.field input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+input {
+  width: 100%;
+  padding: 14px 14px;
+  border: 2px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  font-size: 18px;
+  outline: none;
+  background: #fff;
 }
 
-.login-btn {
-    width: 100%;
-    padding: 10px;
-    background: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    font-size: 15px;
-    cursor: pointer;
+input:focus {
+  border-color: rgba(255, 122, 0, 0.8);
 }
 
-.login-btn:hover {
-    background: #0056b3;
+.hint {
+  display: block;
+  margin-top: 8px;
+  color: rgba(0,0,0,0.55);
+  font-size: 15px;
 }
 
-.error-text {
-    color: red;
-    font-size: 12px;
-    margin-left: 6px;
+.primary-btn {
+  width: 100%;
+  border: none;
+  background: #ff7a00;
+  color: white;
+  font-size: 20px;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 6px;
 }
 
-.form-error {
-    color: red;
-    font-size: 13px;
-    margin-top: 10px;
-    text-align: center;
+.primary-btn:hover { filter: brightness(0.95); }
+
+.secondary-btn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: 2px solid #ff7a00;
+  color: #ff7a00;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 20px;
+  background: rgba(255,255,255,0.4);
 }
 
-input.error {
-    border: 1px solid red;
+.secondary-btn:hover {
+  background: #ff7a00;
+  color: white;
 }
 
-.password-container {
-    position: relative; /* Needed for positioning the icon inside */
+.bottom-text {
+  margin-top: 22px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
 }
 
-.password-container input {
-    padding-right: 30px; /* Make space for the icon */
-    width: 100%;
+.link {
+  display: inline-block;
+  margin-left: 8px;
+  color: #0b47ff;
+  font-weight: 800;
+}
+.link:hover { text-decoration: underline; }
+
+.input-with-icon {
+  position: relative;
 }
 
-#togglePassword {
-    position: absolute;
-    right: 100px;
-    top: 60%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #ccc; /* Adjust color as needed */
+.eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.eye-btn:hover { opacity: 1; }
+
+.forgot-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forgot-link {
+  color: rgba(0,0,0,0.65);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.page-logo {
+  display: block;
+  margin: 40px auto 20px;
+  width: 140px;
+  height: auto;
 }

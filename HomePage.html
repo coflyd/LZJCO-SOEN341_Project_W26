@@ -45,12 +45,28 @@
             border-radius: 3px;
         }
         /* USER ICON */
-        .icon-user {
-            width: 40px;
-            height: 40px;
+        .profile-btn-with-text {
+           text-decoration: none;
+        }
+        .icon-user-text {
+            width: 60px;
+            height: 50px;
             background-color: #9ACD32;
             border-radius: 20%;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.1;
+            padding: 4px;
+            transition: transform 0.2s;
+        }
+        .icon-user-text:hover {
+            transform: scale(1.4);
         }
 
         /* MAIN BODY */
@@ -161,8 +177,13 @@
         </div>
         <!-- TITLE -->
         <div class="logo">MEAL | MAJOR | PREP</div>
+        
+        
         <!-- USER -->
-        <div class="icon-user"></div>
+        <a href="ProfileManagement.html" class="profile-btn-with-text">
+            <div class="icon-user-text">Profile</div>
+        </a>
+
     </header>
 
     <!-- BODY -->

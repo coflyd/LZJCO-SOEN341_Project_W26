@@ -1,57 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Management</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        header {
+            background-color: #FF6633;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; 
+        }
+        .profile-btn-with-text {
+           text-decoration: none;
+        }
+        .icon-user-text {
+            width: 110px;
+            height: 50px;
+            background-color: #9ACD32;
+            border-radius: 20%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.1;
+            padding: 4px;
+            transition: transform 0.2s;
+        }
+        .icon-text:hover {
+            transition: transform 0.3s;
+            transform: scale(1.2);
+        }
+        .icon-user-text:hover {
+            transform: scale(1.4);
+        }
+
+
+        .save-btn:hover {
+            background: #9ACD32;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+    </style>
 </head>
 
 <body>
+    <header>
+        <div></div>
+        <div class="icon-text">
+            <img src="LOGO_MP.png" class="page-logo" alt="Logo">
+        </div>
+        <div class="icon-text">
+            <!-- TITLE -->
+            <h1 class="title">Profile Management</h1> 
+        </div>
+        <div>
+            <a href="HomePage.html" class="profile-btn-with-text">
+                <div class="icon-user-text">Home Page</div>
+            </a>
+        </div>
+        <div></div>
+    </header>
 
-   
-  <img src="LOGO_MP.png" class="page-logo" alt="Logo">
-
-
-  <div class="auth-wrapper-profile-management"> 
     
-   
-    <div class="auth-card">
+    <div class="auth-wrapper-profile-management">        
+        <div class="auth-card">
+            <form id="settingsForm">
+            <div></div>
+                <div class="field">
+                    <label for="name">Name<span class="error-text" id="name-error"></span></label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                    <small class="hint">Your first name</small>
+                </div>
 
-      
-      <h1>Profile Management</h1>
-      
+                <div class="field">
+                    <label for="email">Email<span class="error-text" id="email-error"></span></label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <small class="hint">example@email.com</small>
+                </div>
 
-      <form id="settingsForm">
-        
-        <input id="name" placeholder="Name" />
-        <input id="email" placeholder="Email" />
-        <input id="password" type="password" placeholder="New Password" />
+                <div class="field">
+                    <label for="password">Password<span class="error-text" id="password-error"></span></label>
+                        <div class="input-with-icon">
+                            <input type="password" id="password" placeholder="Enter password">
+                                <span class="eye-btn" onclick="togglePassword('password', this)">
+                                    <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                        </div>
+                    <small class="hint">At least 6 characters</small>
+                </div>
+                
 
-        <h3>Allergies</h3>
-        <div id="allergyGroup">
-            <label><input type="checkbox" value="milk"> Milk</label>
-            <label><input type="checkbox" value="eggs"> Eggs</label>
-            <label><input type="checkbox" value="peanuts"> Peanuts</label>
-            <label><input type="checkbox" value="gluten"> Gluten</label>
-            <label><input type="checkbox" value="soy"> Soy</label>
-            <input id="Allergies" placeholder="Other"/>
+                <h3>Allergies</h3>
+                <div id="allergyGroup">
+                    <label><input type="checkbox" value="milk"> Milk</label>
+                    <label><input type="checkbox" value="eggs"> Eggs</label>
+                    <label><input type="checkbox" value="peanuts"> Peanuts</label>
+                    <label><input type="checkbox" value="gluten"> Gluten</label>
+                    <label><input type="checkbox" value="soy"> Soy</label>
+                    <input id="Allergies" placeholder="Other"/>
+                </div>
+                
+                <h3>Preferences</h3>
+                <div id="prefGroup">
+                    <label><input type="checkbox" value="vegan"> Vegan</label>
+                    <label><input type="checkbox" value="vegetarian"> Vegetarian</label>
+                    <label><input type="checkbox" value="keto"> Keto</label>
+                    <label><input type="checkbox" value="low-carb"> Low_Carb</label>
+                    <label><input type="checkbox" value="high-protein"> High_Protein</label>
+                </div>
+
+                <button class="save-btn" type="submit">Save</button>
+            </form>
         </div>
-        
-        <h3>Preferences</h3>
-        <div id="prefGroup">
-            <label><input type="checkbox" value="vegan"> Vegan</label>
-            <label><input type="checkbox" value="vegetarian"> Vegetarian</label>
-            <label><input type="checkbox" value="keto"> Keto</label>
-            <label><input type="checkbox" value="low-carb"> Low Carb</label>
-            <label><input type="checkbox" value="high-protein"> High Protein</label>
-        </div>
-
-        <button type="submit">Save</button>
-       
-      </form>
     </div>
-  </div>
 
   <script>
     function togglePassword(id) {

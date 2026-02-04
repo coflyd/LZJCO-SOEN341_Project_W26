@@ -1,4 +1,11 @@
 03/02/2026
 US.3
-- worked on the landing page for the profile management
+Created on the landing page for the profile management
   -  added options to change the name, email, password, allergies and preferences
+
+04/02/2026
+US.3
+Finalized the html file
+  - Updated the name, email and password intput UI
+  - Linked the file with the home page file
+  - Updated styles.css for the new page, making the experience coherent in between the pages

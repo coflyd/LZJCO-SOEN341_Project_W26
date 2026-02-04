@@ -3,135 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Management</title>
+    <title>Profile - MealMajor</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* Profile page header */
         header {
-            background-color: #FF6633;
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%; 
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
-        .profile-btn-with-text {
-           text-decoration: none;
+
+        .header-logo {
+            width: 50px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
-        .icon-user-text {
-            width: 110px;
-            height: 50px;
-            background-color: #9ACD32;
-            border-radius: 20%;
-            cursor: pointer;
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+        }
+
+        .home-btn {
+            text-decoration: none;
+            background: #FFFFFF;
+            color: #FF6B35;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Profile body background */
+        .profile-body {
+            width: 100%;
+            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Profile card */
+        .profile-card {
+            width: 480px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 40px 35px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            height: fit-content;
+        }
+
+        .profile-card h2 {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 30px;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E8F0E3;
+        }
+
+        /* Checkbox groups */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: black;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555555;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .checkbox-group label:hover {
+            background: #F8FAF5;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
+            cursor: pointer;
+        }
+
+        .other-input {
+            margin-top: 8px;
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+        }
+
+        .other-input:focus {
+            border-color: #4CAF50;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* Save button */
+        .save-btn {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+            color: white;
             font-size: 16px;
             font-weight: 600;
-            text-align: center;
-            line-height: 1.1;
-            padding: 4px;
-            transition: transform 0.2s;
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
-        .icon-text:hover {
-            transition: transform 0.3s;
-            transform: scale(1.2);
-        }
-        .icon-user-text:hover {
-            transform: scale(1.4);
-        }
-
 
         .save-btn:hover {
-            background: #9ACD32;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .save-btn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 
 <body>
+    <!-- Header -->
     <header>
-        <div></div>
-        <div class="icon-text">
-            <img src="LOGO_MP.png" class="page-logo" alt="Logo">
-        </div>
-        <div class="icon-text">
-            <!-- TITLE -->
-            <h1 class="title">Profile Management</h1> 
-        </div>
-        <div>
-            <a href="HomePage.html" class="profile-btn-with-text">
-                <div class="icon-user-text">Home Page</div>
-            </a>
-        </div>
-        <div></div>
+        <img src="LOGO_MP.png" class="header-logo" alt="MealMajor Logo">
+        <span class="header-title">Profile Management</span>
+        <a href="HomePage.html" class="home-btn">Home Page</a>
     </header>
 
-    
-    <div class="auth-wrapper-profile-management">        
-        <div class="auth-card">
-            <form id="settingsForm">
-            <div></div>
+    <!-- Profile form -->
+    <div class="profile-body">
+        <div class="profile-card">
+            <h2>Your Profile</h2>
+
+            <form id="settingsForm" onsubmit="return false;">
+                <!-- Name -->
                 <div class="field">
                     <label for="name">Name<span class="error-text" id="name-error"></span></label>
                     <input type="text" id="name" placeholder="Enter your name">
-                    <small class="hint">Your first name</small>
                 </div>
 
+                <!-- Email -->
                 <div class="field">
                     <label for="email">Email<span class="error-text" id="email-error"></span></label>
                     <input type="email" id="email" placeholder="Enter your email">
-                    <small class="hint">example@email.com</small>
                 </div>
 
+                <!-- Password -->
                 <div class="field">
                     <label for="password">Password<span class="error-text" id="password-error"></span></label>
-                        <div class="input-with-icon">
-                            <input type="password" id="password" placeholder="Enter password">
-                                <span class="eye-btn" onclick="togglePassword('password', this)">
-                                    <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </span>
-                        </div>
+                    <div class="input-with-icon">
+                        <input type="password" id="password" placeholder="Enter password">
+                        <span class="eye-btn" onclick="togglePassword('password', this)">
+                            <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </span>
+                    </div>
                     <small class="hint">At least 6 characters</small>
                 </div>
-                
 
-                <h3>Allergies</h3>
-                <div id="allergyGroup">
+                <!-- Allergies -->
+                <h3 class="section-title">Allergies</h3>
+                <div class="checkbox-group" id="allergyGroup">
                     <label><input type="checkbox" value="milk"> Milk</label>
                     <label><input type="checkbox" value="eggs"> Eggs</label>
                     <label><input type="checkbox" value="peanuts"> Peanuts</label>
                     <label><input type="checkbox" value="gluten"> Gluten</label>
                     <label><input type="checkbox" value="soy"> Soy</label>
-                    <input id="Allergies" placeholder="Other"/>
+                    <input class="other-input" id="Allergies" placeholder="Other allergies...">
                 </div>
-                
-                <h3>Preferences</h3>
-                <div id="prefGroup">
+
+                <!-- Preferences -->
+                <h3 class="section-title">Preferences</h3>
+                <div class="checkbox-group" id="prefGroup">
                     <label><input type="checkbox" value="vegan"> Vegan</label>
                     <label><input type="checkbox" value="vegetarian"> Vegetarian</label>
                     <label><input type="checkbox" value="keto"> Keto</label>
-                    <label><input type="checkbox" value="low-carb"> Low_Carb</label>
-                    <label><input type="checkbox" value="high-protein"> High_Protein</label>
+                    <label><input type="checkbox" value="low-carb"> Low Carb</label>
+                    <label><input type="checkbox" value="high-protein"> High Protein</label>
                 </div>
 
-                <button class="save-btn" type="submit">Save</button>
+                <button class="save-btn" type="submit">Save Changes</button>
             </form>
         </div>
     </div>
 
-  <script>
-    function togglePassword(id) {
-      const input = document.getElementById(id);
-      input.type = (input.type === "password") ? "text" : "password";
-    }
-  </script>
-
-  <script type="module" src="./auth.js"></script>
+    <script type="module" src="./auth.js"></script>
 </body>
 </html>

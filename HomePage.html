@@ -1,226 +1,255 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MealMajorPrep</title>
-    
-    <!-- SECOND PROTOTYPE-->
-    
+    <title>MealMajor - Home</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* RESET */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        /* COLORS */
+
         body {
-            --orange: #FF6633;
-            --vert: #9ACD32;
-            --gris-fonce: #2A2A2A;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+            min-height: 100vh;
         }
 
-        /* HEADER */
+        /* Header */
         header {
-            background-color: #FF6633;
-            padding: 20px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
-        /* ICON MENU (3 BAR) */
+
+        /* Menu icon */
         .menu {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
             cursor: pointer;
+            padding: 5px;
         }
-        /* EACH BAR MENU */
+
         .menu div {
-            width: 40px;
-            height: 5px;
-            background-color: #9ACD32;
-            border-radius: 3px;
+            width: 28px;
+            height: 3px;
+            background-color: #FFFFFF;
+            border-radius: 2px;
+            transition: all 0.3s ease;
         }
-        /* USER ICON */
+
+        .menu:hover div {
+            background-color: #E8F0E3;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Profile button */
         .profile-btn-with-text {
-           text-decoration: none;
+            text-decoration: none;
         }
+
         .icon-user-text {
-            width: 60px;
-            height: 50px;
+            width: 70px;
+            height: 45px;
             background-color: #9ACD32;
-            border-radius: 20%;
+            border-radius: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: black;
-            font-size: 16px;
+            color: #000;
+            font-size: 14px;
             font-weight: 600;
-            text-align: center;
-            line-height: 1.1;
-            padding: 4px;
-            transition: transform 0.2s;
-        }
-        .icon-user-text:hover {
-            transform: scale(1.4);
+            transition: transform 0.2s ease;
         }
 
-        /* MAIN BODY */
+        .icon-user-text:hover {
+            transform: scale(1.15);
+        }
+
+        /* Main content */
         main {
-            background-color: #9ACD32;
-            min-height: 600px;
-            padding: 40px 20px;
+            padding: 50px 20px;
             text-align: center;
         }
-        /* MEAL PREP */
-        .logo {
-            font-size: 50px;
-            font-weight: bold;
-            color: #2A2A2A;
-            margin-bottom: 10px;
-            letter-spacing: 5px;
+
+        .main-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            color: #4CAF50;
         }
-        /* LOGO */
-        .icone-logo {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-        /* REAL FOOD REAL RESULT*/
+
         .slogan {
-            font-size: 35px;
-            font-weight: bold;
-            color: #2A2A2A;
-            margin-bottom: 35px;
+            font-size: 32px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 40px;
             letter-spacing: 2px;
         }
-        /* OVERALL PLACEMENT OF THE 3 CARDS*/
+
         .cards {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             flex-wrap: wrap;
             max-width: 1200px;
             margin: 0 auto;
         }
-        /* FOR EACH CARDS */
+
         .card {
-            width: 300px;
-            background-color: #FF6633;
-            border-radius: 15px;
+            width: 320px;
+            background: #FFFFFF;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             cursor: pointer;
             position: relative;
+            transition: all 0.3s ease;
         }
-        /* MOVING CARDS */
+
         .card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-        /* IMAGE CARDS */
+
         .card img {
-            width: 100%; 
-            height: 400px;
+            width: 100%;
+            height: 350px;
             object-fit: cover;
         }
-        /* LOGO CENTER CARDS */
-        .icone-card {
+
+        .icon-card {
             position: absolute;
-            top: 50%;
-            left: 50%;   
+            top: 45%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background-color: white; 
+            width: 60px;
+            height: 60px;
+            background: #FFFFFF;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 35px;
-        }
-        /* FOOTER LABEL CARDS */
-        .label-card {
-            position: absolute; 
-            bottom: 30px; 
-            left: 50%;  
-            transform: translateX(-50%);
-            background-color: #9ACD32;
-            color: #2A2A2A;
-            padding: 10px 30px; 
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 20px;
-            border: 2px solid #2A2A2A;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
-        /* FOOTER */
+        .icon-card svg {
+            width: 28px;
+            height: 28px;
+            color: #FF6B35;
+        }
+
+        .label-card {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4CAF50;
+            color: #FFFFFF;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .label-card {
+            background: #43A047;
+            transform: translateX(-50%) scale(1.05);
+        }
+
         footer {
-            background-color: #FF6633;
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
             padding: 20px;
             text-align: center;
-            color: #2A2A2A;
+            color: #FFFFFF;
+            font-size: 14px;
+            margin-top: 50px;
         }
     </style>
 </head>
 
 <body>
-    <!-- HEADER -->
-    <header>
-        <!-- MENU (3 BAR) -->
-        <div class="menu">
-            <div></div>
-            <div></div>
-            <div></div>
+<header>
+    <div class="menu">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="logo">MEAL | MAJOR | PREP</div>
+
+    <a href="ProfileManagement.html" class="profile-btn-with-text">
+        <div class="icon-user-text">Profile</div>
+    </a>
+</header>
+
+<main>
+    <svg class="main-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+    </svg>
+
+    <h2 class="slogan">REAL FOOD, REAL QUALITY</h2>
+    <!-- cards unchanged -->
+     <div class="cards">
+    <!-- Card 1 -->
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800" alt="Food inspiration">
+        <div class="icon-card">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+            </svg>
         </div>
-        <!-- TITLE -->
-        <div class="logo">MEAL | MAJOR | PREP</div>
-        
-        
-        <!-- USER -->
-        <a href="ProfileManagement.html" class="profile-btn-with-text">
-            <div class="icon-user-text">Profile</div>
-        </a>
+        <div class="label-card">INSPIRATIONS</div>
+    </div>
 
-    </header>
-
-    <!-- BODY -->
-    <main>
-        <div class="icone-logo">🍴</div>
-        <h2 class="slogan">REAL FOOD REAL RESULT</h2>
-
-        <div class="cards">
-            <!-- CARDS 1 : INSPIRATIONS -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800" 
-                     alt="Plateau de fromages">
-                <div class="icone-card">💡</div>
-                <div class="label-card">INSPIRATIONS</div>
-            </div>
-
-            <!-- CARDS 2 : SHOPPING LIST -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800" alt="food2">
-                <div class="icone-card">🛒</div>
-                <div class="label-card">SHOPPING LIST</div>
-            </div>
-
-            <!-- CARDS N°3 : YOUR FRIDGE -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800" alt="food3">
-                <div class="icone-card">&</div>
-                <div class="label-card">YOUR FRIDGE</div>
-            </div>
-
+    <!-- Card 2 -->
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800" alt="Shopping list">
+        <div class="icon-card">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
         </div>
-    </main>
+        <div class="label-card">SHOPPING LIST</div>
+    </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2024 Meal Prep - Tous droits réservés</p>
-    </footer>
+    <!-- Card 3 -->
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800" alt="Your fridge">
+        <div class="icon-card">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/>
+            </svg>
+        </div>
+        <div class="label-car. d">YOUR FRIDGE</div>
+    </div>
+</div>
 
+</main>
+
+<footer>
+    <p>Â© 2026 MealMajor - All rights reserved</p>
+</footer>
 </body>
 </html>

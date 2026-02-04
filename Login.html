@@ -3,60 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Login - MealMajor</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-   
-  <img src="LOGO_MP.png" class="page-logo" alt="Logo">
+  <img src="LOGO_MP.png" class="page-logo" alt="MealMajor Logo">
 
-
-  <div class="auth-wrapper"> 
-    
-   
+  <div class="auth-wrapper">
     <div class="auth-card">
 
-      
       <h1>Login</h1>
-      
 
       <form onsubmit="return false;">
+
         <div class="field">
-          <label for="email">Email</label>
+          <label>
+            Email <span class="error-text" id="email-error"></span>
+          </label>
           <input type="email" id="email" placeholder="Enter email">
           <small class="hint">example@email.com</small>
         </div>
 
         <div class="field">
-          <label for="password">Password</label>
+          <label>
+            Password <span class="error-text" id="password-error"></span>
+          </label>
 
           <div class="input-with-icon">
             <input type="password" id="password" placeholder="Enter password">
-            <button type="button" class="eye-btn" onclick="togglePassword('password')">👁</button>
+            <span class="eye-btn" onclick="togglePassword('password', this)">👁</span>
           </div>
 
           <div class="forgot-row">
-            <a class="forgot-link" href="#">Forgot password?</a>
+            <span class="forgot-link" onclick="forgotPassword()">Forgot password?</span>
           </div>
         </div>
 
         <button type="button" class="primary-btn" onclick="login()">Login</button>
 
-        <a class="secondary-btn" href="RegisterPage.html">Register </a>
+        <p class="form-error" id="form-error"></p>
 
-       
+        <a class="secondary-btn" href="RegisterPage.html">Register</a>
+
       </form>
     </div>
   </div>
-
-  <script>
-    function togglePassword(id) {
-      const input = document.getElementById(id);
-      input.type = (input.type === "password") ? "text" : "password";
-    }
-  </script>
 
   <script type="module" src="./auth.js"></script>
 </body>

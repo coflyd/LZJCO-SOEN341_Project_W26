@@ -1,0 +1,27 @@
+January 29
+
+-Designed and implemented the initial prototype for the Login and Registration pages.
+
+-Developed the core auth.js authentication logic.
+
+-Created and configured the Firebase Web App project.
+
+-Integrated Firebase Authentication with the frontend to enable basic login/register functionality.
+
+January 31
+
+-Implemented input validation and verification logic for both login and registration flows.
+
+-Ensured proper handling of invalid credentials and missing/incorrect user inputs.
+
+February 03
+
+-Improved and finalized verification logic across authentication flows.
+
+-Fixed multiple error-handling issues to ensure clearer and more user-friendly feedback.
+
+-Created the password reset feature, improving both:
+
+	Functionality (more reliable reset flow)
+
+	UI/UX (cleaner layout and better visual feedback)

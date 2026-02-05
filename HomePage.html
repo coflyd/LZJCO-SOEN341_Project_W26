@@ -199,9 +199,16 @@
 
     <div class="logo">MEAL | MAJOR | PREP</div>
 
-    <a href="ProfileManagement.html" class="profile-btn-with-text">
-        <div class="icon-user-text">Profile</div>
-    </a>
+    <div style="display: flex; gap: 12px; align-items: center;">
+        <a href="ProfileManagement.html" class="profile-btn-with-text">
+            <div class="icon-user-text">Profile</div>
+        </a>
+
+        <div class="icon-user-text" style="background:#FFCDD2;" onclick="logout()">
+            Logout
+        </div>
+    </div>
+
 </header>
 
 <main>
@@ -251,5 +258,9 @@
 <footer>
     <p>Â© 2026 MealMajor - All rights reserved</p>
 </footer>
+
+<script type="module" src="./auth.js"></script>
+
+
 </body>
 </html>

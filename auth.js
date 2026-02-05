@@ -156,6 +156,17 @@ window.togglePassword = function (inputId, toggleSpan) {
     input.type = input.type === "password" ? "text" : "password";
 };
 
+/* ==================== LOGOUT ==================== */
+window.logout = async function () {
+    try {
+        await auth.signOut();
+        window.location.href = "index.html";
+    } catch (error) {
+        console.error("Logout failed:", error);
+    }
+};
+
+
 /* ==================== HELPERS ==================== */
 function verifyFields({ nameInput, emailInput, passwordInput, confirmInput, nameError, emailError, passwordError }) {
     if (!nameInput.value.trim()) {

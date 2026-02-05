@@ -162,6 +162,23 @@
         .save-btn:active {
             transform: translateY(0);
         }
+
+        .save-message {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            min-height: 18px;
+        }
+
+        .save-message.success {
+            color: #4CAF50;
+        }
+
+        .save-message.error {
+            color: #E53935;
+        }
+
     </style>
 </head>
 
@@ -183,27 +200,6 @@
                 <div class="field">
                     <label for="name">Name<span class="error-text" id="name-error"></span></label>
                     <input type="text" id="name" placeholder="Enter your name">
-                </div>
-
-                <!-- Email -->
-                <div class="field">
-                    <label for="email">Email<span class="error-text" id="email-error"></span></label>
-                    <input type="email" id="email" placeholder="Enter your email">
-                </div>
-
-                <!-- Password -->
-                <div class="field">
-                    <label for="password">Password<span class="error-text" id="password-error"></span></label>
-                    <div class="input-with-icon">
-                        <input type="password" id="password" placeholder="Enter password">
-                        <span class="eye-btn" onclick="togglePassword('password', this)">
-                            <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                        </span>
-                    </div>
-                    <small class="hint">At least 6 characters</small>
                 </div>
 
                 <!-- Allergies -->
@@ -228,10 +224,14 @@
                 </div>
 
                 <button class="save-btn" type="submit">Save Changes</button>
+                <p id="save-message" class="save-message"></p>
+
             </form>
         </div>
     </div>
 
     <script type="module" src="./auth.js"></script>
+    <script type="module" src="./profilePreferences.js"></script>
+
 </body>
 </html>

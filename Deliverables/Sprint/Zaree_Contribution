@@ -1,11 +1,20 @@
 26/01/2026 (8hrs)
-Learn Html and css  from jan26-jan30)
+-  Learn Html and css  from (jan26-jan30)
+-  Learned HTML + CSS basics (structure, layout, flexbox, spacing, fonts, colors).
+-  Practiced building simple pages to be ready to contribute to the team project from Jan 26–30.
 
 30/01/2026 (3 hrs)
-Added Login and Registation page
+-  Created the Login page and Registration page (HTML structure + initial layout).
+-  Added required input fields 
+-  basic styling to match the project direction.
+-  Prepared the pages so connected easily to Firebase authentication.
 
 03/02/2026 (2 hrs)
-Created UI for login and registation page,added logo
+-  Designed and improved the UI for Login and Registration pages (cleaner layout, consistent spacing, better typography).
+-  Added the project logo on page.
+-  Worked on the overall look so the pages match and look more professional.
+
 
 04/02/2026 (40 min)
-Corrected the button "Your Fridge" and change the color and style so it matches with others.
+-  Fixed the “YOUR FRIDGE” button on the Home page
+-  Updated the button color, shape so it matches INSPIRATIONS and SHOPPING LIST.

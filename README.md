@@ -14,12 +14,12 @@ Baseline features:
 
 Team : LZJCO
 
-Constance Fleury,
+Constance Fleury (Frontend) - Prototype/Homepage
 
-Jean-Cedrik Dorelas,
+Jean-Cedrik Dorelas (Backend) - JavaScript for Homepage/Login/Register + Database
 
-Louay Dridi,
+Louay Dridi (Backend & Frontend) - Team Leader
 
-Octavian Mihai,
+Octavian Mihai (Backend) - Database
 
-Zaree Choudhry Hameed
+Zaree Choudhry Hameed (Frontend) - Login/Register

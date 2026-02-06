@@ -21,10 +21,48 @@
   Review issues and task distribution within the team (where everyone stands in relation to yesterday's meeting)
   Each member has their own mission to accomplish
 
-06/02/2026 - Third lab : 1 h 45 (all team)
-  *
-  *
-  *
+06/02/2026 - Third lab : 17:45 - 19:25 (all team)
+  Sprint 1 - done
+  Analyse of the Sprint 2 - Plan
+  Sepearte task
+
+Make user stories
+issues on git
+-> Create/Edit/delete : 
+    (Louay)
+    Create: 
+    recipes 
+          Name - author
+          Ingredients / Nb of pers
+          Prep time
+          Cost
+          Dietary / key words / tags
+    
+          Steps
+    
+          (+) reviews
+          submit
+    (Zaree)
+     UI - create  
+
+    (Constance)
+    Edit: 
+          List recipes in the Database
+          click on one recipes
+          -> modification
+          save
+    Delete : all (see later)
+    (Octave) 
+    UI - List of receipes of Edit and Delete
+
+  (Cedrik)
+  -> search receipe (by name/ingedients) - JavaScript 
+      Seach - Card inspiration
+      Search bar (only name) + filter fonctionnality checkbox (tags+time+cost+diet+ingredients)
+
+  (see later)
+  -> create 2 test Acceptance
+
 
 13/02/2026 - Fourth lab : 1 h 45 (all team)
   *

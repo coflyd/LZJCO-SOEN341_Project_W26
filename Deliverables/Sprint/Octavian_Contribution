@@ -10,3 +10,8 @@ Finalized the html file
   - Linked the file with the home page file
   - Updated styles.css for the new page, making the experience coherent in between the pages
   - Deployed the site with the use of Vercel
+
+09/02/2026
+Created the UI for the recipes
+- Created search recipe pages (categories to search, servings, prep time, total time, tags, sort, clear all filters), linked to the edit page
+- Created edit/create recipe page (same as the search criterias, plus media link preview from the youtube/photo inspiration)

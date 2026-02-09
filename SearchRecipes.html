@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Recipes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .header-logo {
+            width: 50px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+        }
+
+        .home-btn {
+            text-decoration: none;
+            background: #FFFFFF;
+            color: #FF6B35;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Body */
+        .recipes-body {
+            width: 100%;
+            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: #666666;
+        }
+
+        /* Search and Filter Bar */
+        .search-bar-container {
+            background: #FFFFFF;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+        }
+
+        .search-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: #4CAF50;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999999;
+            font-size: 18px;
+        }
+
+        .add-recipe-btn {
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            white-space: nowrap;
+        }
+
+        .add-recipe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555555;
+            margin-bottom: 6px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: #FAFAFA;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-select:focus {
+            border-color: #4CAF50;
+            background: #FFFFFF;
+        }
+
+        .clear-filters-btn {
+            padding: 10px 20px;
+            background: #F8FAF5;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            color: #666666;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .clear-filters-btn:hover {
+            background: #E8F0E3;
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        /* Recipe Grid */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .recipe-card {
+            background: #FFFFFF;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .recipe-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 12px;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .recipe-meta span {
+            font-size: 13px;
+            color: #666666;
+            background: #F8FAF5;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .recipe-ingredients {
+            margin-bottom: 15px;
+        }
+
+        .recipe-ingredients h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+
+        .recipe-ingredients ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recipe-ingredients li {
+            font-size: 13px;
+            color: #666666;
+            padding: 4px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .recipe-ingredients li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+        }
+
+        .recipe-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #E53935 0%, #D32F2F 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4);
+        }
+
+        /* Loading and Empty States */
+        .loading, .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666666;
+            font-size: 16px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 40px 35px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #333333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #999999;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .close-btn:hover {
+            color: #333333;
+        }
+
+        /* Form Styles */
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+
+        .field input, .field textarea, .field select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+        }
+
+        .field input:focus, .field textarea:focus, .field select:focus {
+            border-color: #4CAF50;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .ingredients-list {
+            margin-bottom: 15px;
+        }
+
+        .ingredient-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+
+        .ingredient-item input {
+            flex: 1;
+        }
+
+        .ingredient-item button {
+            padding: 12px 16px;
+            background: #E53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .add-ingredient-btn {
+            width: 100%;
+            padding: 12px;
+            background: #F8FAF5;
+            border: 2px dashed #4CAF50;
+            border-radius: 8px;
+            color: #4CAF50;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-ingredient-btn:hover {
+            background: #E8F0E3;
+        }
+
+        .save-btn {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .error-message {
+            color: #E53935;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .tags-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: #F8FAF5;
+            border: 2px solid #E0E0E0;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .tag-chip input {
+            accent-color: #4CAF50;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <img src="LOGO_MP.png" class="header-logo" alt="MealMajor Logo">
+        <span class="header-title">Search Recipes</span>
+        <a href="HomePage.html" class="home-btn">Home Page</a>
+    </header>
+
+    <!-- Recipes Body -->
+    <div class="recipes-body">
+        <div class="container">
+            <div class="page-header">
+                <h1>Your Recipe Collection</h1>
+                <p>Manage and organize all your custom recipes</p>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="search-bar-container">
+                <div class="search-row">
+                    <div class="search-input-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search recipes by name or ingredient...">
+                    </div>
+                    <a href="EditRecipes.html" class="add-recipe-btn">Edit Recipes</a>
+
+                </div>
+
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Servings</label>
+                        <select id="servingsFilter" class="filter-select">
+                            <option value="">All</option>
+                            <option value="1-2">1-2 servings</option>
+                            <option value="3-4">3-4 servings</option>
+                            <option value="5-6">5-6 servings</option>
+                            <option value="7+">7+ servings</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Prep Time</label>
+                        <select id="prepTimeFilter" class="filter-select">
+                            <option value="">All</option>
+                            <option value="0-15">0-15 min</option>
+                            <option value="16-30">16-30 min</option>
+                            <option value="31-60">31-60 min</option>
+                            <option value="61+">60+ min</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Total Time</label>
+                        <select id="totalTimeFilter" class="filter-select">
+                            <option value="">All</option>
+                            <option value="0-30">Under 30 min</option>
+                            <option value="31-60">30-60 min</option>
+                            <option value="61-90">60-90 min</option>
+                            <option value="91+">90+ min</option>
+                        </select>
+                    </div>
+
+<!--        TAGS!!!! NEEDS UPDATE
+         TAGS!!!! NEEDS UPDATE
+          TAGS!!!! NEEDS UPDATE
+           TAGS!!!! NEEDS UPDATE
+            TAGS!!!! NEEDS UPDATE
+             TAGS!!!! NEEDS UPDATE
+              TAGS!!!! NEEDS UPDATE
+               TAGS!!!! NEEDS UPDATE
+                TAGS!!!! NEEDS UPDATE
+                 TAGS!!!! NEEDS UPDATE
+                  TAGS!!!! NEEDS UPDATE
+
+                    -->
+
+                    <div class="filter-group">
+                        <label>Tags</label>
+                        <div id="tagsFilter" class="filter-select"></div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select id="sortFilter" class="filter-select">
+                            <option value="name">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="time-asc">Time (Low to High)</option>
+                            <option value="time-desc">Time (High to Low)</option>
+                            <option value="servings-asc">Servings (Low to High)</option>
+                            <option value="servings-desc">Servings (High to Low)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="clear-filters-btn" onclick="clearFilters()">Clear All Filters</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Recipe Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Edit Recipe</h2>
+                <button class="close-btn" onclick="closeEditModal()">&times;</button>
+            </div>
+
+            <form id="editRecipeForm" onsubmit="return false;">
+                <div class="field">
+                    <label for="recipeName">Recipe Name</label>
+                    <input type="text" id="recipeName" required>
+                </div>
+
+                <div class="field">
+                    <label for="recipeServings">Servings</label>
+                    <input type="number" id="recipeServings" min="1" required>
+                </div>
+
+                <div class="field">
+                    <label for="recipePrepTime">Prep Time (minutes)</label>
+                    <input type="number" id="recipePrepTime" min="0" required>
+                </div>
+
+                <div class="field">
+                    <label for="recipeCookTime">Cook Time (minutes)</label>
+                    <input type="number" id="recipeCookTime" min="0" required>
+                </div>
+
+                <div class="field">
+                    <label>Ingredients</label>
+                    <div id="ingredientsList" class="ingredients-list"></div>
+                    <button type="button" class="add-ingredient-btn" onclick="addIngredientField()">+ Add Ingredient</button>
+                </div>
+
+                <div class="field">
+                    <label for="recipeInstructions">Instructions</label>
+                    <textarea id="recipeInstructions" required></textarea>
+                </div>
+
+                <button type="submit" class="save-btn">Save Changes</button>
+                <p id="editError" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    
+    
+</body>
+</html>

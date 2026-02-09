@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .header-logo {
+            width: 50px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+        }
+
+        .home-btn {
+            text-decoration: none;
+            background: #FFFFFF;
+            color: #FF6B35;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Sections */
+        .section {
+            background: #FFFFFF;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 i {
+            color: #FF6B35;
+        }
+
+        .section > p {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 15px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #4CAF50;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Time and Portions Container */
+        .time-portions-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Category Container */
+        .category-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .category-option {
+            padding: 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #FAFAFA;
+        }
+
+        .category-option:hover {
+            border-color: #4CAF50;
+            background: #F8FAF5;
+        }
+
+        .category-option.selected {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+            color: white;
+        }
+
+        .category-option i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+            color: #FF6B35;
+        }
+
+        .category-option.selected i {
+            color: white;
+        }
+
+        .category-option span {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Media Preview */
+        .media-preview {
+            margin-top: 15px;
+        }
+
+        .media-placeholder {
+            background: #F8FAF5;
+            border: 2px dashed #E0E0E0;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            color: #999999;
+        }
+
+        .media-placeholder i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #CCCCCC;
+        }
+
+        .media-placeholder p {
+            font-size: 14px;
+        }
+
+        #media-preview img,
+        #media-preview iframe {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Preview Section */
+        .preview {
+            background: #F8FAF5;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+        }
+
+        #preview-content {
+            color: #666666;
+            font-size: 14px;
+        }
+
+        #preview-content h3 {
+            color: #333333;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #preview-content p {
+            margin-bottom: 8px;
+        }
+
+        /* Ingredient and Step Rows */
+        .ingredient-row,
+        .step-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .ingredient-input,
+        .step-input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+        }
+
+        .ingredient-input:focus,
+        .step-input:focus {
+            border-color: #4CAF50;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: #F8FAF5;
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: #E8F0E3;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #E53935 0%, #D32F2F 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4);
+        }
+
+        .btn-sm {
+            padding: 10px 14px;
+        }
+
+        .remove-ingredient,
+        .remove-step {
+            flex-shrink: 0;
+        }
+
+        /* Button Group */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            padding: 20px 0;
+        }
+
+        .button-group .btn {
+            min-width: 160px;
+            justify-content: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .time-portions-container {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            .category-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="LOGO_MP.png" class="header-logo" alt="MealMajor Logo">
+        <span class="header-title">Add New Recipe</span>
+        <a href="HomePage.html" class="home-btn">Home Page</a>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="left-column">
+                <div class="section">
+                    <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="recipe-name">Recipe Name</label>
+                        <input type="text" id="recipe-name" placeholder="e.g., Chocolate Chip Cookies">
+                    </div>
+                    
+                    <div class="time-portions-container">
+                        <div class="form-group">
+                            <label for="cooking-time">Cooking Time (minutes)</label>
+                            <input type="number" id="cooking-time" placeholder="30">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="portions">Portions</label>
+                            <input type="number" id="portions" placeholder="4">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div class="category-container">
+                            <div class="category-option" data-category="main-course">
+                                <i class="fas fa-drumstick-bite"></i>
+                                <span>Main Course</span>
+                            </div>
+                            <div class="category-option" data-category="dessert">
+                                <i class="fas fa-ice-cream"></i>
+                                <span>Dessert</span>
+                            </div>
+                            <div class="category-option" data-category="entree">
+                                <i class="fas fa-leaf"></i>
+                                <span>Entree</span>
+                            </div>
+                            <div class="category-option" data-category="breakfast">
+                                <i class="fas fa-egg"></i>
+                                <span>Breakfast</span>
+                            </div>
+                            <div class="category-option" data-category="beverage">
+                                <i class="fas fa-glass-whiskey"></i>
+                                <span>Beverage</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selected-category" value="">
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-link"></i> Media Link</h2>
+                    
+                    <div class="form-group">
+                        <label for="media-url">YouTube URL or Image Link</label>
+                        <input type="url" id="media-url" placeholder="https://www.youtube.com/watch?v=... or https://image.url/recipe.jpg">
+                    </div>
+                    
+                    <div class="media-preview">
+                        <div id="media-preview" class="media-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Media preview will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="section">
+                    <h2><i class="fas fa-list-ul"></i> Ingredients</h2>
+                    <p>Add each ingredient with its quantity:</p>
+                    
+                    <div id="ingredients-container">
+                        <div class="ingredient-row">
+                            <input type="text" class="ingredient-input" placeholder="e.g., 2 cups flour">
+                            <button class="btn btn-danger btn-sm remove-ingredient"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <button id="add-ingredient" class="btn btn-secondary"><i class="fas fa-plus"></i> Add Ingredient</button>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-list-ol"></i> Steps</h2>
+                    <p>Add each step of your recipe:</p>
+                    
+                    <div id="steps-container">
+                        <div class="step-row">
+                            <input type="text" class="step-input" placeholder="e.g., Preheat the oven to 350°F (175°C)">
+                            <button class="btn btn-danger btn-sm remove-step"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <button id="add-step" class="btn btn-secondary"><i class="fas fa-plus"></i> Add Step</button>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-edit"></i> Additional Notes</h2>
+                    <div class="form-group">
+                        <label for="notes">Extra tips, variations, or dietary information</label>
+                        <textarea id="notes" placeholder="Add any additional information about your recipe..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="section preview-section">
+                    <h2><i class="fas fa-eye"></i> Quick Preview</h2>
+                    <div class="preview">
+                        <div id="preview-content">
+                            <p><em>Your recipe preview will appear here as you type.</em></p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        <div class="button-group">
+            <button id="clear-btn" class="btn btn-secondary">
+                <i class="fas fa-broom"></i> Clear All
+            </button>
+            <button id="save-btn" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Recipe
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Category selection
+        document.querySelectorAll('.category-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.category-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('selected-category').value = this.dataset.category;
+                updatePreview();
+            });
+        });
+
+        // Add ingredient
+        document.getElementById('add-ingredient').addEventListener('click', function() {
+            const container = document.getElementById('ingredients-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'ingredient-row';
+            newRow.innerHTML = `
+                <input type="text" class="ingredient-input" placeholder="e.g., 2 cups flour">
+                <button class="btn btn-danger btn-sm remove-ingredient"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(newRow);
+            attachRemoveListeners();
+        });
+
+        // Add step
+        document.getElementById('add-step').addEventListener('click', function() {
+            const container = document.getElementById('steps-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'step-row';
+            newRow.innerHTML = `
+                <input type="text" class="step-input" placeholder="e.g., Mix ingredients together">
+                <button class="btn btn-danger btn-sm remove-step"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(newRow);
+            attachRemoveListeners();
+        });
+
+        // Remove listeners
+        function attachRemoveListeners() {
+            document.querySelectorAll('.remove-ingredient').forEach(btn => {
+                btn.onclick = function() {
+                    if (document.querySelectorAll('.ingredient-row').length > 1) {
+                        this.parentElement.remove();
+                        updatePreview();
+                    }
+                };
+            });
+
+            document.querySelectorAll('.remove-step').forEach(btn => {
+                btn.onclick = function() {
+                    if (document.querySelectorAll('.step-row').length > 1) {
+                        this.parentElement.remove();
+                        updatePreview();
+                    }
+                };
+            });
+        }
+
+        attachRemoveListeners();
+
+        // Media preview
+        document.getElementById('media-url').addEventListener('input', function() {
+            const url = this.value.trim();
+            const previewDiv = document.getElementById('media-preview');
+            
+            if (!url) {
+                previewDiv.className = 'media-placeholder';
+                previewDiv.innerHTML = '<i class="fas fa-image"></i><p>Media preview will appear here</p>';
+                return;
+            }
+
+            // Check if YouTube URL
+            const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/;
+            const match = url.match(youtubeRegex);
+            
+            if (match) {
+                const videoId = match[1];
+                previewDiv.className = '';
+                previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+            } else if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                previewDiv.className = '';
+                previewDiv.innerHTML = `<img src="${url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
+            }
+        });
+
+        // Preview update
+        function updatePreview() {
+            const name = document.getElementById('recipe-name').value;
+            const time = document.getElementById('cooking-time').value;
+            const portions = document.getElementById('portions').value;
+            const category = document.querySelector('.category-option.selected')?.textContent.trim();
+            
+            const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
+                .map(input => input.value)
+                .filter(val => val.trim());
+
+            let preview = '';
+            
+            if (name) preview += `<h3>${name}</h3>`;
+            if (category || time || portions) {
+                preview += '<p>';
+                if (category) preview += `<strong>Category:</strong> ${category} `;
+                if (time) preview += `<strong>Time:</strong> ${time} min `;
+                if (portions) preview += `<strong>Servings:</strong> ${portions}`;
+                preview += '</p>';
+            }
+            
+            if (ingredients.length > 0) {
+                preview += '<p><strong>Ingredients:</strong><br>' + ingredients.join('<br>') + '</p>';
+            }
+
+            document.getElementById('preview-content').innerHTML = preview || '<p><em>Your recipe preview will appear here as you type.</em></p>';
+        }
+
+        // Update preview on input
+        ['recipe-name', 'cooking-time', 'portions'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+        });
+
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('ingredient-input')) {
+                updatePreview();
+            }
+        });
+
+        // Clear all
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear all fields?')) {
+                document.getElementById('recipe-name').value = '';
+                document.getElementById('cooking-time').value = '';
+                document.getElementById('portions').value = '';
+                document.getElementById('media-url').value = '';
+                document.getElementById('notes').value = '';
+                document.querySelectorAll('.category-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('selected-category').value = '';
+                
+                // Reset ingredients
+                document.getElementById('ingredients-container').innerHTML = `
+                    <div class="ingredient-row">
+                        <input type="text" class="ingredient-input" placeholder="e.g., 2 cups flour">
+                        <button class="btn btn-danger btn-sm remove-ingredient"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                
+                // Reset steps
+                document.getElementById('steps-container').innerHTML = `
+                    <div class="step-row">
+                        <input type="text" class="step-input" placeholder="e.g., Preheat the oven to 350°F (175°C)">
+                        <button class="btn btn-danger btn-sm remove-step"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                
+                // Reset media preview
+                document.getElementById('media-preview').className = 'media-placeholder';
+                document.getElementById('media-preview').innerHTML = '<i class="fas fa-image"></i><p>Media preview will appear here</p>';
+                
+                attachRemoveListeners();
+                updatePreview();
+            }
+        });
+
+        // Save recipe
+        document.getElementById('save-btn').addEventListener('click', function() {
+            const name = document.getElementById('recipe-name').value.trim();
+            
+            if (!name) {
+                alert('Please enter a recipe name');
+                return;
+            }
+
+            const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
+                .map(input => input.value.trim())
+                .filter(val => val);
+
+            const steps = Array.from(document.querySelectorAll('.step-input'))
+                .map(input => input.value.trim())
+                .filter(val => val);
+
+            if (ingredients.length === 0) {
+                alert('Please add at least one ingredient');
+                return;
+            }
+
+            if (steps.length === 0) {
+                alert('Please add at least one step');
+                return;
+            }
+
+            const recipe = {
+                name: name,
+                cookingTime: document.getElementById('cooking-time').value,
+                portions: document.getElementById('portions').value,
+                category: document.getElementById('selected-category').value,
+                mediaUrl: document.getElementById('media-url').value.trim(),
+                ingredients: ingredients,
+                steps: steps,
+                notes: document.getElementById('notes').value.trim()
+            };
+
+            console.log('Recipe saved:', recipe);
+            alert('Recipe saved successfully!');
+        });
+    </script>
+</body>
+</html>

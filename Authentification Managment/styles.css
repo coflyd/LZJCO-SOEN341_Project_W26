@@ -1,0 +1,264 @@
+/* MealMajor Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* { 
+    box-sizing: border-box; 
+    font-family: 'Poppins', Arial, sans-serif; 
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+}
+
+/* Logo at top */
+.page-logo {
+    display: block;
+    margin: 50px auto 30px;
+    width: 120px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+/* Wrapper for centering card */
+.auth-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 40px;
+}
+
+/* Wrapper for centering card, addapted for the profile management page */ 
+.auth-wrapper-profile-management {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 40px;
+    background: #94D769;
+}
+
+#allergyGroup,
+#prefGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 220px;
+}
+
+#allergyGroup label,
+#prefGroup label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+        
+}
+
+/* Main card container */
+.auth-card {
+    width: 400px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 40px 35px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    border: 1px solid rgba(76, 175, 80, 0.1);
+}
+
+.auth-card h1 {
+    margin: 0 0 25px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #333333;
+}
+
+/* Form fields */
+.field { 
+    margin-bottom: 20px; 
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555555;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    background: #FAFAFA;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    border-color: #4CAF50;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+input::placeholder {
+    color: #AAAAAA;
+}
+
+/* Hint text below input */
+.hint {
+    display: block;
+    margin-top: 6px;
+    color: #888888;
+    font-size: 12px;
+}
+
+/* Error messages */
+.error-text {
+    color: #E53935;
+    font-size: 12px;
+    margin-left: 6px;
+    font-weight: 500;
+}
+
+.form-error {
+    color: #E53935;
+    font-size: 13px;
+    margin-top: 12px;
+    text-align: center;
+    min-height: 20px;
+    font-weight: 500;
+}
+
+input.error {
+    border-color: #E53935;
+    background: #FFF5F5;
+}
+
+/* Primary button (Login/Create Account) */
+.primary-btn {
+    width: 100%;
+    border: none;
+    background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.primary-btn:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+/* Secondary button (Register/Login link) */
+.secondary-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Password input with eye icon */
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon input {
+    padding-right: 50px;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #999999;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.eye-btn:hover { 
+    color: #4CAF50; 
+}
+
+.eye-icon {
+    display: block;
+}
+
+/* Forgot password link */
+.forgot-row {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.forgot-link {
+    color: #888888;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: #4CAF50;
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #AAAAAA;
+    font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #E0E0E0;
+}
+
+.divider::before {
+    margin-right: 15px;
+}
+
+.divider::after {
+    margin-left: 15px;
+}

@@ -31,3 +31,11 @@ February 05
 -Implemented the saving preferences/allergies feature
 
 -Added Logout
+
+February 15
+
+-Reorganized the structure of the project
+
+-Added the ability to save to the database
+
+-Fixed the usage of error handling (no more alert)

@@ -1,0 +1,27 @@
+{
+  "name": "lzjco-soen341_project_w26",
+  "version": "1.0.0",
+  "description": "MealMajor : A Meal Prep and Healthy Living Planner",
+  "main": "auth.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coflyd/LZJCO-SOEN341_Project_W26.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/coflyd/LZJCO-SOEN341_Project_W26/issues"
+  },
+  "homepage": "https://github.com/coflyd/LZJCO-SOEN341_Project_W26#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

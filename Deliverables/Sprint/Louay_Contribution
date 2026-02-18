@@ -39,3 +39,9 @@ February 15
 -Added the ability to save to the database
 
 -Fixed the usage of error handling (no more alert)
+
+February 18
+
+-removed nodem_modules tracking through .gitignore
+
+-fixed broken references in the last commit made

@@ -18,3 +18,11 @@
 04/02/2026 (40 min)
 -  Fixed the “YOUR FRIDGE” button on the Home page
 -  Updated the button color, shape so it matches INSPIRATIONS and SHOPPING LIST.
+
+
+
+18/02/2026 (4 hrs)
+-Created first acceptance test:
+-Testing register functionality
+-Testing login functionality
+-Testing redirecting functionality

@@ -4,8 +4,8 @@ const { test, expect } = require("@playwright/test");
 test("MealMajor Test: Register/Login", async ({ page }) => {
   const BASE_URL = "http://localhost:8000";
 
-  const REGISTER_PAGE = `${BASE_URL}/RegisterPage.html`;
-  const LOGIN_PAGE = `${BASE_URL}/Login.html`;
+  const REGISTER_PAGE = `${BASE_URL}/Authentification Managment/RegisterPage.html`;
+  const LOGIN_PAGE = `${BASE_URL}/index.html`;
   const HOME_PAGE = `${BASE_URL}/HomePage.html`;
 
   // Registering

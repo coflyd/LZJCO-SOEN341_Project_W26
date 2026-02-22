@@ -24,3 +24,9 @@ Tasks completed:
     - Update HomePage.html with new color palette
     - Replace emojis with professional SVG icons
     - Update slogan to "REAL FOOD, REAL QUALITY"
+22/02/2026
+    - Implement search recipes functionality (Task 9 - US.5)
+    - Load all recipes from Firebase (Task 10 - US.5)
+    - Add filters: servings, prep time, total time, sort by
+    - Add recipe detail modal with ingredients, steps, notes
+    - Create searchRecipes.js and update SearchRecipes.html

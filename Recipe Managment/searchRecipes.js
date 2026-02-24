@@ -78,7 +78,13 @@ function createRecipeCard(recipe) {
     const moreCount = ingredients.length - 4;
     
     return `
+        const thumbnail = recipe.mediaUrl?.includes('youtube') || recipe.mediaUrl?.includes('youtu.be')
+            ? `<img class="card-thumbnail" src="https://img.youtube.com/vi/${getYoutubeId(recipe.mediaUrl)}/0.jpg" alt="${recipe.name}">`
+            : '';
+
+    return `
         <div class="recipe-card" data-id="${recipe.id}">
+            ${thumbnail}
             <h3>${recipe.name || 'Untitled Recipe'}</h3>
             
             <div class="recipe-meta">

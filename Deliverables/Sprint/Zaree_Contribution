@@ -27,3 +27,12 @@
 -Testing register functionality
 -Testing login functionality
 -Testing redirecting functionality
+
+24/02/2026 (3 hrs)
+Modification of first test:
+-Authentication test
+-Few errors were noticed in the first test
+-Modified it so everything is consistent and working
+Built the second acceptance test:
+-Profile Preferences test
+-Test passed, working and consistent

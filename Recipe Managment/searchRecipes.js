@@ -300,11 +300,6 @@ function getYoutubeId(url) {
     return match ? match[1] : '';
 }
 
-// Edit recipe 
-window.editRecipe = function(recipeId) {
-    window.location.href = `CreateRecipes.html?editId=${recipeId}`;
-};
-
 // Delete recipe
 window.deleteRecipe = async function(recipeId) {
     if (!confirm('Are you sure you want to delete this recipe?')) return;
@@ -322,6 +317,11 @@ window.deleteRecipe = async function(recipeId) {
         console.error('Error deleting recipe:', error);
         alert('Failed to delete recipe. Please try again.');
     }
+};
+
+// Edit recipe 
+window.editRecipe = function(recipeId) {
+    window.location.href = `CreateRecipes.html?editId=${recipeId}`;
 };
 
 // Show loading state

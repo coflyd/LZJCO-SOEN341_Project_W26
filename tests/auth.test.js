@@ -2,10 +2,10 @@
 const { test, expect } = require("@playwright/test");
 
 test("MealMajor Test: Register/Login", async ({ page }) => {
-  const BASE_URL = "http://localhost:8000";
+  const BASE_URL = "https://lzjco-soen-341-project-w26.vercel.app";
 
-  const REGISTER_PAGE = `${BASE_URL}/RegisterPage.html`;
-  const LOGIN_PAGE = `${BASE_URL}/Login.html`;
+  const REGISTER_PAGE = `${BASE_URL}/Authentification Managment/RegisterPage.html`;
+  const LOGIN_PAGE = `${BASE_URL}/index.html`;
   const HOME_PAGE = `${BASE_URL}/HomePage.html`;
 
   // Registering
@@ -22,7 +22,7 @@ test("MealMajor Test: Register/Login", async ({ page }) => {
   await page.click("button.primary-btn");
 
 
-  await expect(page).toHaveURL(/.*index\.html/);
+  await expect(page).toHaveURL(/index.html/);
 
 
   // Logging in

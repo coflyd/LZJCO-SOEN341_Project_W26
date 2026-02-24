@@ -1,4 +1,4 @@
-import { getDatabase, ref, push, set } from 
+import { getDatabase, ref, push, set, get, update } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 import { getAuth } from 
@@ -20,6 +20,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
+
+const urlParams = new URLSearchParams(window.location.search);
+const editId = urlParams.get('editId');
 
 // Helper functions for showing messages
 function showError(message) {
@@ -273,18 +276,71 @@ document.getElementById('save-btn').addEventListener('click', async function() {
     };
 
     try {
+        if (editId) {
+            recipeData.updatedAt = new Date().toISOString();
+            await update(ref(database, `recipes/${editId}`), recipeData);
+            showSuccess('Recipe updated successfully!');
+            setTimeout(() => { window.location.href = 'SearchRecipes.html'; }, 1500);
+        } 
+        else {
         // Create new recipe ID
-        const newRecipeRef = push(ref(database, "recipes"));
-
-        await set(newRecipeRef, recipeData);
-
-        showSuccess('Recipe saved successfully!');
-
-        console.log("Saved recipe ID:", newRecipeRef.key);
+            const newRecipeRef = push(ref(database, "recipes"));
+            await set(newRecipeRef, recipeData);
+            showSuccess('Recipe saved successfully!');
+            console.log("Saved recipe ID:", newRecipeRef.key);
 
     } catch (error) {
         console.error("Error saving recipe:", error);
         showError('Failed to save recipe. Please try again.');
     }
 });
+
+// Edit recipe
+async function loadRecipeForEditing(id) {
+    const snapshot = await get(ref(database, `recipes/${id}`));
+    if (!snapshot.exists()) return;
+    const recipe = snapshot.val();
+
+    document.getElementById('recipe-name').value  = recipe.name || '';
+    document.getElementById('cooking-time').value = recipe.cookingTime || '';
+    document.getElementById('portions').value = recipe.portions || '';
+    document.getElementById('media-url').value = recipe.mediaUrl || '';
+    document.getElementById('notes').value = recipe.notes || '';
+
+    if (recipe.category) {
+        document.querySelectorAll('.category-option').forEach(opt => {
+            if (opt.dataset.category === recipe.category) {
+                opt.classList.add('selected');
+                document.getElementById('selected-category').value = recipe.category;
+            }
+        });
+    }
+
+    if (recipe.ingredients?.length > 0) {
+        document.getElementById('ingredients-container').innerHTML =
+            recipe.ingredients.map(ing => `
+                <div class="ingredient-row">
+                    <input type="text" class="ingredient-input" value="${ing}">
+                    <button class="btn btn-danger btn-sm remove-ingredient"><i class="fas fa-trash"></i></button>
+                </div>
+        `).join('');
+    }
+
+    if (recipe.steps?.length > 0) {
+        document.getElementById('steps-container').innerHTML =
+            recipe.steps.map(step => `
+                <div class="step-row">
+                    <input type="text" class="step-input" value="${step}">
+                    <button class="btn btn-danger btn-sm remove-step"><i class="fas fa-trash"></i></button>
+                </div>
+        `).join('');
+    }
+    document.getElementById('save-btn').textContent = 'Update Recipe';
+    attachRemoveListeners();
+    updatePreview();
+}
+// Call Edit
+if (editId) {
+    loadRecipeForEditing(editId);
+}
 

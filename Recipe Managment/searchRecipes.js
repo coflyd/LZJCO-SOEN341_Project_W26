@@ -23,6 +23,9 @@ const auth = getAuth(app);
 // Store all recipes
 let allRecipes = [];
 
+// Store selected categories (Task 15 - Zaree)
+let selectedCategories = [];
+
 // DOM Elements
 const recipesGrid = document.getElementById('recipesGrid');
 const searchInput = document.getElementById('searchInput');
@@ -77,13 +80,8 @@ function createRecipeCard(recipe) {
     const displayIngredients = ingredients.slice(0, 4);
     const moreCount = ingredients.length - 4;
     
-    const thumbnail = recipe.mediaUrl?.includes('youtube') || recipe.mediaUrl?.includes('youtu.be')
-        ? `<img class="card-thumbnail" src="https://img.youtube.com/vi/${getYoutubeId(recipe.mediaUrl)}/0.jpg" alt="${recipe.name}">`
-        : '';
-
     return `
         <div class="recipe-card" data-id="${recipe.id}">
-            ${thumbnail}
             <h3>${recipe.name || 'Untitled Recipe'}</h3>
             
             <div class="recipe-meta">
@@ -101,8 +99,7 @@ function createRecipeCard(recipe) {
             </div>
             
             <div class="recipe-actions">
-                <button class="btn btn-view" onclick="viewRecipe('${recipe.id}')">View</button>
-                <button class="btn btn-edit" onclick="editRecipe('${recipe.id}')">Edit</button>
+                <button class="btn btn-edit" onclick="viewRecipe('${recipe.id}')">View</button>
                 <button class="btn btn-delete" onclick="deleteRecipe('${recipe.id}')">Delete</button>
             </div>
         </div>
@@ -176,6 +173,13 @@ function filterRecipes() {
         });
     }
     
+    // Filter by category checkboxes (Task 15 - Zaree)
+    if (selectedCategories.length > 0) {
+        filtered = filtered.filter(recipe => 
+            selectedCategories.includes(recipe.category)
+        );
+    }
+    
     // Sort recipes
     const sortBy = sortFilter?.value;
     if (sortBy) {
@@ -207,6 +211,20 @@ function sortRecipes(recipes, sortBy) {
     }
 }
 
+// Filter by category checkboxes (Task 15 - Zaree)
+function filterByCategory() {
+    const checkboxes = document.querySelectorAll('.category-checkbox:checked');
+    selectedCategories = Array.from(checkboxes).map(cb => cb.value);
+    filterRecipes();
+}
+
+// Setup category checkbox listeners (Task 15 - Zaree)
+function setupCategoryCheckboxes() {
+    document.querySelectorAll('.category-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', filterByCategory);
+    });
+}
+
 // Clear all filters
 window.clearFilters = function() {
     if (searchInput) searchInput.value = '';
@@ -214,6 +232,10 @@ window.clearFilters = function() {
     if (prepTimeFilter) prepTimeFilter.value = '';
     if (totalTimeFilter) totalTimeFilter.value = '';
     if (sortFilter) sortFilter.value = 'name';
+    
+    // Clear category checkboxes (Task 15 - Zaree)
+    document.querySelectorAll('.category-checkbox').forEach(cb => cb.checked = false);
+    selectedCategories = [];
     
     displayRecipes(allRecipes);
 };
@@ -324,11 +346,6 @@ window.deleteRecipe = async function(recipeId) {
     }
 };
 
-// Edit recipe 
-window.editRecipe = function(recipeId) {
-    window.location.href = `CreateRecipes.html?editId=${recipeId}`;
-};
-
 // Show loading state
 function showLoading() {
     if (recipesGrid) {
@@ -383,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     setupEventListeners();
+    setupCategoryCheckboxes(); // Task 15 - Zaree
     loadAllRecipes();
 });
 

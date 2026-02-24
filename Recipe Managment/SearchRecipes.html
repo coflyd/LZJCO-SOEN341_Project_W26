@@ -204,6 +204,48 @@
             color: #4CAF50;
         }
 
+        /* Category Checkboxes (Task 15 - Zaree) */
+        .checkbox-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #FAFAFA;
+            border: 2px solid #E0E0E0;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: #4CAF50;
+            background: #F8FAF5;
+        }
+
+        .checkbox-item input {
+            accent-color: #4CAF50;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input:checked + span {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .category-filters {
+            flex-basis: 100%;
+            margin-top: 10px;
+        }
+
         /* Recipe Grid */
         .recipes-grid {
             display: grid;
@@ -575,6 +617,33 @@
                             <option value="servings-asc">Servings (Low to High)</option>
                             <option value="servings-desc">Servings (High to Low)</option>
                         </select>
+                    </div>
+
+                    <!-- Category Filter Checkboxes (Task 15 - Zaree) -->
+                    <div class="filter-group category-filters">
+                        <label>Category</label>
+                        <div class="checkbox-filters">
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="category-checkbox" value="main-course">
+                                <span>🍗 Main Course</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="category-checkbox" value="dessert">
+                                <span>🍰 Dessert</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="category-checkbox" value="breakfast">
+                                <span>🍳 Breakfast</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="category-checkbox" value="entree">
+                                <span>🥗 Entree</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" class="category-checkbox" value="beverage">
+                                <span>🥤 Beverage</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 

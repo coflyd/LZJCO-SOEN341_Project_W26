@@ -77,10 +77,9 @@ function createRecipeCard(recipe) {
     const displayIngredients = ingredients.slice(0, 4);
     const moreCount = ingredients.length - 4;
     
-    return `
-        const thumbnail = recipe.mediaUrl?.includes('youtube') || recipe.mediaUrl?.includes('youtu.be')
-            ? `<img class="card-thumbnail" src="https://img.youtube.com/vi/${getYoutubeId(recipe.mediaUrl)}/0.jpg" alt="${recipe.name}">`
-            : '';
+    const thumbnail = recipe.mediaUrl?.includes('youtube') || recipe.mediaUrl?.includes('youtu.be')
+        ? `<img class="card-thumbnail" src="https://img.youtube.com/vi/${getYoutubeId(recipe.mediaUrl)}/0.jpg" alt="${recipe.name}">`
+        : '';
 
     return `
         <div class="recipe-card" data-id="${recipe.id}">

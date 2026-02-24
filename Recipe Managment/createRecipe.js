@@ -288,7 +288,7 @@ document.getElementById('save-btn').addEventListener('click', async function() {
             await set(newRecipeRef, recipeData);
             showSuccess('Recipe saved successfully!');
             console.log("Saved recipe ID:", newRecipeRef.key);
-
+        }
     } catch (error) {
         console.error("Error saving recipe:", error);
         showError('Failed to save recipe. Please try again.');

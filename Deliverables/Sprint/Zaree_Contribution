@@ -36,3 +36,15 @@ Modification of first test:
 Built the second acceptance test:
 -Profile Preferences test
 -Test passed, working and consistent
+
+24/02/2026 (3 hrs)
+Added Categories in the search box:
+-HTML code added
+-Javascript code added
+-Resolved merging conflicts
+ 🍗 Main Course
+ 🍰 Dessert
+ 🍳 Breakfast
+ 🥗 Entree
+ 🥤 Beverage
+

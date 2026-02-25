@@ -45,3 +45,9 @@ February 18
 -removed nodem_modules tracking through .gitignore
 
 -fixed broken references in the last commit made
+
+February 25
+
+-Attempted to implement Firebase emulators to prevent test user pollution in CI/CD pipeline
+
+-Pivoted strategy: implemented automatic test user cleanup after test execution instead

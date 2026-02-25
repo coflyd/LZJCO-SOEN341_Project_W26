@@ -1,14 +1,58 @@
 const { test, expect } = require("@playwright/test");
 
+// Cleanup function to delete test user  
+async function cleanupTestUser(page, email, password) {
+  try {
+    // Login as the test user
+    await page.goto("https://lzjco-soen-341-project-w26.vercel.app/index.html");
+    await page.fill("#email", email);
+    await page.fill("#password", password);
+    await page.click("button.primary-btn");
+    await page.waitForTimeout(2000); // Wait for login to complete
+
+    // Delete user account via Firebase
+    await page.evaluate(async () => {
+      const { getAuth, deleteUser } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      const { getDatabase, ref, remove } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js");
+      
+      const auth = getAuth();
+      const database = getDatabase();
+      
+      if (auth.currentUser) {
+        const uid = auth.currentUser.uid;
+        // Delete user data from database
+        await remove(ref(database, `users/${uid}`));
+        // Delete auth account
+        await deleteUser(auth.currentUser);
+      }
+    });
+    
+    console.log(`Cleaned up test user: ${email}`);
+  } catch (error) {
+    console.log(`Cleanup failed for ${email}:`, error.message);
+  }
+}
+
 test("MealMajor Test: Profile Preferences", async ({ page }) => {
   const BASE_URL = "https://lzjco-soen-341-project-w26.vercel.app";
   const REGISTER_PAGE = `${BASE_URL}/Authentification Managment/RegisterPage.html`;
   const LOGIN_PAGE = `${BASE_URL}/index.html`;
   const PROFILE_PAGE = `${BASE_URL}/Profile Managment/ProfileManagement.html`;
 
-  const uniqueEmail = `profile_test_userPref@gmail.com`;
+  const uniqueEmail = `profile_test_${Date.now()}@gmail.com`;
   const password = "Password123";
 
+  // First register the user
+  await page.goto(REGISTER_PAGE);
+
+  await page.fill("#name", "Test User");
+  await page.fill("#email", uniqueEmail);
+  await page.fill("#password", password);
+  await page.fill("#confirm-password", password);
+  await page.click("button.primary-btn");
+  await expect(page).toHaveURL(/index.html/);
+
+  // Now login
   await page.goto(LOGIN_PAGE);
   await page.fill("#email", uniqueEmail);
   await page.fill("#password", password);
@@ -75,4 +119,7 @@ test("MealMajor Test: Profile Preferences", async ({ page }) => {
   const highProteinChecked = await page.isChecked('input[type="checkbox"][value="high-protein"]');
   expect(vegetarianChecked).toBe(true);
   expect(highProteinChecked).toBe(true);
+
+  // Clean up test user
+  await cleanupTestUser(page, uniqueEmail, password);
 });

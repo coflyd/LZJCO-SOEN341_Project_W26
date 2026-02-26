@@ -102,8 +102,8 @@ function createRecipeCard(recipe) {
             </div>
             
             <div class="recipe-actions">
-                <button class="btn btn-view" onclick="viewRecipe('${recipe.id}')">View</button>
-                <button class="btn btn-edit" onclick="editRecipe('${recipe.id}')">Edit</button>
+                <button class="btn btn-edit" onclick="viewRecipe('${recipe.id}')">View</button>
+                <button class="btn btn-view" onclick="editRecipe('${recipe.id}')">Edit</button>
                 <button class="btn btn-delete" onclick="deleteRecipe('${recipe.id}')">Delete</button>
             </div>
         </div>

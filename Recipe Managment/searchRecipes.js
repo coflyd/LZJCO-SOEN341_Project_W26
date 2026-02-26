@@ -79,6 +79,9 @@ function createRecipeCard(recipe) {
     const ingredients = recipe.ingredients || [];
     const displayIngredients = ingredients.slice(0, 4);
     const moreCount = ingredients.length - 4;
+    const thumbnail = recipe.mediaUrl?.includes('youtube') || recipe.mediaUrl?.includes('youtu.be')
+        ? `<img class="card-thumbnail" src="https://img.youtube.com/vi/${getYoutubeId(recipe.mediaUrl)}/0.jpg" alt="${recipe.name}">`
+        : '';
     
     return `
         <div class="recipe-card" data-id="${recipe.id}">
@@ -99,7 +102,8 @@ function createRecipeCard(recipe) {
             </div>
             
             <div class="recipe-actions">
-                <button class="btn btn-edit" onclick="viewRecipe('${recipe.id}')">View</button>
+                <button class="btn btn-view" onclick="viewRecipe('${recipe.id}')">View</button>
+                <button class="btn btn-edit" onclick="editRecipe('${recipe.id}')">Edit</button>
                 <button class="btn btn-delete" onclick="deleteRecipe('${recipe.id}')">Delete</button>
             </div>
         </div>
@@ -412,3 +416,8 @@ onAuthStateChanged(auth, (user) => {
         // window.location.href = '../index.html';
     }
 });
+
+//Edit
+window.editRecipe = function(recipeId) {
+    window.location.href = `CreateRecipes.html?editId=${recipeId}`;
+};

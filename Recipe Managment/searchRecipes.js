@@ -79,9 +79,20 @@ function createRecipeCard(recipe) {
     const ingredients = recipe.ingredients || [];
     const displayIngredients = ingredients.slice(0, 4);
     const moreCount = ingredients.length - 4;
-    const thumbnail = recipe.mediaUrl?.includes('youtube') || recipe.mediaUrl?.includes('youtu.be')
-        ? `<img class="card-thumbnail" src="https://img.youtube.com/vi/${getYoutubeId(recipe.mediaUrl)}/0.jpg" alt="${recipe.name}">`
-        : '';
+    //Fix YTB -  visual 
+    let thumbnail = '';
+    if (recipe.mediaUrl) {
+        const isYoutube = recipe.mediaUrl.includes('youtube') || recipe.mediaUrl.includes('youtu.be');
+        const isImage = recipe.mediaUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+            if (isYoutube) {
+                const videoId = getYoutubeId(recipe.mediaUrl);
+                if (videoId) {
+                    thumbnail = `<img class="card-thumbnail" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${recipe.name}" onerror="this.style.display='none'">`;
+                }
+            } else if (isImage) {
+                thumbnail = `<img class="card-thumbnail" src="${recipe.mediaUrl}" alt="${recipe.name}" onerror="this.style.display='none'">`;
+            }
+    }
     
     return `
         <div class="recipe-card" data-id="${recipe.id}">
@@ -102,8 +113,8 @@ function createRecipeCard(recipe) {
             </div>
             
             <div class="recipe-actions">
-                <button class="btn btn-edit" onclick="viewRecipe('${recipe.id}')">View</button>
-                <button class="btn btn-view" onclick="editRecipe('${recipe.id}')">Edit</button>
+                <button class="btn btn-view" onclick="viewRecipe('${recipe.id}')">View</button>
+                <button class="btn btn-edit" onclick="editRecipe('${recipe.id}')">Edit</button>
                 <button class="btn btn-delete" onclick="deleteRecipe('${recipe.id}')">Delete</button>
             </div>
         </div>
@@ -348,6 +359,11 @@ window.deleteRecipe = async function(recipeId) {
         console.error('Error deleting recipe:', error);
         alert('Failed to delete recipe. Please try again.');
     }
+};
+
+//Edit recipe - redirects to CreateRecipes.html with editId param
+window.editRecipe = function(recipeId) {
+    window.location.href = `CreateRecipes.html?editId=${recipeId}`;
 };
 
 // Show loading state

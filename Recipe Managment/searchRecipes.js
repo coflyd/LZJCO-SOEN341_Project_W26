@@ -96,6 +96,7 @@ function createRecipeCard(recipe) {
     
     return `
         <div class="recipe-card" data-id="${recipe.id}">
+            ${thumbnail}
             <h3>${recipe.name || 'Untitled Recipe'}</h3>
             
             <div class="recipe-meta">

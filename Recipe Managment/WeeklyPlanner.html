@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Meal Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary:       #e8491d;
+            --primary-dark:  #c73c15;
+            --primary-light: #fff0ec;
+            --bg:            #f4f6f9;
+            --card-bg:       #ffffff;
+            --text:          #2d3748;
+            --text-muted:    #718096;
+            --border:        #e2e8f0;
+            --shadow:        0 2px 12px rgba(0,0,0,.08);
+            --shadow-hover:  0 6px 24px rgba(0,0,0,.14);
+            --radius:        12px;
+            --radius-sm:     8px;
+
+            /* meal-type chips */
+            --breakfast: #f6ad55;
+            --lunch:     #68d391;
+            --dinner:    #667eea;
+            --snack:     #fc8181;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── Page wrapper ── */
+        .meal-plan-page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+
+        /* ── Header ── */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .page-header h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .page-header h1 span { color: var(--primary); }
+
+        /* week-start toggle */
+        .week-start-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .85rem;
+            color: var(--text-muted);
+        }
+        .toggle-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 6px;
+            display: flex;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .toggle-btn span {
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-size: .8rem;
+            font-weight: 600;
+            transition: all .2s;
+            color: var(--text-muted);
+        }
+        .toggle-btn span.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* ── Week navigation bar ── */
+        .week-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .nav-arrow {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-muted);
+            transition: all .2s;
+        }
+        .nav-arrow:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        .week-label {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            min-width: 180px;
+            text-align: center;
+        }
+        .today-btn {
+            background: var(--primary-light);
+            border: none;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .today-btn:hover { background: var(--primary); color: #fff; }
+
+        /* ── Grid ── */
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+        @media (max-width: 900px) {
+            .week-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 560px) {
+            .week-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ── Day card ── */
+        .day-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, box-shadow .2s, transform .15s;
+            position: relative;
+        }
+        .day-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+        .day-card.today {
+            border-color: var(--primary);
+            background: #fffaf9;
+        }
+        .day-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(232,73,29,.18), var(--shadow-hover);
+        }
+
+        .day-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .day-name {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--text-muted);
+        }
+        .day-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--text);
+        }
+        .day-card.today .day-number {
+            background: var(--primary);
+            color: #fff;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── Meal chips ── */
+        .meals-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .meal-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 6px;
+            padding: 5px 8px;
+            font-size: .78rem;
+            font-weight: 600;
+            position: relative;
+            transition: opacity .15s;
+        }
+        .meal-chip[data-type="breakfast"] { background: rgba(246,173,85,.15); color: #b7620a; }
+        .meal-chip[data-type="lunch"]     { background: rgba(104,211,145,.15); color: #276749; }
+        .meal-chip[data-type="dinner"]    { background: rgba(102,126,234,.15); color: #434190; }
+        .meal-chip[data-type="snack"]     { background: rgba(252,129,129,.15); color: #9b2c2c; }
+
+        .meal-chip .meal-type-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .meal-chip[data-type="breakfast"] .meal-type-dot { background: var(--breakfast); }
+        .meal-chip[data-type="lunch"]     .meal-type-dot { background: var(--lunch); }
+        .meal-chip[data-type="dinner"]    .meal-type-dot { background: var(--dinner); }
+        .meal-chip[data-type="snack"]     .meal-type-dot { background: var(--snack); }
+
+        .meal-chip .chip-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .meal-chip .chip-actions {
+            display: none;
+            gap: 2px;
+        }
+        .meal-chip:hover .chip-actions { display: flex; }
+        .chip-actions button {
+            background: none; border: none; cursor: pointer;
+            padding: 2px 4px; border-radius: 4px;
+            font-size: .75rem;
+            transition: background .15s;
+        }
+        .chip-actions .edit-chip   { color: #667eea; }
+        .chip-actions .delete-chip { color: var(--primary); }
+        .chip-actions button:hover { background: rgba(0,0,0,.07); }
+
+        .add-meal-hint {
+            margin-top: auto;
+            font-size: .73rem;
+            color: var(--text-muted);
+            text-align: center;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+        .day-card:hover .add-meal-hint { opacity: 1; }
+
+        /* ── Side panel ── */
+        .panel-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,.35);
+            z-index: 200;
+            opacity: 0; pointer-events: none;
+            transition: opacity .25s;
+        }
+        .panel-overlay.open { opacity: 1; pointer-events: all; }
+
+        .side-panel {
+            position: fixed;
+            top: 0; right: 0;
+            width: 360px; max-width: 95vw;
+            height: 100%;
+            background: var(--card-bg);
+            box-shadow: -4px 0 32px rgba(0,0,0,.15);
+            z-index: 201;
+            display: flex; flex-direction: column;
+            transform: translateX(105%);
+            transition: transform .3s cubic-bezier(.4,0,.2,1);
+            overflow: hidden;
+        }
+        .side-panel.open { transform: translateX(0); }
+
+        .panel-header {
+            padding: 22px 22px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: flex-start; justify-content: space-between;
+        }
+        .panel-header-info h2 {
+            font-size: 1.15rem; font-weight: 700;
+        }
+        .panel-header-info p {
+            font-size: .82rem; color: var(--text-muted); margin-top: 2px;
+        }
+        .panel-close {
+            background: none; border: none; cursor: pointer;
+            font-size: 1.1rem; color: var(--text-muted);
+            padding: 4px; border-radius: 6px;
+            transition: color .15s, background .15s;
+        }
+        .panel-close:hover { color: var(--primary); background: var(--primary-light); }
+
+        .panel-body { flex: 1; overflow-y: auto; padding: 20px 22px; }
+
+        /* Meal type tabs in panel */
+        .type-tabs {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px;
+        }
+        .type-tab {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            font-size: .78rem; font-weight: 700;
+            cursor: pointer;
+            background: var(--bg);
+            color: var(--text-muted);
+            transition: all .15s;
+        }
+        .type-tab[data-filter="all"].active,
+        .type-tab[data-filter="all"]:hover       { border-color: var(--text-muted); color: var(--text); }
+        .type-tab[data-filter="breakfast"].active,
+        .type-tab[data-filter="breakfast"]:hover { border-color: var(--breakfast); color: #b7620a; background: rgba(246,173,85,.1); }
+        .type-tab[data-filter="lunch"].active,
+        .type-tab[data-filter="lunch"]:hover     { border-color: var(--lunch); color: #276749; background: rgba(104,211,145,.1); }
+        .type-tab[data-filter="dinner"].active,
+        .type-tab[data-filter="dinner"]:hover    { border-color: var(--dinner); color: #434190; background: rgba(102,126,234,.1); }
+        .type-tab[data-filter="snack"].active,
+        .type-tab[data-filter="snack"]:hover     { border-color: var(--snack); color: #9b2c2c; background: rgba(252,129,129,.1); }
+
+        /* Panel meals list */
+        .panel-meals { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .panel-meal-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            transition: box-shadow .15s;
+        }
+        .panel-meal-row:hover { box-shadow: var(--shadow); }
+        .panel-meal-row .type-badge {
+            font-size: .68rem; font-weight: 700; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 10px; white-space: nowrap;
+        }
+        [data-type="breakfast"] .type-badge { background: rgba(246,173,85,.2); color: #b7620a; }
+        [data-type="lunch"]     .type-badge { background: rgba(104,211,145,.2); color: #276749; }
+        [data-type="dinner"]    .type-badge { background: rgba(102,126,234,.2); color: #434190; }
+        [data-type="snack"]     .type-badge { background: rgba(252,129,129,.2); color: #9b2c2c; }
+
+        .panel-meal-row .meal-name { flex: 1; font-size: .88rem; font-weight: 600; }
+        .panel-meal-row .row-actions { display: flex; gap: 4px; }
+        .row-actions button {
+            background: none; border: none; cursor: pointer;
+            padding: 5px 7px; border-radius: 6px; font-size: .82rem;
+            transition: background .15s, color .15s;
+        }
+        .row-actions .btn-edit   { color: #667eea; }
+        .row-actions .btn-edit:hover   { background: rgba(102,126,234,.12); }
+        .row-actions .btn-delete { color: var(--primary); }
+        .row-actions .btn-delete:hover { background: var(--primary-light); }
+
+        .no-meals-msg {
+            text-align: center; padding: 28px 0;
+            color: var(--text-muted); font-size: .88rem;
+        }
+        .no-meals-msg i { font-size: 2rem; margin-bottom: 8px; display: block; opacity: .4; }
+
+        /* ── Add / Edit form ── */
+        .meal-form {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 4px;
+        }
+        .meal-form h3 { font-size: .92rem; font-weight: 700; margin-bottom: 12px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label {
+            display: block; font-size: .78rem; font-weight: 600;
+            color: var(--text-muted); margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: .88rem;
+            background: var(--card-bg);
+            color: var(--text);
+            transition: border-color .2s;
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus { border-color: var(--primary); }
+
+        .form-actions { display: flex; gap: 8px; margin-top: 14px; }
+        .btn-primary {
+            flex: 1; background: var(--primary); color: #fff;
+            border: none; border-radius: var(--radius-sm);
+            padding: 10px; font-size: .88rem; font-weight: 700;
+            cursor: pointer; transition: background .2s;
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary {
+            background: none; color: var(--text-muted);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px; font-size: .88rem; font-weight: 600;
+            cursor: pointer; transition: all .15s;
+        }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+        .add-meal-trigger {
+            width: 100%;
+            background: none;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            font-size: .85rem; font-weight: 600; color: var(--text-muted);
+            cursor: pointer; transition: all .2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .add-meal-trigger:hover {
+            border-color: var(--primary); color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* ── Legend ── */
+        .legend {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            margin-bottom: 20px; justify-content: center;
+        }
+        .legend-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: .78rem; color: var(--text-muted);
+        }
+        .legend-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+        .legend-dot.breakfast { background: var(--breakfast); }
+        .legend-dot.lunch     { background: var(--lunch); }
+        .legend-dot.dinner    { background: var(--dinner); }
+        .legend-dot.snack     { background: var(--snack); }
+    </style>
+</head>
+<body>
+
+<div class="meal-plan-page">
+
+    <!-- Header -->
+
+    
+    <div class="page-header">
+        <h1><i class="fas fa-calendar-week" style="color:var(--primary);margin-right:10px"></i>Weekly <span>Meal Plan</span></h1>
+        <div class="week-start-toggle">
+            <span>Week starts:</span>
+            <div class="toggle-btn" id="weekStartToggle">
+                <span data-value="sun" class="active">Sun</span>
+                <span data-value="mon">Mon</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Week navigation -->
+    <div class="week-nav">
+        <button class="nav-arrow" id="prevWeek" title="Previous week"><i class="fas fa-chevron-left"></i></button>
+        <span class="week-label" id="weekLabel"></span>
+        <button class="nav-arrow" id="nextWeek" title="Next week"><i class="fas fa-chevron-right"></i></button>
+        <button class="today-btn" id="todayBtn">Today</button>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot breakfast"></div> Breakfast</div>
+        <div class="legend-item"><div class="legend-dot lunch"></div> Lunch</div>
+        <div class="legend-item"><div class="legend-dot dinner"></div> Dinner</div>
+        <div class="legend-item"><div class="legend-dot snack"></div> Snack</div>
+    </div>
+
+    <!-- 7-day grid -->
+    <div class="week-grid" id="weekGrid"></div>
+</div>
+
+<!-- Side panel overlay -->
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<!-- Side panel -->
+<div class="side-panel" id="sidePanel">
+    <div class="panel-header">
+        <div class="panel-header-info">
+            <h2 id="panelDayTitle">Monday</h2>
+            <p id="panelDayDate"></p>
+        </div>
+        <button class="panel-close" id="panelClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panel-body">
+        <!-- filter tabs -->
+        <div class="type-tabs" id="typeTabs">
+            <button class="type-tab active" data-filter="all">All</button>
+            <button class="type-tab" data-filter="breakfast">Breakfast</button>
+            <button class="type-tab" data-filter="lunch">Lunch</button>
+            <button class="type-tab" data-filter="dinner">Dinner</button>
+            <button class="type-tab" data-filter="snack">Snack</button>
+        </div>
+
+        <!-- meals list -->
+        <div class="panel-meals" id="panelMeals"></div>
+
+        <!-- add meal button -->
+        <button class="add-meal-trigger" id="showAddForm">
+            <i class="fas fa-plus-circle"></i> Add Meal
+        </button>
+
+        <!-- add / edit form -->
+        <div class="meal-form" id="mealForm" style="display:none;margin-top:14px">
+            <h3 id="formTitle">Add Meal</h3>
+            <input type="hidden" id="editMealId">
+            <div class="form-group">
+                <label>Meal Name</label>
+                <input type="text" id="mealNameInput" placeholder="e.g., Avocado Toast">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select id="mealTypeInput">
+                    <option value="breakfast">🌅 Breakfast</option>
+                    <option value="lunch">☀️ Lunch</option>
+                    <option value="dinner">🌙 Dinner</option>
+                    <option value="snack">🍎 Snack</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button class="btn-primary" id="saveMealBtn">Save Meal</button>
+                <button class="btn-secondary" id="cancelFormBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+const state = {
+    weekStartsOn: 'sun',          // 'sun' | 'mon'
+    currentWeekOffset: 0,         // 0 = current week
+    selectedDate: null,           // 'YYYY-MM-DD'
+    activeFilter: 'all',
+    /**
+     * meals: { 'YYYY-MM-DD': [ { id, name, type }, ... ] }
+     * Persisted to localStorage for demo purposes.
+     */
+    meals: {}
+};
+
+// ─────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────
+function uid() {
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+function toKey(date) {
+    return date.toISOString().slice(0, 10);          // 'YYYY-MM-DD'
+}
+
+/**
+ * Return the Monday or Sunday that starts the week containing `date`,
+ * offset by `weekOffset` weeks.
+ */
+function getWeekStart(weekOffset = 0) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dow = today.getDay();                      // 0=Sun … 6=Sat
+    const diff = state.weekStartsOn === 'sun' ? dow : (dow === 0 ? 6 : dow - 1);
+    const start = new Date(today);
+    start.setDate(today.getDate() - diff + weekOffset * 7);
+    return start;
+}
+
+function getWeekDays(weekOffset = 0) {
+    const start = getWeekStart(weekOffset);
+    return Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        return d;
+    });
+}
+
+const DAY_NAMES  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const FULL_DAYS  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function formatShortDate(d) {
+    return `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`;
+}
+function formatFullDate(d) {
+    return `${FULL_DAYS[d.getDay()]}, ${MONTH_NAMES[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+}
+
+function isToday(d) {
+    const t = new Date(); t.setHours(0,0,0,0);
+    return d.getTime() === t.getTime();
+}
+
+// ─────────────────────────────────────────────
+//  PERSISTENCE  (localStorage — replace with Firebase if desired)
+// ─────────────────────────────────────────────
+function saveMeals() {
+    try { localStorage.setItem('weeklyMealPlan_meals', JSON.stringify(state.meals)); } catch(_) {}
+}
+function loadMeals() {
+    try {
+        const raw = localStorage.getItem('weeklyMealPlan_meals');
+        if (raw) state.meals = JSON.parse(raw);
+    } catch(_) {}
+}
+
+// ─────────────────────────────────────────────
+//  MEAL OPERATIONS
+// ─────────────────────────────────────────────
+function getMeals(dateKey) {
+    return state.meals[dateKey] || [];
+}
+function addMeal(dateKey, meal) {
+    if (!state.meals[dateKey]) state.meals[dateKey] = [];
+    state.meals[dateKey].push(meal);
+    saveMeals();
+}
+function updateMeal(dateKey, id, updates) {
+    const list = state.meals[dateKey];
+    if (!list) return;
+    const idx = list.findIndex(m => m.id === id);
+    if (idx !== -1) { list[idx] = { ...list[idx], ...updates }; saveMeals(); }
+}
+function removeMeal(dateKey, id) {
+    if (!state.meals[dateKey]) return;
+    state.meals[dateKey] = state.meals[dateKey].filter(m => m.id !== id);
+    saveMeals();
+}
+
+// ─────────────────────────────────────────────
+//  RENDER GRID
+// ─────────────────────────────────────────────
+function renderGrid() {
+    const days = getWeekDays(state.currentWeekOffset);
+
+    // Week label
+    const first = days[0], last = days[6];
+    document.getElementById('weekLabel').textContent =
+        `${formatShortDate(first)} – ${formatShortDate(last)}, ${last.getFullYear()}`;
+
+    const grid = document.getElementById('weekGrid');
+    grid.innerHTML = '';
+
+    days.forEach(day => {
+        const key = toKey(day);
+        const meals = getMeals(key);
+
+        const card = document.createElement('div');
+        card.className = 'day-card' +
+            (isToday(day) ? ' today' : '') +
+            (state.selectedDate === key ? ' selected' : '');
+        card.dataset.date = key;
+
+        // Day header
+        const header = document.createElement('div');
+        header.className = 'day-header';
+        header.innerHTML = `
+            <span class="day-name">${DAY_NAMES[day.getDay()]}</span>
+            <span class="day-number">${day.getDate()}</span>
+        `;
+        card.appendChild(header);
+
+        // Meals
+        const mealsList = document.createElement('div');
+        mealsList.className = 'meals-list';
+        meals.slice(0, 4).forEach(meal => {
+            const chip = document.createElement('div');
+            chip.className = 'meal-chip';
+            chip.dataset.type = meal.type;
+            chip.innerHTML = `
+                <div class="meal-type-dot"></div>
+                <span class="chip-name">${escHtml(meal.name)}</span>
+                <div class="chip-actions">
+                    <button class="edit-chip"   title="Edit"   data-id="${meal.id}" data-date="${key}"><i class="fas fa-pen"></i></button>
+                    <button class="delete-chip" title="Delete" data-id="${meal.id}" data-date="${key}"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+            mealsList.appendChild(chip);
+        });
+        if (meals.length > 4) {
+            const more = document.createElement('div');
+            more.style.cssText = 'font-size:.72rem;color:var(--text-muted);text-align:center;padding:2px 0';
+            more.textContent = `+${meals.length - 4} more`;
+            mealsList.appendChild(more);
+        }
+        card.appendChild(mealsList);
+
+        // Add hint
+        const hint = document.createElement('div');
+        hint.className = 'add-meal-hint';
+        hint.innerHTML = '<i class="fas fa-plus"></i> Add meal';
+        card.appendChild(hint);
+
+        // Events
+        card.addEventListener('click', e => {
+            // Chip edit/delete buttons have their own handlers
+            if (e.target.closest('.chip-actions')) return;
+            openPanel(key, day);
+        });
+
+        // Chip quick-edit
+        card.querySelectorAll('.edit-chip').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                openPanel(btn.dataset.date, day);
+                setTimeout(() => startEdit(btn.dataset.id, btn.dataset.date), 100);
+            });
+        });
+        card.querySelectorAll('.delete-chip').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                removeMeal(btn.dataset.date, btn.dataset.id);
+                renderGrid();
+                if (state.selectedDate === btn.dataset.date) renderPanelMeals();
+            });
+        });
+
+        grid.appendChild(card);
+    });
+}
+
+// ─────────────────────────────────────────────
+//  PANEL
+// ─────────────────────────────────────────────
+function openPanel(dateKey, dayObj) {
+    state.selectedDate = dateKey;
+    state.activeFilter = 'all';
+
+    document.getElementById('panelDayTitle').textContent = FULL_DAYS[dayObj.getDay()];
+    document.getElementById('panelDayDate').textContent  = formatFullDate(dayObj);
+
+    // Reset filter tabs
+    document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.type-tab[data-filter="all"]').classList.add('active');
+
+    hideForm();
+    renderPanelMeals();
+
+    document.getElementById('sidePanel').classList.add('open');
+    document.getElementById('panelOverlay').classList.add('open');
+    renderGrid(); // re-render to show selected state
+}
+
+function closePanel() {
+    state.selectedDate = null;
+    document.getElementById('sidePanel').classList.remove('open');
+    document.getElementById('panelOverlay').classList.remove('open');
+    hideForm();
+    renderGrid();
+}
+
+function renderPanelMeals() {
+    const key = state.selectedDate;
+    if (!key) return;
+    let meals = getMeals(key);
+    if (state.activeFilter !== 'all') meals = meals.filter(m => m.type === state.activeFilter);
+
+    const container = document.getElementById('panelMeals');
+    container.innerHTML = '';
+
+    if (meals.length === 0) {
+        container.innerHTML = `
+            <div class="no-meals-msg">
+                <i class="fas fa-utensils"></i>
+                No ${state.activeFilter === 'all' ? '' : state.activeFilter + ' '}meals yet
+            </div>`;
+        return;
+    }
+
+    meals.forEach(meal => {
+        const row = document.createElement('div');
+        row.className = 'panel-meal-row';
+        row.dataset.type = meal.type;
+        row.innerHTML = `
+            <span class="type-badge">${meal.type}</span>
+            <span class="meal-name">${escHtml(meal.name)}</span>
+            <div class="row-actions">
+                <button class="btn-edit"   title="Edit"   data-id="${meal.id}"><i class="fas fa-pen"></i></button>
+                <button class="btn-delete" title="Delete" data-id="${meal.id}"><i class="fas fa-trash"></i></button>
+            </div>
+        `;
+        row.querySelector('.btn-edit').addEventListener('click', () => startEdit(meal.id, key));
+        row.querySelector('.btn-delete').addEventListener('click', () => {
+            removeMeal(key, meal.id);
+            renderPanelMeals();
+            renderGrid();
+        });
+        container.appendChild(row);
+    });
+}
+
+// ─────────────────────────────────────────────
+//  FORM
+// ─────────────────────────────────────────────
+function showForm(title = 'Add Meal') {
+    document.getElementById('formTitle').textContent = title;
+    document.getElementById('mealForm').style.display = 'block';
+    document.getElementById('mealNameInput').focus();
+}
+function hideForm() {
+    document.getElementById('mealForm').style.display = 'none';
+    document.getElementById('mealNameInput').value = '';
+    document.getElementById('mealTypeInput').value = 'breakfast';
+    document.getElementById('editMealId').value = '';
+}
+function startEdit(mealId, dateKey) {
+    const meal = getMeals(dateKey).find(m => m.id === mealId);
+    if (!meal) return;
+    document.getElementById('editMealId').value   = mealId;
+    document.getElementById('mealNameInput').value = meal.name;
+    document.getElementById('mealTypeInput').value = meal.type;
+    showForm('Edit Meal');
+}
+
+// ─────────────────────────────────────────────
+//  EVENTS
+// ─────────────────────────────────────────────
+
+// Week navigation
+document.getElementById('prevWeek').addEventListener('click', () => {
+    state.currentWeekOffset--;
+    renderGrid();
+});
+document.getElementById('nextWeek').addEventListener('click', () => {
+    state.currentWeekOffset++;
+    renderGrid();
+});
+document.getElementById('todayBtn').addEventListener('click', () => {
+    state.currentWeekOffset = 0;
+    renderGrid();
+});
+
+// Week-start toggle
+document.getElementById('weekStartToggle').addEventListener('click', e => {
+    const btn = e.target.closest('span[data-value]');
+    if (!btn) return;
+    state.weekStartsOn = btn.dataset.value;
+    document.querySelectorAll('#weekStartToggle span').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    renderGrid();
+});
+
+// Panel close
+document.getElementById('panelClose').addEventListener('click', closePanel);
+document.getElementById('panelOverlay').addEventListener('click', closePanel);
+
+// Type filter tabs
+document.getElementById('typeTabs').addEventListener('click', e => {
+    const tab = e.target.closest('.type-tab');
+    if (!tab) return;
+    state.activeFilter = tab.dataset.filter;
+    document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderPanelMeals();
+});
+
+// Show add form
+document.getElementById('showAddForm').addEventListener('click', () => {
+    document.getElementById('editMealId').value = '';
+    document.getElementById('mealNameInput').value = '';
+    document.getElementById('mealTypeInput').value = 'breakfast';
+    showForm('Add Meal');
+});
+
+// Cancel form
+document.getElementById('cancelFormBtn').addEventListener('click', hideForm);
+
+// Save meal
+document.getElementById('saveMealBtn').addEventListener('click', () => {
+    const name = document.getElementById('mealNameInput').value.trim();
+    const type = document.getElementById('mealTypeInput').value;
+    const editId = document.getElementById('editMealId').value;
+    const dateKey = state.selectedDate;
+
+    if (!name) {
+        document.getElementById('mealNameInput').style.borderColor = 'var(--primary)';
+        document.getElementById('mealNameInput').focus();
+        return;
+    }
+    document.getElementById('mealNameInput').style.borderColor = '';
+
+    if (editId) {
+        updateMeal(dateKey, editId, { name, type });
+    } else {
+        addMeal(dateKey, { id: uid(), name, type });
+    }
+
+    hideForm();
+    renderPanelMeals();
+    renderGrid();
+});
+
+// Enter key in name input
+document.getElementById('mealNameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('saveMealBtn').click();
+    if (e.key === 'Escape') hideForm();
+});
+
+// ─────────────────────────────────────────────
+//  UTILS
+// ─────────────────────────────────────────────
+function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+loadMeals();
+renderGrid();
+</script>
+</body>
+</html>

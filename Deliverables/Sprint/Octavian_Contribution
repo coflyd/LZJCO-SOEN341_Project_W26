@@ -15,3 +15,8 @@ Finalized the html file
 Created the UI for the recipes
 - Created search recipe pages (categories to search, servings, prep time, total time, tags, sort, clear all filters), linked to the edit page
 - Created edit/create recipe page (same as the search criterias, plus media link preview from the youtube/photo inspiration)
+
+13/03/2026
+Created the UI for the weekly interface
+- Implemented navigation to move to the next/previous week
+- Button to give the option to the user to choose which day the week starts (Sunday or Monday)

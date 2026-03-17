@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMajor - AI Fridge</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial;
+            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+            position: relative;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 3px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .icon-user-text {
+            width: 70px;
+            height: 45px;
+            background: #9ACD32;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .icon-user-text:hover {
+            transform: scale(1.1);
+        }
+
+        /* MAIN */
+
+        main {
+            flex: 1;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        /* Generator Card */
+
+        .generator {
+            background: #fff;
+            max-width: 700px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        textarea,
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            font-family: Poppins;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #43A047;
+            transform: scale(1.05);
+        }
+
+        /* Recipes */
+
+        .results {
+            margin-top: 40px;
+        }
+
+        .recipe {
+            background: #fff;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+
+        .recipe h3 {
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .recipe ul,
+        .recipe ol {
+            margin-left: 20px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .error-text {
+            color: #e53935;
+            font-size: 13px;
+            margin-top: -12px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div></div>
+
+    <div class="logo">
+        MEAL | MAJOR | PREP
+    </div>
+
+    <div style="display:flex; gap:10px;">
+        <a href="../HomePage.html">
+            <div class="icon-user-text">
+                Home
+            </div>
+        </a>
+    </div>
+
+</header>
+
+<main>
+
+    <h2 class="title">
+        AI Fridge Assistant
+    </h2>
+
+    <p class="subtitle">
+        Generate meals from the ingredients in your fridge
+    </p>
+
+    <div class="generator">
+
+        <label>Ingredients in your fridge</label>
+
+        <textarea id="ingredients" placeholder="chicken, rice, garlic, broccoli"></textarea>
+
+        <div id="ingredientsError" class="error-text"></div>
+
+
+        <label>Target calories per meal</label>
+
+        <input id="calories" type="number" placeholder="500">
+
+        <div id="caloriesError" class="error-text"></div>
+
+        
+
+        <button onclick="generateMeals()">
+            Generate Meals
+        </button>
+
+        <div id="apiError" class="error-text"></div>
+
+        <div id="results" class="results"></div>
+
+    </div>
+
+</main>
+
+<footer>
+    © 2026 MealMajor - All rights reserved
+</footer>
+
+<script type="module" src="../Authentification Managment/auth.js"></script>
+<script type="module" src="./apiCall.js"></script>
+
+</body>
+</html>

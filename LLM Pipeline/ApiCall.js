@@ -1,53 +1,54 @@
-async function generateMeals() {
+window.generateMeals = async function () {
 
-  const ingredients =
-    document.getElementById("ingredients").value;
+    const ingredients = document.getElementById("ingredients").value.trim();
+    const calories = document.getElementById("calories").value.trim();
 
-  const calories =
-    document.getElementById("calories").value;
+    const ingredientsError = document.getElementById("ingredientsError");
+    const caloriesError = document.getElementById("caloriesError");
+    const apiError = document.getElementById("apiError");
 
-  const prompt = `
-Generate 3 meal recipes.
+    ingredientsError.innerText = "";
+    caloriesError.innerText = "";
+    apiError.innerText = "";
 
-Ingredients available: ${ingredients}
-Target calories per meal: ${calories}
-
-Return ONLY JSON:
-
-{
- "recipes":[
-  {
-   "name":"",
-   "ingredients":[{"name":"","amount":""}],
-   "steps":[],
-   "calories":0
-  }
- ]
-}
-`;
-
-  const response = await fetch(
-    "https://openrouter.ai/api/v1/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer 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",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct",
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ]
-      })
+    if (!ingredients) {
+        ingredientsError.innerText = "Please enter ingredients.";
+        return;
     }
-  );
 
-  const data = await response.json();
+    if (!calories) {
+        caloriesError.innerText = "Please enter a calorie target.";
+        return;
+    }
 
-  console.log(data);
+    try {
 
-}
+        const response = await fetch("https://us-central1-louay-testing.cloudfunctions.net/generateRecipes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ingredients: ingredients,
+                calories: calories
+            })
+        });
+
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.error || "Request failed");
+        }
+
+        const text = result.text;
+
+        displayRecipes(text);
+
+    } catch (error) {
+
+        console.error("AI error:", error);
+        apiError.innerText = "AI request failed. Please try again.";
+
+    }
+
+};

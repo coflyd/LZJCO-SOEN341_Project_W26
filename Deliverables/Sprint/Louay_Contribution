@@ -51,3 +51,19 @@ February 25
 -Attempted to implement Firebase emulators to prevent test user pollution in CI/CD pipeline
 
 -Pivoted strategy: implemented automatic test user cleanup after test execution instead
+
+March 17
+
+-Created Firebase Cloud Functions for AI recipe generation using OpenAI API
+
+-Built fridge page with ingredient input and calorie targeting functionality
+
+-Developed frontend integration between fridge interface and Firebase functions
+
+-Implemented API call logic for generating meal recipes based on user ingredients
+
+March 18
+
+-Finished LLM pipeline
+
+-Finished AI integration

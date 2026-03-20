@@ -56,5 +56,10 @@ Write 2 acceptance tests
 -Create Recipt test
 -Edit & Delete test
 
+20/03/2026 (2 hrs)
+Added 12 unit tests for authentication
+Fixed playwright issue for CI tests not being successful
+downloaded Jest files for unit testing
+
 
 

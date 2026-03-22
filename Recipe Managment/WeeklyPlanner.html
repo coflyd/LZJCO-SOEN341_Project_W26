@@ -496,6 +496,42 @@
         .legend-dot.lunch     { background: var(--lunch); }
         .legend-dot.dinner    { background: var(--dinner); }
         .legend-dot.snack     { background: var(--snack); }
+
+        /* ── Loading & Auth States ── */
+        .loading-state, .auth-required {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .loading-state i, .auth-required i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.5;
+        }
+        .auth-required a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .auth-required a:hover {
+            text-decoration: underline;
+        }
+
+        /* Duplicate warning */
+        .duplicate-warning {
+            background: #FFF3CD;
+            border: 1px solid #FFEEBA;
+            color: #856404;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: .82rem;
+            margin-bottom: 12px;
+            display: none;
+        }
+        .duplicate-warning.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -573,6 +609,12 @@
         <div class="meal-form" id="mealForm" style="display:none;margin-top:14px">
             <h3 id="formTitle">Add Meal</h3>
             <input type="hidden" id="editMealId">
+            
+            <!-- Duplicate warning -->
+            <div class="duplicate-warning" id="duplicateWarning">
+                <i class="fas fa-exclamation-triangle"></i> This meal already exists for this day and type!
+            </div>
+            
             <div class="form-group">
                 <label>Meal Name</label>
                 <input type="text" id="mealNameInput" placeholder="e.g., Avocado Toast">
@@ -594,7 +636,28 @@
     </div>
 </div>
 
-<script>
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, get, set, update, remove, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+// Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyDSozt6vIF6RrLQei26G-teUd2cPSTdPIQ",
+    authDomain: "louay-testing.firebaseapp.com",
+    databaseURL: "https://louay-testing-default-rtdb.firebaseio.com",
+    projectId: "louay-testing",
+    storageBucket: "louay-testing.firebasestorage.app",
+    messagingSenderId: "123255076909",
+    appId: "1:123255076909:web:c2ba7c881ed4588b7ba0a4"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth(app);
+
 // ─────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────
@@ -603,11 +666,8 @@ const state = {
     currentWeekOffset: 0,         // 0 = current week
     selectedDate: null,           // 'YYYY-MM-DD'
     activeFilter: 'all',
-    /**
-     * meals: { 'YYYY-MM-DD': [ { id, name, type }, ... ] }
-     * Persisted to localStorage for demo purposes.
-     */
-    meals: {}
+    currentUser: null,            // Firebase user
+    meals: {}                     // { 'YYYY-MM-DD': [ { id, name, type }, ... ] }
 };
 
 // ─────────────────────────────────────────────
@@ -621,10 +681,16 @@ function toKey(date) {
     return date.toISOString().slice(0, 10);          // 'YYYY-MM-DD'
 }
 
-/**
- * Return the Monday or Sunday that starts the week containing `date`,
- * offset by `weekOffset` weeks.
- */
+// Get week ID for Firebase path (e.g., "2026-W12")
+function getWeekId(weekOffset = 0) {
+    const start = getWeekStart(weekOffset);
+    const year = start.getFullYear();
+    const firstJan = new Date(year, 0, 1);
+    const days = Math.floor((start - firstJan) / (24 * 60 * 60 * 1000));
+    const weekNum = Math.ceil((days + firstJan.getDay() + 1) / 7);
+    return `${year}-W${String(weekNum).padStart(2, '0')}`;
+}
+
 function getWeekStart(weekOffset = 0) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -660,17 +726,97 @@ function isToday(d) {
     return d.getTime() === t.getTime();
 }
 
-// ─────────────────────────────────────────────
-//  PERSISTENCE  (localStorage — replace with Firebase if desired)
-// ─────────────────────────────────────────────
-function saveMeals() {
-    try { localStorage.setItem('weeklyMealPlan_meals', JSON.stringify(state.meals)); } catch(_) {}
+function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function loadMeals() {
+
+// ─────────────────────────────────────────────
+//  FIREBASE PERSISTENCE
+// ─────────────────────────────────────────────
+
+// Get Firebase path for user's weekly planner
+function getFirebasePath(weekId) {
+    if (!state.currentUser) return null;
+    return `users/${state.currentUser.uid}/WeeklyPlanner/${weekId}`;
+}
+
+// Save meals to Firebase
+async function saveMealsToFirebase() {
+    if (!state.currentUser) return;
+    
+    const weekId = getWeekId(state.currentWeekOffset);
+    const path = getFirebasePath(weekId);
+    
     try {
-        const raw = localStorage.getItem('weeklyMealPlan_meals');
-        if (raw) state.meals = JSON.parse(raw);
-    } catch(_) {}
+        // Convert meals object to Firebase-friendly structure
+        const weekMeals = {};
+        Object.keys(state.meals).forEach(dateKey => {
+            const dayName = getDayNameFromDate(dateKey);
+            if (dayName) {
+                weekMeals[dayName] = {};
+                state.meals[dateKey].forEach(meal => {
+                    weekMeals[dayName][meal.id] = {
+                        name: meal.name,
+                        type: meal.type
+                    };
+                });
+            }
+        });
+        
+        await set(ref(database, path), { days: weekMeals });
+        console.log('Meals saved to Firebase:', path);
+    } catch (error) {
+        console.error('Error saving meals to Firebase:', error);
+    }
+}
+
+// Load meals from Firebase
+async function loadMealsFromFirebase() {
+    if (!state.currentUser) return;
+    
+    const weekId = getWeekId(state.currentWeekOffset);
+    const path = getFirebasePath(weekId);
+    
+    try {
+        const snapshot = await get(ref(database, path));
+        state.meals = {};
+        
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const weekDays = getWeekDays(state.currentWeekOffset);
+            
+            // Convert Firebase structure back to state.meals format
+            if (data.days) {
+                Object.keys(data.days).forEach(dayName => {
+                    const dayIndex = FULL_DAYS.map(d => d.toLowerCase()).indexOf(dayName.toLowerCase());
+                    if (dayIndex !== -1) {
+                        const dateKey = toKey(weekDays[dayIndex]);
+                        state.meals[dateKey] = [];
+                        
+                        Object.keys(data.days[dayName]).forEach(mealId => {
+                            const meal = data.days[dayName][mealId];
+                            state.meals[dateKey].push({
+                                id: mealId,
+                                name: meal.name,
+                                type: meal.type
+                            });
+                        });
+                    }
+                });
+            }
+        }
+        
+        console.log('Meals loaded from Firebase:', path);
+        renderGrid();
+    } catch (error) {
+        console.error('Error loading meals from Firebase:', error);
+    }
+}
+
+// Get day name from date key
+function getDayNameFromDate(dateKey) {
+    const date = new Date(dateKey + 'T00:00:00');
+    return FULL_DAYS[date.getDay()].toLowerCase();
 }
 
 // ─────────────────────────────────────────────
@@ -679,48 +825,87 @@ function loadMeals() {
 function getMeals(dateKey) {
     return state.meals[dateKey] || [];
 }
-function addMeal(dateKey, meal) {
+
+// Check for duplicate meal (same name and type on same day)
+function isDuplicateMeal(dateKey, name, type, excludeId = null) {
+    const meals = getMeals(dateKey);
+    return meals.some(meal => 
+        meal.name.toLowerCase() === name.toLowerCase() && 
+        meal.type === type && 
+        meal.id !== excludeId
+    );
+}
+
+// Add meal with duplicate check
+async function addMeal(dateKey, meal) {
+    // Check for duplicates
+    if (isDuplicateMeal(dateKey, meal.name, meal.type)) {
+        document.getElementById('duplicateWarning').classList.add('show');
+        return false;
+    }
+    
+    document.getElementById('duplicateWarning').classList.remove('show');
+    
     if (!state.meals[dateKey]) state.meals[dateKey] = [];
     state.meals[dateKey].push(meal);
-    saveMeals();
+    
+    await saveMealsToFirebase();
+    return true;
 }
-function updateMeal(dateKey, id, updates) {
+
+// Update meal
+async function updateMeal(dateKey, id, updates) {
     const list = state.meals[dateKey];
-    if (!list) return;
+    if (!list) return false;
+    
+    // Check for duplicates (excluding current meal)
+    if (isDuplicateMeal(dateKey, updates.name, updates.type, id)) {
+        document.getElementById('duplicateWarning').classList.add('show');
+        return false;
+    }
+    
+    document.getElementById('duplicateWarning').classList.remove('show');
+    
     const idx = list.findIndex(m => m.id === id);
-    if (idx !== -1) { list[idx] = { ...list[idx], ...updates }; saveMeals(); }
+    if (idx !== -1) {
+        list[idx] = { ...list[idx], ...updates };
+        await saveMealsToFirebase();
+        return true;
+    }
+    return false;
 }
-function removeMeal(dateKey, id) {
+
+// Remove meal
+async function removeMeal(dateKey, id) {
     if (!state.meals[dateKey]) return;
     state.meals[dateKey] = state.meals[dateKey].filter(m => m.id !== id);
-    saveMeals();
+    await saveMealsToFirebase();
 }
 
 // ─────────────────────────────────────────────
 //  RENDER GRID
 // ─────────────────────────────────────────────
 function renderGrid() {
-    const days = getWeekDays(state.currentWeekOffset);
-
-    // Week label
-    const first = days[0], last = days[6];
-    document.getElementById('weekLabel').textContent =
-        `${formatShortDate(first)} – ${formatShortDate(last)}, ${last.getFullYear()}`;
-
     const grid = document.getElementById('weekGrid');
     grid.innerHTML = '';
 
+    const days = getWeekDays(state.currentWeekOffset);
+    const start = days[0], end = days[6];
+
+    // Update week label
+    document.getElementById('weekLabel').textContent =
+        `${formatShortDate(start)} – ${formatShortDate(end)}`;
+
     days.forEach(day => {
         const key = toKey(day);
-        const meals = getMeals(key);
+        const meals = getMeals(key).slice(0, 4); // show max 4 in grid
 
         const card = document.createElement('div');
-        card.className = 'day-card' +
-            (isToday(day) ? ' today' : '') +
-            (state.selectedDate === key ? ' selected' : '');
-        card.dataset.date = key;
+        card.className = 'day-card';
+        if (isToday(day)) card.classList.add('today');
+        if (state.selectedDate === key) card.classList.add('selected');
 
-        // Day header
+        // Header
         const header = document.createElement('div');
         header.className = 'day-header';
         header.innerHTML = `
@@ -729,10 +914,10 @@ function renderGrid() {
         `;
         card.appendChild(header);
 
-        // Meals
+        // Meals list
         const mealsList = document.createElement('div');
         mealsList.className = 'meals-list';
-        meals.slice(0, 4).forEach(meal => {
+        meals.forEach(meal => {
             const chip = document.createElement('div');
             chip.className = 'meal-chip';
             chip.dataset.type = meal.type;
@@ -746,10 +931,10 @@ function renderGrid() {
             `;
             mealsList.appendChild(chip);
         });
-        if (meals.length > 4) {
+        if (getMeals(key).length > 4) {
             const more = document.createElement('div');
             more.style.cssText = 'font-size:.72rem;color:var(--text-muted);text-align:center;padding:2px 0';
-            more.textContent = `+${meals.length - 4} more`;
+            more.textContent = `+${getMeals(key).length - 4} more`;
             mealsList.appendChild(more);
         }
         card.appendChild(mealsList);
@@ -775,10 +960,12 @@ function renderGrid() {
                 setTimeout(() => startEdit(btn.dataset.id, btn.dataset.date), 100);
             });
         });
+        
+        // Chip quick-delete
         card.querySelectorAll('.delete-chip').forEach(btn => {
-            btn.addEventListener('click', e => {
+            btn.addEventListener('click', async e => {
                 e.stopPropagation();
-                removeMeal(btn.dataset.date, btn.dataset.id);
+                await removeMeal(btn.dataset.date, btn.dataset.id);
                 renderGrid();
                 if (state.selectedDate === btn.dataset.date) renderPanelMeals();
             });
@@ -848,9 +1035,12 @@ function renderPanelMeals() {
                 <button class="btn-delete" title="Delete" data-id="${meal.id}"><i class="fas fa-trash"></i></button>
             </div>
         `;
+        // Edit button
         row.querySelector('.btn-edit').addEventListener('click', () => startEdit(meal.id, key));
-        row.querySelector('.btn-delete').addEventListener('click', () => {
-            removeMeal(key, meal.id);
+        
+        // Delete button
+        row.querySelector('.btn-delete').addEventListener('click', async () => {
+            await removeMeal(key, meal.id);
             renderPanelMeals();
             renderGrid();
         });
@@ -864,6 +1054,7 @@ function renderPanelMeals() {
 function showForm(title = 'Add Meal') {
     document.getElementById('formTitle').textContent = title;
     document.getElementById('mealForm').style.display = 'block';
+    document.getElementById('duplicateWarning').classList.remove('show');
     document.getElementById('mealNameInput').focus();
 }
 function hideForm() {
@@ -871,6 +1062,7 @@ function hideForm() {
     document.getElementById('mealNameInput').value = '';
     document.getElementById('mealTypeInput').value = 'breakfast';
     document.getElementById('editMealId').value = '';
+    document.getElementById('duplicateWarning').classList.remove('show');
 }
 function startEdit(mealId, dateKey) {
     const meal = getMeals(dateKey).find(m => m.id === mealId);
@@ -886,27 +1078,27 @@ function startEdit(mealId, dateKey) {
 // ─────────────────────────────────────────────
 
 // Week navigation
-document.getElementById('prevWeek').addEventListener('click', () => {
+document.getElementById('prevWeek').addEventListener('click', async () => {
     state.currentWeekOffset--;
-    renderGrid();
+    await loadMealsFromFirebase();
 });
-document.getElementById('nextWeek').addEventListener('click', () => {
+document.getElementById('nextWeek').addEventListener('click', async () => {
     state.currentWeekOffset++;
-    renderGrid();
+    await loadMealsFromFirebase();
 });
-document.getElementById('todayBtn').addEventListener('click', () => {
+document.getElementById('todayBtn').addEventListener('click', async () => {
     state.currentWeekOffset = 0;
-    renderGrid();
+    await loadMealsFromFirebase();
 });
 
 // Week-start toggle
-document.getElementById('weekStartToggle').addEventListener('click', e => {
+document.getElementById('weekStartToggle').addEventListener('click', async e => {
     const btn = e.target.closest('span[data-value]');
     if (!btn) return;
     state.weekStartsOn = btn.dataset.value;
     document.querySelectorAll('#weekStartToggle span').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
-    renderGrid();
+    await loadMealsFromFirebase();
 });
 
 // Panel close
@@ -934,8 +1126,8 @@ document.getElementById('showAddForm').addEventListener('click', () => {
 // Cancel form
 document.getElementById('cancelFormBtn').addEventListener('click', hideForm);
 
-// Save meal
-document.getElementById('saveMealBtn').addEventListener('click', () => {
+// Save meal (with duplicate prevention)
+document.getElementById('saveMealBtn').addEventListener('click', async () => {
     const name = document.getElementById('mealNameInput').value.trim();
     const type = document.getElementById('mealTypeInput').value;
     const editId = document.getElementById('editMealId').value;
@@ -948,15 +1140,18 @@ document.getElementById('saveMealBtn').addEventListener('click', () => {
     }
     document.getElementById('mealNameInput').style.borderColor = '';
 
+    let success;
     if (editId) {
-        updateMeal(dateKey, editId, { name, type });
+        success = await updateMeal(dateKey, editId, { name, type });
     } else {
-        addMeal(dateKey, { id: uid(), name, type });
+        success = await addMeal(dateKey, { id: uid(), name, type });
     }
 
-    hideForm();
-    renderPanelMeals();
-    renderGrid();
+    if (success) {
+        hideForm();
+        renderPanelMeals();
+        renderGrid();
+    }
 });
 
 // Enter key in name input
@@ -966,16 +1161,28 @@ document.getElementById('mealNameInput').addEventListener('keydown', e => {
 });
 
 // ─────────────────────────────────────────────
-//  UTILS
+//  AUTH & INIT
 // ─────────────────────────────────────────────
-function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        state.currentUser = user;
+        console.log('User logged in:', user.uid);
+        await loadMealsFromFirebase();
+    } else {
+        state.currentUser = null;
+        state.meals = {};
+        console.log('User not logged in');
+        // Show auth required message or redirect
+        document.getElementById('weekGrid').innerHTML = `
+            <div class="auth-required" style="grid-column: 1 / -1;">
+                <i class="fas fa-user-lock"></i>
+                <p>Please <a href="../index.html">log in</a> to access your meal planner.</p>
+            </div>
+        `;
+    }
+});
 
-// ─────────────────────────────────────────────
-//  INIT
-// ─────────────────────────────────────────────
-loadMeals();
+// Initial render (will be updated after auth check)
 renderGrid();
 </script>
 </body>

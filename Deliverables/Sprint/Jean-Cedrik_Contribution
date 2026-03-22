@@ -30,3 +30,9 @@ Tasks completed:
     - Add filters: servings, prep time, total time, sort by
     - Add recipe detail modal with ingredients, steps, notes
     - Create searchRecipes.js and update SearchRecipes.html
+22/03/2026
+    - Add Firebase integration for Weekly Planner
+    - Save meals under user's node in database
+    - Edit meals functionality
+    - Delete meals functionality
+    - Prevent duplicate meals for same day and type

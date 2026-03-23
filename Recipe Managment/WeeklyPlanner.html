@@ -104,6 +104,10 @@
                     <option value="snack">Snack</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label>Calories</label>
+                <input type="number" id="mealCaloriesInput" placeholder="200" value="200" min="0">
+            </div>
             <div class="form-actions">
                 <button class="btn-primary" id="saveMealBtn">Save Meal</button>
                 <button class="btn-secondary" id="cancelFormBtn">Cancel</button>
@@ -143,7 +147,8 @@ const state = {
     selectedDate: null,           // 'YYYY-MM-DD'
     activeFilter: 'all',
     currentUser: null,            // Firebase user
-    meals: {}                     // { 'YYYY-MM-DD': [ { id, name, type }, ... ] }
+    meals: {},                     // { 'YYYY-MM-DD': [ { id, name, type, calories }, ... ] }
+    targetCalories: 0
 };
 
 // ─────────────────────────────────────────────
@@ -233,7 +238,8 @@ async function saveMealsToFirebase() {
                 state.meals[dateKey].forEach(meal => {
                     weekMeals[dayName][meal.id] = {
                         name: meal.name,
-                        type: meal.type
+                        type: meal.type,
+                        calories: meal.calories || 200
                     };
                 });
             }
@@ -274,7 +280,8 @@ async function loadMealsFromFirebase() {
                             state.meals[dateKey].push({
                                 id: mealId,
                                 name: meal.name,
-                                type: meal.type
+                                type: meal.type,
+                                calories: meal.calories || 200
                             });
                         });
                     }
@@ -368,18 +375,20 @@ function renderGrid() {
     const days = getWeekDays(state.currentWeekOffset);
     const start = days[0], end = days[6];
 
-    // Update week label
     document.getElementById('weekLabel').textContent =
         `${formatShortDate(start)} – ${formatShortDate(end)}`;
 
     days.forEach(day => {
         const key = toKey(day);
-        const meals = getMeals(key).slice(0, 4); // show max 4 in grid
+        const meals = getMeals(key).slice(0, 4);
+        const totalCal = getTotalCalories(key);
+        const isOverLimit = state.targetCalories > 0 && totalCal > state.targetCalories;
 
         const card = document.createElement('div');
         card.className = 'day-card';
         if (isToday(day)) card.classList.add('today');
         if (state.selectedDate === key) card.classList.add('selected');
+        if (isOverLimit) card.classList.add('over-limit');
 
         // Header
         const header = document.createElement('div');
@@ -423,12 +432,10 @@ function renderGrid() {
 
         // Events
         card.addEventListener('click', e => {
-            // Chip edit/delete buttons have their own handlers
             if (e.target.closest('.chip-actions')) return;
             openPanel(key, day);
         });
 
-        // Chip quick-edit
         card.querySelectorAll('.edit-chip').forEach(btn => {
             btn.addEventListener('click', e => {
                 e.stopPropagation();
@@ -436,8 +443,7 @@ function renderGrid() {
                 setTimeout(() => startEdit(btn.dataset.id, btn.dataset.date), 100);
             });
         });
-        
-        // Chip quick-delete
+
         card.querySelectorAll('.delete-chip').forEach(btn => {
             btn.addEventListener('click', async e => {
                 e.stopPropagation();
@@ -450,7 +456,6 @@ function renderGrid() {
         grid.appendChild(card);
     });
 }
-
 // ─────────────────────────────────────────────
 //  PANEL
 // ─────────────────────────────────────────────
@@ -483,6 +488,7 @@ function closePanel() {
 
 function renderPanelMeals() {
     const key = state.selectedDate;
+    const totalCalories = getTotalCalories(key);
     if (!key) return;
     let meals = getMeals(key);
     if (state.activeFilter !== 'all') meals = meals.filter(m => m.type === state.activeFilter);
@@ -490,8 +496,25 @@ function renderPanelMeals() {
     const container = document.getElementById('panelMeals');
     container.innerHTML = '';
 
+    const overLimit = state.targetCalories > 0 && totalCalories > state.targetCalories;
+    const totalBar = document.createElement('div');
+    totalBar.style.cssText = `
+        background: ${overLimit ? '#fdecea' : '#f1f8e9'};
+        color: ${overLimit ? '#b71c1c' : '#33691e'};
+        padding: 8px 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-weight: 600;
+        border: ${overLimit ? '1.5px solid #ef9a9a' : '1.5px solid #c5e1a5'};
+    `;
+    totalBar.innerHTML = overLimit
+        ? `<i class="fas fa-exclamation-triangle" style="margin-right:6px"></i>Over limit! ${totalCalories} / ${state.targetCalories} cal`
+        : `Total: ${totalCalories} cal${state.targetCalories > 0 ? ' / ' + state.targetCalories + ' cal' : ''}`;
+    container.appendChild(totalBar);
+
     if (meals.length === 0) {
-        container.innerHTML = `
+        container.innerHTML += `
             <div class="no-meals-msg">
                 <i class="fas fa-utensils"></i>
                 No ${state.activeFilter === 'all' ? '' : state.activeFilter + ' '}meals yet
@@ -505,16 +528,13 @@ function renderPanelMeals() {
         row.dataset.type = meal.type;
         row.innerHTML = `
             <span class="type-badge">${meal.type}</span>
-            <span class="meal-name">${escHtml(meal.name)}</span>
+            <span class="meal-name">${escHtml(meal.name)} (${meal.calories || 200} cal)</span>
             <div class="row-actions">
                 <button class="btn-edit"   title="Edit"   data-id="${meal.id}"><i class="fas fa-pen"></i></button>
                 <button class="btn-delete" title="Delete" data-id="${meal.id}"><i class="fas fa-trash"></i></button>
             </div>
         `;
-        // Edit button
         row.querySelector('.btn-edit').addEventListener('click', () => startEdit(meal.id, key));
-        
-        // Delete button
         row.querySelector('.btn-delete').addEventListener('click', async () => {
             await removeMeal(key, meal.id);
             renderPanelMeals();
@@ -523,7 +543,6 @@ function renderPanelMeals() {
         container.appendChild(row);
     });
 }
-
 // ─────────────────────────────────────────────
 //  FORM
 // ─────────────────────────────────────────────
@@ -539,6 +558,7 @@ function hideForm() {
     document.getElementById('mealTypeInput').value = 'breakfast';
     document.getElementById('editMealId').value = '';
     document.getElementById('duplicateWarning').classList.remove('show');
+    document.getElementById('mealCaloriesInput').value = 200;
 }
 function startEdit(mealId, dateKey) {
     const meal = getMeals(dateKey).find(m => m.id === mealId);
@@ -546,6 +566,7 @@ function startEdit(mealId, dateKey) {
     document.getElementById('editMealId').value   = mealId;
     document.getElementById('mealNameInput').value = meal.name;
     document.getElementById('mealTypeInput').value = meal.type;
+    document.getElementById('mealCaloriesInput').value = meal.calories || 200;
     showForm('Edit Meal');
 }
 
@@ -606,6 +627,8 @@ document.getElementById('cancelFormBtn').addEventListener('click', hideForm);
 document.getElementById('saveMealBtn').addEventListener('click', async () => {
     const name = document.getElementById('mealNameInput').value.trim();
     const type = document.getElementById('mealTypeInput').value;
+    const caloriesInput = document.getElementById('mealCaloriesInput').value;
+    const calories = caloriesInput ? parseInt(caloriesInput) : 200;
     const editId = document.getElementById('editMealId').value;
     const dateKey = state.selectedDate;
 
@@ -618,9 +641,9 @@ document.getElementById('saveMealBtn').addEventListener('click', async () => {
 
     let success;
     if (editId) {
-        success = await updateMeal(dateKey, editId, { name, type });
+        success = await updateMeal(dateKey, editId, { name, type, calories });
     } else {
-        success = await addMeal(dateKey, { id: uid(), name, type });
+        success = await addMeal(dateKey, { id: uid(), name, type, calories });
     }
 
     if (success) {
@@ -643,6 +666,10 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
         state.currentUser = user;
         console.log('User logged in:', user.uid);
+        const snapshot = await get(ref(database, `users/${user.uid}`));
+        if (snapshot.exists()) {
+            state.targetCalories = snapshot.val().targetCalories || 0;
+        }
         await loadMealsFromFirebase();
     } else {
         state.currentUser = null;
@@ -702,7 +729,12 @@ async function reuseLastWeek() {
                 );
                 if (alreadyExists) { skippedCount++; return; }
                 if (!state.meals[dateKey]) state.meals[dateKey] = [];
-                state.meals[dateKey].push({ id: uid(), name: meal.name, type: meal.type });
+                state.meals[dateKey].push({
+                    id: uid(),
+                    name: meal.name,
+                    type: meal.type,
+                    calories: meal.calories || 200
+                });
                 addedCount++;
             });
         });
@@ -732,6 +764,11 @@ document.getElementById('reuseLastWeekBtn').addEventListener('click', reuseLastW
 
 // Initial render (will be updated after auth check)
 renderGrid();
+
+function getTotalCalories(dateKey) {
+    return (state.meals[dateKey] || [])
+        .reduce((sum, m) => sum + (m.calories || 200), 0);
+}
 </script>
 
 <div class="reuse-toast" id="reuseToast"></div>

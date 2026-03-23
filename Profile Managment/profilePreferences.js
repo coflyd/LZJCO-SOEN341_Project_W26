@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = snapshot.val();
 
         nameInput.value = data.name || "";
+        document.getElementById("targetCalories").value = data.targetCalories || "";
 
         const allergies = data.preferences?.allergies || [];
         const dietPreferences = data.preferences?.dietPreferences || [];
@@ -97,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         await update(ref(database, `users/${user.uid}`), {
           name,
+          targetCalories: parseInt(document.getElementById("targetCalories").value) || 0,
           preferences: { allergies, dietPreferences }
         });
 

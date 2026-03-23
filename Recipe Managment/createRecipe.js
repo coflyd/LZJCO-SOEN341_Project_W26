@@ -1,7 +1,7 @@
 import { getDatabase, ref, push, set, get, update } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-import { getAuth } from 
+import { getAuth, onAuthStateChanged } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 import { initializeApp } from 
@@ -255,10 +255,14 @@ document.getElementById('save-btn').addEventListener('click', async function() {
         return;
     }
 
-    const user = auth.currentUser;
+    // Wait for Firebase Auth to resolve (currentUser can be null on first load)
+    const user = await new Promise((resolve) => {
+        if (auth.currentUser) { resolve(auth.currentUser); return; }
+        const unsubscribe = auth.onAuthStateChanged((u) => { unsubscribe(); resolve(u); });
+    });
 
     if (!user) {
-        showError('You must be logged in to save recipes.');
+        showError("You must be logged in to save recipes.");
         return;
     }
 
@@ -343,4 +347,3 @@ async function loadRecipeForEditing(id) {
 if (editId) {
     loadRecipeForEditing(editId);
 }
-

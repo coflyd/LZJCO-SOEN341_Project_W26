@@ -10,7 +10,11 @@ For the next Sprint : 27 february
 Team : LZJCO
 
 Constance Fleury
+
 Jean-Cedrik Dorelas
+
 Louay Dridi 
+
 Octavian Mihai
+
 Zaree Choudhry Hameed

@@ -9,12 +9,8 @@ For the next Sprint : 27 february
 
 Team : LZJCO
 
-Constance Fleury (Frontend) - Prototype/Homepage
-
-Jean-Cedrik Dorelas (Backend) - JavaScript for Homepage/Login/Register + Database
-
-Louay Dridi (Backend & Frontend) - Team Leader
-
-Octavian Mihai (Backend) - Database
-
-Zaree Choudhry Hameed (Frontend) - Login/Register
+Constance Fleury
+Jean-Cedrik Dorelas
+Louay Dridi 
+Octavian Mihai
+Zaree Choudhry Hameed

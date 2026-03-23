@@ -571,3 +571,11 @@
     transform: translateX(-50%) translateY(0);
     opacity: 1;
 }
+
+.day-card.over-limit {
+    background: #fdecea;
+    border-color: #ef9a9a;
+}
+.day-card.over-limit .day-number {
+    color: #b71c1c;
+}

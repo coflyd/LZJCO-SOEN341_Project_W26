@@ -58,5 +58,13 @@
     -> HomePage, a few visual tweaks changed the colours of the Profile and Logout buttons. 
     Converted the hamburger icon into a proper animated drop-down menu with five navigation links: Profile, Inspirations, Your Schedule, Shopping List, Your Fridge. 
     The ‘Shopping List’ tab has been renamed ‘Your Schedule’ and now links to the Weekly Planner. 
-    A ‘Shopping List’ entry has been retained in the menu.
+    A ‘Shopping List’ entry has been retained in the menu
 
+24/03/2026 (3h35)
+    -> Fixed WeeklyPlanner nav dropdown and header positioning
+    -> Applied site visual identity to WeeklyPlanner : poppins, green background, orange footer
+    -> Added hamburger nav menu to each page and define the navigation and fix the headers if necessarly
+    HomePage, SearchRecipes, fridge, ProfileManagement, WeeklyMealPlan
+    Logout correctly wired to auth.js window.logout()
+
+    => ADD space for Shooping list Idea for additionnal features

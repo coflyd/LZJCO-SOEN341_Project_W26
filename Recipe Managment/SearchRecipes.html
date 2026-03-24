@@ -9,98 +9,132 @@
 
     <style>
         /* ── Header ── */
-        header {
-            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
-            position: relative;
+        header{
+            background:linear-gradient(135deg,#FF6B35 0%,#F4511E 100%);
+            padding:20px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            width:100%;
+            box-shadow:0 4px 15px rgba(255,107,53,.3);
+            position:relative;
         }
-        .logo {
-            font-family: 'Poppins', Arial, sans-serif;
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: 3px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+        .logo{
+            font-family:'Poppins',sans-serif;
+            font-size:28px;font-weight:800;
+            color:#fff;
+            letter-spacing:3px;
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%)
         }
-        /* ── Hamburger ── */
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 5px;
-            position: relative;
-            z-index: 1001;
-            flex-shrink: 0;
+        .hamburger{
+            display:flex;
+            flex-direction:column;
+            gap:5px;
+            cursor:pointer;
+            padding:5px;
+            position:relative;
+            z-index:1001;
+            flex-shrink:0
         }
-        .hamburger div {
-            width: 28px;
-            height: 3px;
-            background: #fff;
-            border-radius: 2px;
-            transition: all 0.3s ease;
+        .hamburger div{
+            width:28px;
+            height:3px;
+            background:#fff;
+            border-radius:2px;
+            transition:all .3s
         }
-        .hamburger.open div:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.open div:nth-child(2) { opacity: 0; }
-        .hamburger.open div:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        /* ── Dropdown ── */
-        .nav-dropdown {
-            position: absolute;
-            top: 80px;
-            left: 30px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-            overflow: hidden;
-            z-index: 1000;
-            min-width: 220px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-10px);
-            transition: opacity 0.25s ease, transform 0.25s ease;
+        .hamburger.open div:nth-child(1){
+            transform:translateY(8px) rotate(45deg)
         }
-        .nav-dropdown.open { opacity: 1; pointer-events: all; transform: translateY(0); }
-        .nav-dropdown a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 22px;
-            text-decoration: none;
-            color: #333;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.15s;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
+        .hamburger.open div:nth-child(2){
+            opacity:0
         }
-        .nav-dropdown a:last-child { border-bottom: none; }
-        .nav-dropdown a:hover { background: #FFF3EE; color: #FF6B35; }
-        .nav-dropdown a .nav-icon {
-            width: 32px; height: 32px;
-            border-radius: 8px;
-            background: #FFF3EE;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
+        .hamburger.open div:nth-child(3){
+            transform:translateY(-8px) rotate(-45deg)
         }
-        .nav-dropdown a:hover .nav-icon { background: #FFE0D0; }
-        .nav-dropdown a .nav-icon svg { width: 16px; height: 16px; fill: #FF6B35; }
-        .nav-dropdown a.nav-profile .nav-icon { background: #F0FAE0; }
-        .nav-dropdown a.nav-profile:hover { background: #F0FAE0; color: #6aaa00; }
-        .nav-dropdown a.nav-profile .nav-icon svg { fill: #9ACD32; }
-        .nav-dropdown a.nav-logout .nav-icon { background: #FFF0F0; }
-        .nav-dropdown a.nav-logout:hover { background: #FFF0F0; color: #E53935; }
-        .nav-dropdown a.nav-logout .nav-icon svg { fill: #E53935; }
-        .nav-overlay { display: none; position: fixed; inset: 0; z-index: 999; }
-        .nav-overlay.open { display: block; }
+        .nav-dropdown{
+            position:absolute;
+            top:80px;
+            left:30px;
+            background:#fff;
+            border-radius:16px;
+            box-shadow:0 8px 32px rgba(0,0,0,.18);
+            overflow:hidden;
+            z-index:1000;
+            min-width:220px;
+            opacity:0;
+            pointer-events:none;
+            transform:translateY(-10px);
+            transition:opacity .25s,transform .25s
+        }
+        .nav-dropdown.open{
+            opacity:1;pointer-events:all;
+            transform:translateY(0)
+        }
+        .nav-dropdown a{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:14px 22px;
+            text-decoration:none;
+            color:#333;
+            font-family:'Poppins',sans-serif;
+            font-size:14px;
+            font-weight:600;
+            transition:background .15s;
+            border-bottom:1px solid #f0f0f0;cursor:pointer
+        }
+        .nav-dropdown a:last-child{
+            border-bottom:none
+        }
+        .nav-dropdown a:hover{
+            background:#FFF3EE;color:#FF6B35
+        }
+        .nav-dropdown a .nav-icon{
+            width:32px;
+            height:32px;
+            border-radius:8px;
+            background:#FFF3EE;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0
+        }
+        .nav-dropdown a:hover .nav-icon{
+            background:#FFE0D0
+        }
+        .nav-dropdown a .nav-icon svg{
+            width:16px;height:16px;fill:#FF6B35
+        }
+        .nav-dropdown a.nav-profile .nav-icon{
+            background:#F0FAE0
+        }
+        .nav-dropdown a.nav-profile:hover{
+            background:#F0FAE0;color:#6aaa00
+        }
+        .nav-dropdown a.nav-profile .nav-icon svg{
+            fill:#9ACD32
+        }
+        .nav-dropdown a.nav-logout .nav-icon{
+            background:#FFF0F0
+        }
+        .nav-dropdown a.nav-logout:hover{
+            background:#FFF0F0;
+            color:#E53935
+        }
+        .nav-dropdown a.nav-logout .nav-icon svg{
+            fill:#E53935
+        }
+        .nav-overlay{
+            display:none;
+            position:fixed;
+            inset:0;z-index:999
+        }
+        .nav-overlay.open{
+            display:block
+        }
 
 
         /* Body */
@@ -616,46 +650,31 @@
 <body>
     <!-- Header -->
     <header>
-    <!-- Hamburger -->
-    <div class="hamburger" id="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-
-    <!-- Dropdown -->
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
     <div class="nav-overlay" id="navOverlay"></div>
     <nav class="nav-dropdown" id="navDropdown">
-        <a href="HomePage.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>
-            Home Page
+        <a href="../HomePage.html">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>Home Page
         </a>
-        <a href="Profile Managment/ProfileManagement.html" class="nav-profile">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-            Profile
+        <a href="../Profile Managment/ProfileManagement.html" class="nav-profile">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>Profile
         </a>
-        <a href="Recipe Managment/SearchRecipes.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg></div>
-            Inspirations
+        <a href="./SearchRecipes.html">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg></div>Inspirations
         </a>
-        <a href="Recipe Managment/WeeklyPlanner.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></div>
-            Your Schedule
+        <a href="./WeeklyPlanner.html">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></div>Your Schedule
         </a>
-        <a href="ShoppingList/ShoppingList.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
-            Shopping List
+        <a href="../ShoppingList/ShoppingList.html">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>Shopping List
         </a>
-        <a href="LLM Pipeline/fridge.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/></svg></div>
-            Your Fridge
+        <a href="../LLM Pipeline/fridge.html">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/></svg></div>Your Fridge
         </a>
         <a class="nav-logout" onclick="logout()">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
-            Logout
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>Logout
         </a>
     </nav>
-
         <div class="logo">MEAL | MAJOR | PREP</div>
         <div style="width:48px"></div>
     </header>
@@ -765,19 +784,11 @@
     <!-- Load search recipes script -->
     <script type="module" src="./searchRecipes.js"></script>
     <script>
-        const hamburger   = document.getElementById('hamburger');
-        const navDropdown = document.getElementById('navDropdown');
-        const navOverlay  = document.getElementById('navOverlay');
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('open');
-            navDropdown.classList.toggle('open');
-            navOverlay.classList.toggle('open');
-        });
-        navOverlay.addEventListener('click', () => {
-            hamburger.classList.remove('open');
-            navDropdown.classList.remove('open');
-            navOverlay.classList.remove('open');
-        });
+        const hamburger=document.getElementById('hamburger');
+        const navDropdown=document.getElementById('navDropdown');
+        const navOverlay=document.getElementById('navOverlay');
+        hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');navDropdown.classList.toggle('open');navOverlay.classList.toggle('open');});
+        navOverlay.addEventListener('click',()=>{hamburger.classList.remove('open');navDropdown.classList.remove('open');navOverlay.classList.remove('open');});
     </script>
 </body>
 </html>

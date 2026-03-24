@@ -6,10 +6,129 @@
     <title>Weekly Meal Plan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="WeeklyPlannerStyle.css">
+<style>
+    /* ── Nav dropdown fix ── */
+    header { 
+        position: relative !important; 
+    }
+    .hamburger{
+        display:flex;
+        flex-direction:column;
+        gap:5px;
+        cursor:pointer;
+        padding:5px;
+        z-index:1001;
+        flex-shrink:0
+    }
+    .hamburger div{
+        width:28px;
+        height:3px;
+        background:#fff;
+        border-radius:2px;
+        transition:all .3s
+    }
+    .hamburger.open div:nth-child(1){
+        transform:translateY(8px) rotate(45deg)
+    }
+    .hamburger.open div:nth-child(2){
+        opacity:0
+    }
+    .hamburger.open div:nth-child(3){
+        transform:translateY(-8px) rotate(-45deg)
+    }
+    .nav-dropdown{
+        position:absolute;
+        top:80px;
+        left:30px;
+        background:#fff;
+        border-radius:16px;
+        box-shadow:0 8px 32px rgba(0,0,0,.18);
+        overflow:hidden;
+        z-index:1000;
+        min-width:220px;
+        opacity:0;
+        pointer-events:none;
+        transform:translateY(-10px);
+        transition:opacity .25s,transform .25s
+    }
+    .nav-dropdown.open{
+        opacity:1;
+        pointer-events:all;
+        transform:translateY(0)
+    }
+    .nav-dropdown a{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        padding:14px 22px;
+        text-decoration:none;
+        color:#333;
+        font-family:'Poppins',sans-serif;
+        font-size:14px;
+        font-weight:600;
+        transition:background .15s;
+        border-bottom:1px solid #f0f0f0;
+        cursor:pointer
+    }
+    .nav-dropdown a:last-child{
+        border-bottom:none
+    }
+    .nav-dropdown a:hover{
+        background:#FFF3EE;
+        color:#FF6B35
+    }
+    .nav-dropdown a .nav-icon{
+        width:32px;
+        height:32px;
+        border-radius:8px;
+        background:#FFF3EE;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0
+    }
+    .nav-dropdown a:hover .nav-icon{
+        background:#FFE0D0
+    }
+    .nav-dropdown a .nav-icon svg{
+        width:16px !important;
+        height:16px !important;
+        fill:#FF6B35
+    }
+    .nav-dropdown a.nav-profile .nav-icon{
+        background:#F0FAE0
+    }
+    .nav-dropdown a.nav-profile:hover{
+        background:#F0FAE0;
+        color:#6aaa00
+    }
+    .nav-dropdown a.nav-profile .nav-icon svg{
+        fill:#9ACD32 !important
+    }
+    .nav-dropdown a.nav-logout .nav-icon{
+        background:#FFF0F0
+    }
+    .nav-dropdown a.nav-logout:hover{
+        background:#FFF0F0;
+        color:#E53935
+    }
+    .nav-dropdown a.nav-logout .nav-icon svg{
+        fill:#E53935 !important
+    }
+    .nav-overlay{
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:999
+    }
+    .nav-overlay.open{
+        display:block
+    }
+</style>
 </head>
 <body>
  <!-- Header -->
-    <header>
+    <header style="position:relative">
     <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
     <div class="nav-overlay" id="navOverlay"></div>
     <nav class="nav-dropdown" id="navDropdown">

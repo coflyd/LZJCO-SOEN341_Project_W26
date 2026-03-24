@@ -5,8 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Meal Plan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="WeeklyPlannerStyle.css">
 <style>
+    /* ── Charte graphique ── */
+    body {
+        font-family: 'Poppins', Arial, sans-serif !important;
+        background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%) !important;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+    .meal-plan-page { flex: 1; }
+
     /* ── Nav dropdown fix ── */
     header { 
         position: relative !important; 
@@ -922,5 +934,9 @@ function getTotalCalories(dateKey) {
         hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');navDropdown.classList.toggle('open');navOverlay.classList.toggle('open');});
         navOverlay.addEventListener('click',()=>{hamburger.classList.remove('open');navDropdown.classList.remove('open');navOverlay.classList.remove('open');});
     </script>
+
+<footer style="background:linear-gradient(135deg,#FF6B35 0%,#F4511E 100%);padding:20px;text-align:center;color:#fff;font-family:'Poppins',sans-serif;font-size:14px;margin-top:50px;">
+    © 2026 MealMajor - All rights reserved
+</footer>
 </body>
 </html>

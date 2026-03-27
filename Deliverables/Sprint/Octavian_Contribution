@@ -19,8 +19,9 @@ Created the UI for the recipes
 13/03/2026
 Created the UI for the weekly interface
 - Implemented navigation to move to the next/previous week
+- Button to bring back the user to today's week
 - Button to give the option to the user to choose which day the week starts (Sunday or Monday)
-- Ability to add/edit/remove recipes
+- Ability to add/edit/remove recipes (what type of food)
 
 18/03/2026
 Pushed the UI for the weekly interface

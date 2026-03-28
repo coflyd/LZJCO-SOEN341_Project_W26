@@ -148,11 +148,11 @@ document.getElementById('media-url').addEventListener('input', function() {
     }
 });
 
-// Preview update
 function updatePreview() {
     const name = document.getElementById('recipe-name').value;
     const time = document.getElementById('cooking-time').value;
     const portions = document.getElementById('portions').value;
+    const calories = document.getElementById('calories').value;
     const category = document.querySelector('.category-option.selected')?.textContent.trim();
     
     const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
@@ -162,11 +162,12 @@ function updatePreview() {
     let preview = '';
     
     if (name) preview += `<h3>${name}</h3>`;
-    if (category || time || portions) {
+    if (category || time || portions || calories) {
         preview += '<p>';
         if (category) preview += `<strong>Category:</strong> ${category} `;
         if (time) preview += `<strong>Time:</strong> ${time} min `;
-        if (portions) preview += `<strong>Servings:</strong> ${portions}`;
+        if (portions) preview += `<strong>Servings:</strong> ${portions} `;
+        if (calories) preview += `<strong>Calories:</strong> ${calories} kcal/serving`;
         preview += '</p>';
     }
     
@@ -178,7 +179,7 @@ function updatePreview() {
 }
 
 // Update preview on input and hide messages when typing
-['recipe-name', 'cooking-time', 'portions'].forEach(id => {
+['recipe-name', 'cooking-time', 'portions', 'calories'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
         updatePreview();
         hideMessages();
@@ -197,6 +198,7 @@ document.getElementById('clear-btn').addEventListener('click', function() {
         document.getElementById('recipe-name').value = '';
         document.getElementById('cooking-time').value = '';
         document.getElementById('portions').value = '';
+        document.getElementById('calories').value = '';
         document.getElementById('media-url').value = '';
         document.getElementById('notes').value = '';
         document.querySelectorAll('.category-option').forEach(opt => opt.classList.remove('selected'));
@@ -271,6 +273,7 @@ document.getElementById('save-btn').addEventListener('click', async function() {
         ownerUid: user.uid,
         cookingTime: Number(document.getElementById('cooking-time').value) || 0,
         portions: Number(document.getElementById('portions').value) || 0,
+        calories: Number(document.getElementById('calories').value) || 0,
         category: document.getElementById('selected-category').value,
         mediaUrl: document.getElementById('media-url').value.trim(),
         ingredients: ingredients,
@@ -308,6 +311,7 @@ async function loadRecipeForEditing(id) {
     document.getElementById('recipe-name').value  = recipe.name || '';
     document.getElementById('cooking-time').value = recipe.cookingTime || '';
     document.getElementById('portions').value = recipe.portions || '';
+    document.getElementById('calories').value = recipe.calories || '';
     document.getElementById('media-url').value = recipe.mediaUrl || '';
     document.getElementById('notes').value = recipe.notes || '';
 

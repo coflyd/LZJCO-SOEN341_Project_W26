@@ -146,7 +146,7 @@
         /* Time and Portions Container */
         .time-portions-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 15px;
         }
 
@@ -435,6 +435,11 @@
                         <div class="form-group">
                             <label for="portions">Portions</label>
                             <input type="number" id="portions" placeholder="4">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="calories">Calories (per serving)</label>
+                            <input type="number" id="calories" placeholder="e.g., 450" min="0">
                         </div>
                     </div>
                     

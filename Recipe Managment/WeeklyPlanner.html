@@ -136,6 +136,219 @@
     .nav-overlay.open{
         display:block
     }
+
+    /* ── Recipe Picker Modal ── */
+    .recipe-picker-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+    }
+    .recipe-picker-overlay.open {
+        display: flex;
+    }
+    .recipe-picker-modal {
+        background: #fff;
+        border-radius: 18px;
+        width: 90%;
+        max-width: 520px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+        overflow: hidden;
+        animation: modalIn .22s ease;
+    }
+    @keyframes modalIn {
+        from { transform: translateY(24px) scale(.97); opacity:0; }
+        to   { transform: translateY(0)    scale(1);   opacity:1; }
+    }
+    .recipe-picker-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px 14px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .recipe-picker-header h3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+    .recipe-picker-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #718096;
+        font-size: 18px;
+        padding: 4px;
+        line-height: 1;
+        transition: color .15s;
+    }
+    .recipe-picker-close:hover { color: #E53935; }
+    .recipe-picker-controls {
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .recipe-picker-search {
+        width: 100%;
+        padding: 9px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.88rem;
+        outline: none;
+        transition: border-color .2s;
+    }
+    .recipe-picker-search:focus { border-color: #FF6B35; }
+    .recipe-picker-type {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .recipe-picker-type label {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #718096;
+        white-space: nowrap;
+    }
+    .recipe-picker-type select {
+        flex: 1;
+        padding: 7px 10px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.85rem;
+        outline: none;
+        background: #fff;
+        cursor: pointer;
+        transition: border-color .2s;
+    }
+    .recipe-picker-type select:focus { border-color: #FF6B35; }
+    .recipe-picker-list {
+        overflow-y: auto;
+        flex: 1;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    .recipe-picker-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 11px 14px;
+        border-radius: 12px;
+        border: 1.5px solid #e2e8f0;
+        cursor: pointer;
+        transition: border-color .15s, background .15s;
+        gap: 10px;
+    }
+    .recipe-picker-item:hover {
+        border-color: #FF6B35;
+        background: #FFF3EE;
+    }
+    .recipe-picker-item .rpi-name {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #2d3748;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .recipe-picker-item .rpi-meta {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    .rpi-cal {
+        background: #f1f8e9;
+        color: #558b2f;
+        border-radius: 20px;
+        padding: 3px 9px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        white-space: nowrap;
+    }
+    .rpi-cat {
+        background: #FFF3EE;
+        color: #FF6B35;
+        border-radius: 20px;
+        padding: 3px 9px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        white-space: nowrap;
+    }
+    .rpi-add-btn {
+        background: #FF6B35;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 14px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .15s;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .rpi-add-btn:hover { background: #e8491d; }
+    .recipe-picker-empty {
+        text-align: center;
+        padding: 32px 20px;
+        color: #718096;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+    }
+    .recipe-picker-empty i {
+        display: block;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        color: #cbd5e0;
+    }
+    .recipe-picker-loading {
+        text-align: center;
+        padding: 32px 20px;
+        color: #718096;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+    }
+    .recipe-picker-loading i {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 8px;
+        color: #FF6B35;
+    }
+    /* duplicate warning inside picker */
+    .picker-dup-warning {
+        display: none;
+        background: #fff3cd;
+        color: #856404;
+        border: 1.5px solid #ffc107;
+        border-radius: 10px;
+        padding: 9px 14px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.84rem;
+        font-weight: 600;
+        margin: 0 20px 10px;
+    }
+    .picker-dup-warning.show { display: block; }
 </style>
 </head>
 <body>
@@ -236,9 +449,9 @@
             <i class="fas fa-plus-circle"></i> Add Meal
         </button>
 
-        <!-- add / edit form -->
+        <!-- edit-only form (only shown when editing an existing meal) -->
         <div class="meal-form" id="mealForm" style="display:none;margin-top:14px">
-            <h3 id="formTitle">Add Meal</h3>
+            <h3 id="formTitle">Edit Meal</h3>
             <input type="hidden" id="editMealId">
             
             <!-- Duplicate warning -->
@@ -264,8 +477,39 @@
                 <input type="number" id="mealCaloriesInput" placeholder="200" value="200" min="0">
             </div>
             <div class="form-actions">
-                <button class="btn-primary" id="saveMealBtn">Save Meal</button>
+                <button class="btn-primary" id="saveMealBtn">Save Changes</button>
                 <button class="btn-secondary" id="cancelFormBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ─── Recipe Picker Modal ─── -->
+<div class="recipe-picker-overlay" id="recipePickerOverlay">
+    <div class="recipe-picker-modal">
+        <div class="recipe-picker-header">
+            <h3><i class="fas fa-book-open" style="color:#FF6B35;margin-right:8px"></i>Choose a Recipe</h3>
+            <button class="recipe-picker-close" id="recipePickerClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="recipe-picker-controls">
+            <input type="text" class="recipe-picker-search" id="recipePickerSearch" placeholder="Search recipes…">
+            <div class="recipe-picker-type">
+                <label>Add as:</label>
+                <select id="recipePickerMealType">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+            </div>
+        </div>
+        <div class="picker-dup-warning" id="pickerDupWarning">
+            <i class="fas fa-exclamation-triangle"></i> That recipe is already added for this day and meal type!
+        </div>
+        <div class="recipe-picker-list" id="recipePickerList">
+            <div class="recipe-picker-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Loading your recipes…
             </div>
         </div>
     </div>
@@ -288,7 +532,6 @@ const firebaseConfig = {
     appId: "1:123255076909:web:c2ba7c881ed4588b7ba0a4"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
@@ -297,13 +540,16 @@ const auth = getAuth(app);
 //  STATE
 // ─────────────────────────────────────────────
 const state = {
-    weekStartsOn: 'sun',          // 'sun' | 'mon'
-    currentWeekOffset: 0,         // 0 = current week
-    selectedDate: null,           // 'YYYY-MM-DD'
+    weekStartsOn: 'sun',
+    currentWeekOffset: 0,
+    selectedDate: null,
     activeFilter: 'all',
-    currentUser: null,            // Firebase user
-    meals: {},                     // { 'YYYY-MM-DD': [ { id, name, type, calories }, ... ] }
-    targetCalories: 0
+    currentUser: null,
+    meals: {},
+    targetCalories: 0,
+    // Recipe picker state
+    allRecipes: [],          // [{ id, name, calories, category, ... }]
+    recipesLoaded: false
 };
 
 // ─────────────────────────────────────────────
@@ -314,10 +560,9 @@ function uid() {
 }
 
 function toKey(date) {
-    return date.toISOString().slice(0, 10);          // 'YYYY-MM-DD'
+    return date.toISOString().slice(0, 10);
 }
 
-// Get week ID for Firebase path (e.g., "2026-W12")
 function getWeekId(weekOffset = 0) {
     const start = getWeekStart(weekOffset);
     const year = start.getFullYear();
@@ -330,7 +575,7 @@ function getWeekId(weekOffset = 0) {
 function getWeekStart(weekOffset = 0) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const dow = today.getDay();                      // 0=Sun … 6=Sat
+    const dow = today.getDay();
     const diff = state.weekStartsOn === 'sun' ? dow : (dow === 0 ? 6 : dow - 1);
     const start = new Date(today);
     start.setDate(today.getDate() - diff + weekOffset * 7);
@@ -346,16 +591,12 @@ function getWeekDays(weekOffset = 0) {
     });
 }
 
-const DAY_NAMES  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const FULL_DAYS  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAY_NAMES   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const FULL_DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-function formatShortDate(d) {
-    return `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`;
-}
-function formatFullDate(d) {
-    return `${FULL_DAYS[d.getDay()]}, ${MONTH_NAMES[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-}
+function formatShortDate(d) { return `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`; }
+function formatFullDate(d)  { return `${FULL_DAYS[d.getDay()]}, ${MONTH_NAMES[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`; }
 
 function isToday(d) {
     const t = new Date(); t.setHours(0,0,0,0);
@@ -363,28 +604,22 @@ function isToday(d) {
 }
 
 function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ─────────────────────────────────────────────
 //  FIREBASE PERSISTENCE
 // ─────────────────────────────────────────────
-
-// Get Firebase path for user's weekly planner
 function getFirebasePath(weekId) {
     if (!state.currentUser) return null;
     return `users/${state.currentUser.uid}/WeeklyPlanner/${weekId}`;
 }
 
-// Save meals to Firebase
 async function saveMealsToFirebase() {
     if (!state.currentUser) return;
-    
     const weekId = getWeekId(state.currentWeekOffset);
     const path = getFirebasePath(weekId);
-    
     try {
-        // Convert meals object to Firebase-friendly structure
         const weekMeals = {};
         Object.keys(state.meals).forEach(dateKey => {
             const dayName = getDayNameFromDate(dateKey);
@@ -399,37 +634,28 @@ async function saveMealsToFirebase() {
                 });
             }
         });
-        
         await set(ref(database, path), { days: weekMeals });
-        console.log('Meals saved to Firebase:', path);
     } catch (error) {
         console.error('Error saving meals to Firebase:', error);
     }
 }
 
-// Load meals from Firebase
 async function loadMealsFromFirebase() {
     if (!state.currentUser) return;
-    
     const weekId = getWeekId(state.currentWeekOffset);
     const path = getFirebasePath(weekId);
-    
     try {
         const snapshot = await get(ref(database, path));
         state.meals = {};
-        
         if (snapshot.exists()) {
             const data = snapshot.val();
             const weekDays = getWeekDays(state.currentWeekOffset);
-            
-            // Convert Firebase structure back to state.meals format
             if (data.days) {
                 Object.keys(data.days).forEach(dayName => {
                     const dayIndex = FULL_DAYS.map(d => d.toLowerCase()).indexOf(dayName.toLowerCase());
                     if (dayIndex !== -1) {
                         const dateKey = toKey(weekDays[dayIndex]);
                         state.meals[dateKey] = [];
-                        
                         Object.keys(data.days[dayName]).forEach(mealId => {
                             const meal = data.days[dayName][mealId];
                             state.meals[dateKey].push({
@@ -443,18 +669,49 @@ async function loadMealsFromFirebase() {
                 });
             }
         }
-        
-        console.log('Meals loaded from Firebase:', path);
         renderGrid();
     } catch (error) {
         console.error('Error loading meals from Firebase:', error);
     }
 }
 
-// Get day name from date key
 function getDayNameFromDate(dateKey) {
     const date = new Date(dateKey + 'T00:00:00');
     return FULL_DAYS[date.getDay()].toLowerCase();
+}
+
+// ─────────────────────────────────────────────
+//  LOAD ALL RECIPES FROM DB
+// ─────────────────────────────────────────────
+async function loadAllRecipes() {
+    if (state.recipesLoaded) return;
+    try {
+        const snapshot = await get(ref(database, 'recipes'));
+        state.allRecipes = [];
+        if (snapshot.exists()) {
+            snapshot.forEach(child => {
+                const r = child.val();
+                state.allRecipes.push({
+                    id:       child.key,
+                    name:     r.name     || 'Unnamed Recipe',
+                    calories: r.calories ? parseInt(r.calories) : 200,
+                    category: r.category || ''
+                });
+            });
+            // Sort alphabetically then deduplicate by name (keep first occurrence)
+            state.allRecipes.sort((a, b) => a.name.localeCompare(b.name));
+            const seen = new Set();
+            state.allRecipes = state.allRecipes.filter(r => {
+                const key = r.name.trim().toLowerCase();
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        }
+        state.recipesLoaded = true;
+    } catch (err) {
+        console.error('Error loading recipes:', err);
+    }
 }
 
 // ─────────────────────────────────────────────
@@ -464,46 +721,35 @@ function getMeals(dateKey) {
     return state.meals[dateKey] || [];
 }
 
-// Check for duplicate meal (same name and type on same day)
 function isDuplicateMeal(dateKey, name, type, excludeId = null) {
     const meals = getMeals(dateKey);
-    return meals.some(meal => 
-        meal.name.toLowerCase() === name.toLowerCase() && 
-        meal.type === type && 
+    return meals.some(meal =>
+        meal.name.toLowerCase() === name.toLowerCase() &&
+        meal.type === type &&
         meal.id !== excludeId
     );
 }
 
-// Add meal with duplicate check
 async function addMeal(dateKey, meal) {
-    // Check for duplicates
     if (isDuplicateMeal(dateKey, meal.name, meal.type)) {
         document.getElementById('duplicateWarning').classList.add('show');
         return false;
     }
-    
     document.getElementById('duplicateWarning').classList.remove('show');
-    
     if (!state.meals[dateKey]) state.meals[dateKey] = [];
     state.meals[dateKey].push(meal);
-    
     await saveMealsToFirebase();
     return true;
 }
 
-// Update meal
 async function updateMeal(dateKey, id, updates) {
     const list = state.meals[dateKey];
     if (!list) return false;
-    
-    // Check for duplicates (excluding current meal)
     if (isDuplicateMeal(dateKey, updates.name, updates.type, id)) {
         document.getElementById('duplicateWarning').classList.add('show');
         return false;
     }
-    
     document.getElementById('duplicateWarning').classList.remove('show');
-    
     const idx = list.findIndex(m => m.id === id);
     if (idx !== -1) {
         list[idx] = { ...list[idx], ...updates };
@@ -513,11 +759,14 @@ async function updateMeal(dateKey, id, updates) {
     return false;
 }
 
-// Remove meal
 async function removeMeal(dateKey, id) {
     if (!state.meals[dateKey]) return;
     state.meals[dateKey] = state.meals[dateKey].filter(m => m.id !== id);
     await saveMealsToFirebase();
+}
+
+function getTotalCalories(dateKey) {
+    return (state.meals[dateKey] || []).reduce((sum, m) => sum + (m.calories || 200), 0);
 }
 
 // ─────────────────────────────────────────────
@@ -526,10 +775,8 @@ async function removeMeal(dateKey, id) {
 function renderGrid() {
     const grid = document.getElementById('weekGrid');
     grid.innerHTML = '';
-
     const days = getWeekDays(state.currentWeekOffset);
     const start = days[0], end = days[6];
-
     document.getElementById('weekLabel').textContent =
         `${formatShortDate(start)} – ${formatShortDate(end)}`;
 
@@ -545,7 +792,6 @@ function renderGrid() {
         if (state.selectedDate === key) card.classList.add('selected');
         if (isOverLimit) card.classList.add('over-limit');
 
-        // Header
         const header = document.createElement('div');
         header.className = 'day-header';
         header.innerHTML = `
@@ -554,7 +800,6 @@ function renderGrid() {
         `;
         card.appendChild(header);
 
-        // Meals list
         const mealsList = document.createElement('div');
         mealsList.className = 'meals-list';
         meals.forEach(meal => {
@@ -579,13 +824,11 @@ function renderGrid() {
         }
         card.appendChild(mealsList);
 
-        // Add hint
         const hint = document.createElement('div');
         hint.className = 'add-meal-hint';
         hint.innerHTML = '<i class="fas fa-plus"></i> Add meal';
         card.appendChild(hint);
 
-        // Events
         card.addEventListener('click', e => {
             if (e.target.closest('.chip-actions')) return;
             openPanel(key, day);
@@ -611,26 +854,22 @@ function renderGrid() {
         grid.appendChild(card);
     });
 }
+
 // ─────────────────────────────────────────────
 //  PANEL
 // ─────────────────────────────────────────────
 function openPanel(dateKey, dayObj) {
     state.selectedDate = dateKey;
     state.activeFilter = 'all';
-
     document.getElementById('panelDayTitle').textContent = FULL_DAYS[dayObj.getDay()];
     document.getElementById('panelDayDate').textContent  = formatFullDate(dayObj);
-
-    // Reset filter tabs
     document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
     document.querySelector('.type-tab[data-filter="all"]').classList.add('active');
-
     hideForm();
     renderPanelMeals();
-
     document.getElementById('sidePanel').classList.add('open');
     document.getElementById('panelOverlay').classList.add('open');
-    renderGrid(); // re-render to show selected state
+    renderGrid();
 }
 
 function closePanel() {
@@ -698,15 +937,17 @@ function renderPanelMeals() {
         container.appendChild(row);
     });
 }
+
 // ─────────────────────────────────────────────
-//  FORM
+//  FORM (edit-only)
 // ─────────────────────────────────────────────
-function showForm(title = 'Add Meal') {
+function showForm(title = 'Edit Meal') {
     document.getElementById('formTitle').textContent = title;
     document.getElementById('mealForm').style.display = 'block';
     document.getElementById('duplicateWarning').classList.remove('show');
     document.getElementById('mealNameInput').focus();
 }
+
 function hideForm() {
     document.getElementById('mealForm').style.display = 'none';
     document.getElementById('mealNameInput').value = '';
@@ -715,21 +956,98 @@ function hideForm() {
     document.getElementById('duplicateWarning').classList.remove('show');
     document.getElementById('mealCaloriesInput').value = 200;
 }
+
 function startEdit(mealId, dateKey) {
     const meal = getMeals(dateKey).find(m => m.id === mealId);
     if (!meal) return;
-    document.getElementById('editMealId').value   = mealId;
-    document.getElementById('mealNameInput').value = meal.name;
-    document.getElementById('mealTypeInput').value = meal.type;
+    document.getElementById('editMealId').value       = mealId;
+    document.getElementById('mealNameInput').value    = meal.name;
+    document.getElementById('mealTypeInput').value    = meal.type;
     document.getElementById('mealCaloriesInput').value = meal.calories || 200;
     showForm('Edit Meal');
 }
 
 // ─────────────────────────────────────────────
+//  RECIPE PICKER
+// ─────────────────────────────────────────────
+function openRecipePicker() {
+    document.getElementById('recipePickerOverlay').classList.add('open');
+    document.getElementById('recipePickerSearch').value = '';
+    document.getElementById('pickerDupWarning').classList.remove('show');
+    renderPickerList('');
+    setTimeout(() => document.getElementById('recipePickerSearch').focus(), 100);
+}
+
+function closeRecipePicker() {
+    document.getElementById('recipePickerOverlay').classList.remove('open');
+    document.getElementById('pickerDupWarning').classList.remove('show');
+}
+
+function renderPickerList(query) {
+    const list = document.getElementById('recipePickerList');
+    const q = query.trim().toLowerCase();
+
+    if (!state.recipesLoaded) {
+        list.innerHTML = `<div class="recipe-picker-loading"><i class="fas fa-spinner fa-spin"></i>Loading…</div>`;
+        return;
+    }
+
+    const filtered = state.allRecipes.filter(r =>
+        !q || r.name.toLowerCase().includes(q) || (r.category && r.category.toLowerCase().includes(q))
+    );
+
+    if (filtered.length === 0) {
+        list.innerHTML = `<div class="recipe-picker-empty"><i class="fas fa-search"></i>${q ? 'No recipes match your search.' : 'No recipes found in your database.'}</div>`;
+        return;
+    }
+
+    list.innerHTML = '';
+    filtered.forEach(recipe => {
+        const item = document.createElement('div');
+        item.className = 'recipe-picker-item';
+        item.innerHTML = `
+            <span class="rpi-name">${escHtml(recipe.name)}</span>
+            <div class="rpi-meta">
+                ${recipe.category ? `<span class="rpi-cat">${escHtml(recipe.category)}</span>` : ''}
+                <span class="rpi-cal">${recipe.calories} cal</span>
+            </div>
+            <button class="rpi-add-btn" data-recipe-id="${recipe.id}">Add</button>
+        `;
+        item.querySelector('.rpi-add-btn').addEventListener('click', () => pickRecipe(recipe));
+        list.appendChild(item);
+    });
+}
+
+async function pickRecipe(recipe) {
+    const dateKey  = state.selectedDate;
+    const mealType = document.getElementById('recipePickerMealType').value;
+
+    // Duplicate check
+    if (isDuplicateMeal(dateKey, recipe.name, mealType)) {
+        document.getElementById('pickerDupWarning').classList.add('show');
+        return;
+    }
+    document.getElementById('pickerDupWarning').classList.remove('show');
+
+    const newMeal = {
+        id:       uid(),
+        name:     recipe.name,
+        type:     mealType,
+        calories: recipe.calories || 200
+    };
+
+    if (!state.meals[dateKey]) state.meals[dateKey] = [];
+    state.meals[dateKey].push(newMeal);
+    await saveMealsToFirebase();
+
+    closeRecipePicker();
+    renderPanelMeals();
+    renderGrid();
+}
+
+// ─────────────────────────────────────────────
 //  EVENTS
 // ─────────────────────────────────────────────
-
-// Week navigation
 document.getElementById('prevWeek').addEventListener('click', async () => {
     state.currentWeekOffset--;
     await loadMealsFromFirebase();
@@ -767,25 +1085,45 @@ document.getElementById('typeTabs').addEventListener('click', e => {
     renderPanelMeals();
 });
 
-// Show add form
-document.getElementById('showAddForm').addEventListener('click', () => {
-    document.getElementById('editMealId').value = '';
-    document.getElementById('mealNameInput').value = '';
-    document.getElementById('mealTypeInput').value = 'breakfast';
-    showForm('Add Meal');
+// "Add Meal" button → open recipe picker
+document.getElementById('showAddForm').addEventListener('click', async () => {
+    // Make sure recipes are loaded before opening
+    if (!state.recipesLoaded) {
+        document.getElementById('recipePickerList').innerHTML =
+            `<div class="recipe-picker-loading"><i class="fas fa-spinner fa-spin"></i>Loading your recipes…</div>`;
+    }
+    openRecipePicker();
+    await loadAllRecipes();
+    renderPickerList(document.getElementById('recipePickerSearch').value);
 });
 
-// Cancel form
+// Recipe picker close
+document.getElementById('recipePickerClose').addEventListener('click', closeRecipePicker);
+document.getElementById('recipePickerOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('recipePickerOverlay')) closeRecipePicker();
+});
+
+// Recipe picker search
+document.getElementById('recipePickerSearch').addEventListener('input', e => {
+    document.getElementById('pickerDupWarning').classList.remove('show');
+    renderPickerList(e.target.value);
+});
+
+// Recipe picker meal-type change clears dup warning
+document.getElementById('recipePickerMealType').addEventListener('change', () => {
+    document.getElementById('pickerDupWarning').classList.remove('show');
+});
+
+// Cancel edit form
 document.getElementById('cancelFormBtn').addEventListener('click', hideForm);
 
-// Save meal (with duplicate prevention)
+// Save edited meal
 document.getElementById('saveMealBtn').addEventListener('click', async () => {
-    const name = document.getElementById('mealNameInput').value.trim();
-    const type = document.getElementById('mealTypeInput').value;
-    const caloriesInput = document.getElementById('mealCaloriesInput').value;
-    const calories = caloriesInput ? parseInt(caloriesInput) : 200;
-    const editId = document.getElementById('editMealId').value;
-    const dateKey = state.selectedDate;
+    const name     = document.getElementById('mealNameInput').value.trim();
+    const type     = document.getElementById('mealTypeInput').value;
+    const calories = parseInt(document.getElementById('mealCaloriesInput').value) || 200;
+    const editId   = document.getElementById('editMealId').value;
+    const dateKey  = state.selectedDate;
 
     if (!name) {
         document.getElementById('mealNameInput').style.borderColor = 'var(--primary)';
@@ -794,21 +1132,13 @@ document.getElementById('saveMealBtn').addEventListener('click', async () => {
     }
     document.getElementById('mealNameInput').style.borderColor = '';
 
-    let success;
     if (editId) {
-        success = await updateMeal(dateKey, editId, { name, type, calories });
-    } else {
-        success = await addMeal(dateKey, { id: uid(), name, type, calories });
-    }
-
-    if (success) {
-        hideForm();
-        renderPanelMeals();
-        renderGrid();
+        const success = await updateMeal(dateKey, editId, { name, type, calories });
+        if (success) { hideForm(); renderPanelMeals(); renderGrid(); }
     }
 });
 
-// Enter key in name input
+// Enter key in edit form
 document.getElementById('mealNameInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') document.getElementById('saveMealBtn').click();
     if (e.key === 'Escape') hideForm();
@@ -820,17 +1150,16 @@ document.getElementById('mealNameInput').addEventListener('keydown', e => {
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         state.currentUser = user;
-        console.log('User logged in:', user.uid);
         const snapshot = await get(ref(database, `users/${user.uid}`));
         if (snapshot.exists()) {
             state.targetCalories = snapshot.val().targetCalories || 0;
         }
         await loadMealsFromFirebase();
+        // Pre-load recipes in the background so the picker opens instantly
+        loadAllRecipes();
     } else {
         state.currentUser = null;
         state.meals = {};
-        console.log('User not logged in');
-        // Show auth required message or redirect
         document.getElementById('weekGrid').innerHTML = `
             <div class="auth-required" style="grid-column: 1 / -1;">
                 <i class="fas fa-user-lock"></i>
@@ -839,7 +1168,6 @@ onAuthStateChanged(auth, async (user) => {
         `;
     }
 });
-
 
 // ─────────────────────────────────────────────
 //  REUSE LAST WEEK
@@ -853,31 +1181,26 @@ function showToast(message) {
 
 async function reuseLastWeek() {
     if (!state.currentUser) return;
-
     const btn = document.getElementById('reuseLastWeekBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading…';
-
     try {
         const lastWeekId   = getWeekId(state.currentWeekOffset - 1);
         const lastWeekPath = `users/${state.currentUser.uid}/WeeklyPlanner/${lastWeekId}`;
         const snapshot     = await get(ref(database, lastWeekPath));
-
         if (!snapshot.exists() || !snapshot.val().days) {
             showToast('No meals found for last week.');
             return;
         }
-
         const lastWeekData = snapshot.val().days;
         const currentDays  = getWeekDays(state.currentWeekOffset);
         let addedCount = 0, skippedCount = 0;
 
         FULL_DAYS.forEach((fullDayName, dayIndex) => {
-            const dayKey      = fullDayName.toLowerCase();
-            const dateKey     = toKey(currentDays[dayIndex]);
-            const lastMeals   = lastWeekData[dayKey];
+            const dayKey  = fullDayName.toLowerCase();
+            const dateKey = toKey(currentDays[dayIndex]);
+            const lastMeals = lastWeekData[dayKey];
             if (!lastMeals) return;
-
             Object.values(lastMeals).forEach(meal => {
                 const alreadyExists = (state.meals[dateKey] || []).some(
                     m => m.name.toLowerCase() === meal.name.toLowerCase() && m.type === meal.type
@@ -885,9 +1208,9 @@ async function reuseLastWeek() {
                 if (alreadyExists) { skippedCount++; return; }
                 if (!state.meals[dateKey]) state.meals[dateKey] = [];
                 state.meals[dateKey].push({
-                    id: uid(),
-                    name: meal.name,
-                    type: meal.type,
+                    id:       uid(),
+                    name:     meal.name,
+                    type:     meal.type,
                     calories: meal.calories || 200
                 });
                 addedCount++;
@@ -897,15 +1220,10 @@ async function reuseLastWeek() {
         if (addedCount > 0) await saveMealsToFirebase();
         renderGrid();
 
-        if (addedCount === 0 && skippedCount > 0)
-            showToast('This week already has all of last week\'s meals.');
-        else if (addedCount > 0 && skippedCount === 0)
-            showToast(`${addedCount} meal${addedCount > 1 ? 's' : ''} copied from last week!`);
-        else if (addedCount > 0 && skippedCount > 0)
-            showToast(`${addedCount} added, ${skippedCount} skipped (already existed).`);
-        else
-            showToast('No meals found for last week.');
-
+        if      (addedCount === 0 && skippedCount > 0) showToast('This week already has all of last week\'s meals.');
+        else if (addedCount > 0  && skippedCount === 0) showToast(`${addedCount} meal${addedCount > 1 ? 's' : ''} copied from last week!`);
+        else if (addedCount > 0  && skippedCount > 0)   showToast(`${addedCount} added, ${skippedCount} skipped (already existed).`);
+        else showToast('No meals found for last week.');
     } catch (err) {
         console.error('reuseLastWeek error:', err);
         showToast('Something went wrong. Please try again.');
@@ -917,23 +1235,27 @@ async function reuseLastWeek() {
 
 document.getElementById('reuseLastWeekBtn').addEventListener('click', reuseLastWeek);
 
-// Initial render (will be updated after auth check)
+// Initial render
 renderGrid();
-
-function getTotalCalories(dateKey) {
-    return (state.meals[dateKey] || [])
-        .reduce((sum, m) => sum + (m.calories || 200), 0);
-}
 </script>
 
 <div class="reuse-toast" id="reuseToast"></div>
-    <script>
-        const hamburger=document.getElementById('hamburger');
-        const navDropdown=document.getElementById('navDropdown');
-        const navOverlay=document.getElementById('navOverlay');
-        hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');navDropdown.classList.toggle('open');navOverlay.classList.toggle('open');});
-        navOverlay.addEventListener('click',()=>{hamburger.classList.remove('open');navDropdown.classList.remove('open');navOverlay.classList.remove('open');});
-    </script>
+
+<script>
+    const hamburger   = document.getElementById('hamburger');
+    const navDropdown = document.getElementById('navDropdown');
+    const navOverlay  = document.getElementById('navOverlay');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navDropdown.classList.toggle('open');
+        navOverlay.classList.toggle('open');
+    });
+    navOverlay.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navDropdown.classList.remove('open');
+        navOverlay.classList.remove('open');
+    });
+</script>
 
 <footer style="background:linear-gradient(135deg,#FF6B35 0%,#F4511E 100%);padding:20px;text-align:center;color:#fff;font-family:'Poppins',sans-serif;font-size:14px;margin-top:50px;">
     © 2026 MealMajor - All rights reserved

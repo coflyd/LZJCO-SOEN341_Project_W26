@@ -49,3 +49,22 @@
     
     -> Add amount of receipes in the data base
     -> Recenter the Title and fix some visual fail
+
+23/03/2026 (4h45)
+    -> Created a unit test to verify that the isDuplicateMeal() function works correctly in isolation, without needing to open the browser
+    Separated the styling for WeeklyPlanner.html into WeeklyPlanner.html and an external WeeklyPlanner.css file to make it easier to modify
+    -> Created or added a button so that last week’s menu is the same as this week’s
+    
+    -> HomePage, a few visual tweaks changed the colours of the Profile and Logout buttons. 
+    Converted the hamburger icon into a proper animated drop-down menu with five navigation links: Profile, Inspirations, Your Schedule, Shopping List, Your Fridge. 
+    The ‘Shopping List’ tab has been renamed ‘Your Schedule’ and now links to the Weekly Planner. 
+    A ‘Shopping List’ entry has been retained in the menu
+
+24/03/2026 (3h35)
+    -> Fixed WeeklyPlanner nav dropdown and header positioning
+    -> Applied site visual identity to WeeklyPlanner : poppins, green background, orange footer
+    -> Added hamburger nav menu to each page and define the navigation and fix the headers if necessarly
+    HomePage, SearchRecipes, fridge, ProfileManagement, WeeklyMealPlan
+    Logout correctly wired to auth.js window.logout()
+
+    => ADD space for Shooping list Idea for additionnal features

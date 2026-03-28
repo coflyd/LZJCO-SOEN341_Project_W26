@@ -33,7 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (snapshot.exists()) {
         const formData = mapProfileToForm(snapshot.val());
 
-        nameInput.value = formData.name;
+        nameInput.value = data.name || "";
+        document.getElementById("targetCalories").value = data.targetCalories || "";
+
+        const allergies = data.preferences?.allergies || [];
+        const dietPreferences = data.preferences?.dietPreferences || [];
 
         // Allergies checkboxes
         document
@@ -79,7 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        await update(ref(database, `users/${user.uid}`), profileUpdate);
+        await update(ref(database, `users/${user.uid}`), {
+          name,
+          targetCalories: parseInt(document.getElementById("targetCalories").value) || 0,
+          preferences: { allergies, dietPreferences }
+        });
 
         message.textContent = "Profile updated successfully!";
         message.classList.add("success");

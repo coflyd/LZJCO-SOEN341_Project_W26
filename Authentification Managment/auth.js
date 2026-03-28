@@ -77,7 +77,7 @@ window.register = async function () {
             preferences: { dietType: "", allergies: [] }
         });
 
-        window.location.href = "../index.html";
+        window.location.href = "/index.html";
     } catch (error) {
         handleAuthError(error);
     }
@@ -160,7 +160,7 @@ window.togglePassword = function (inputId, toggleSpan) {
 window.logout = async function () {
     try {
         await auth.signOut();
-        window.location.href = "../index.html";
+        window.location.href = "/index.html";
     } catch (error) {
         console.error("Logout failed:", error);
     }

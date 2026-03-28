@@ -1,7 +1,7 @@
 import { getDatabase, ref, push, set, get, update } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-import { getAuth } from 
+import { getAuth, onAuthStateChanged } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 import { initializeApp } from 
@@ -150,27 +150,38 @@ document.getElementById('media-url').addEventListener('input', function() {
     }
 });
 
-// Preview update
 function updatePreview() {
     const name = document.getElementById('recipe-name').value;
     const time = document.getElementById('cooking-time').value;
     const portions = document.getElementById('portions').value;
+    const calories = document.getElementById('calories').value;
     const category = document.querySelector('.category-option.selected')?.textContent.trim();
     
     const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
-        .map(input => input.value);
+        .map(input => input.value)
+        .filter(val => val.trim());
 
-    document.getElementById('preview-content').innerHTML = buildRecipePreview({
-        name,
-        time,
-        portions,
-        category,
-        ingredients
-    });
+    let preview = '';
+    
+    if (name) preview += `<h3>${name}</h3>`;
+    if (category || time || portions || calories) {
+        preview += '<p>';
+        if (category) preview += `<strong>Category:</strong> ${category} `;
+        if (time) preview += `<strong>Time:</strong> ${time} min `;
+        if (portions) preview += `<strong>Servings:</strong> ${portions} `;
+        if (calories) preview += `<strong>Calories:</strong> ${calories} kcal/serving`;
+        preview += '</p>';
+    }
+    
+    if (ingredients.length > 0) {
+        preview += '<p><strong>Ingredients:</strong><br>' + ingredients.join('<br>') + '</p>';
+    }
+
+    document.getElementById('preview-content').innerHTML = preview || '<p><em>Your recipe preview will appear here as you type.</em></p>';
 }
 
 // Update preview on input and hide messages when typing
-['recipe-name', 'cooking-time', 'portions'].forEach(id => {
+['recipe-name', 'cooking-time', 'portions', 'calories'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
         updatePreview();
         hideMessages();
@@ -189,6 +200,7 @@ document.getElementById('clear-btn').addEventListener('click', function() {
         document.getElementById('recipe-name').value = '';
         document.getElementById('cooking-time').value = '';
         document.getElementById('portions').value = '';
+        document.getElementById('calories').value = '';
         document.getElementById('media-url').value = '';
         document.getElementById('notes').value = '';
         document.querySelectorAll('.category-option').forEach(opt => opt.classList.remove('selected'));
@@ -221,21 +233,56 @@ document.getElementById('clear-btn').addEventListener('click', function() {
 
 // Save recipe
 document.getElementById('save-btn').addEventListener('click', async function() {
-    const formValues = readRecipeForm(document);
-    const user = auth.currentUser;
-    const validationError = validateRecipeInput({
-        name: formValues.name,
-        ingredients: formValues.ingredients,
-        steps: formValues.steps,
-        user
-    });
 
-    if (validationError) {
-        showError(validationError);
+    const name = document.getElementById('recipe-name').value.trim();
+
+    if (!name) {
+        showError('Please enter a recipe name');
         return;
     }
 
-    const recipeData = buildRecipeData(formValues, user, new Date().toISOString());
+    const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
+        .map(input => input.value.trim())
+        .filter(val => val);
+
+    const steps = Array.from(document.querySelectorAll('.step-input'))
+        .map(input => input.value.trim())
+        .filter(val => val);
+
+    if (ingredients.length === 0) {
+        showError('Please add at least one ingredient');
+        return;
+    }
+
+    if (steps.length === 0) {
+        showError('Please add at least one step');
+        return;
+    }
+
+    // Wait for Firebase Auth to resolve (currentUser can be null on first load)
+    const user = await new Promise((resolve) => {
+        if (auth.currentUser) { resolve(auth.currentUser); return; }
+        const unsubscribe = auth.onAuthStateChanged((u) => { unsubscribe(); resolve(u); });
+    });
+
+    if (!user) {
+        showError("You must be logged in to save recipes.");
+        return;
+    }
+
+    const recipeData = {
+        name: name,
+        ownerUid: user.uid,
+        cookingTime: Number(document.getElementById('cooking-time').value) || 0,
+        portions: Number(document.getElementById('portions').value) || 0,
+        calories: Number(document.getElementById('calories').value) || 0,
+        category: document.getElementById('selected-category').value,
+        mediaUrl: document.getElementById('media-url').value.trim(),
+        ingredients: ingredients,
+        steps: steps,
+        notes: document.getElementById('notes').value.trim(),
+        createdAt: new Date().toISOString()
+    };
 
     try {
         if (editId) {
@@ -266,6 +313,7 @@ async function loadRecipeForEditing(id) {
     document.getElementById('recipe-name').value  = recipe.name || '';
     document.getElementById('cooking-time').value = recipe.cookingTime || '';
     document.getElementById('portions').value = recipe.portions || '';
+    document.getElementById('calories').value = recipe.calories || '';
     document.getElementById('media-url').value = recipe.mediaUrl || '';
     document.getElementById('notes').value = recipe.notes || '';
 

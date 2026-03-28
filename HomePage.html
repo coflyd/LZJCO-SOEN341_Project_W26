@@ -4,15 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MealMajor - Home</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', Arial, sans-serif;
@@ -20,7 +14,7 @@
             min-height: 100vh;
         }
 
-        /* Header */
+        /* ── Header ── */
         header {
             background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
             padding: 20px 40px;
@@ -31,28 +25,6 @@
             position: relative;
         }
 
-        /* Menu icon */
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .menu div {
-            width: 28px;
-            height: 3px;
-            background-color: #FFFFFF;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .menu:hover div {
-            background-color: #E8F0E3;
-        }
-
-        /* Logo */
         .logo {
             font-size: 28px;
             font-weight: 800;
@@ -64,35 +36,133 @@
             transform: translateX(-50%);
         }
 
-        /* Profile button */
-        .profile-btn-with-text {
-            text-decoration: none;
+        /* ── Header buttons (Profile + Logout) ── */
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
 
-        .icon-user-text {
-            width: 70px;
+        .header-btn {
             height: 45px;
-            background-color: #9ACD32;
+            padding: 0 20px;
             border-radius: 14px;
+            border: none;
             cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .header-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-profile {
+            background: #4CAF50;
+            color: #fff;
+        }
+
+        .btn-logout {
+            background: #E53935;
+            color: #fff;
+        }
+
+        /* ── Hamburger ── */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+            position: relative;
+            z-index: 1001;
+        }
+        .hamburger div {
+            width: 28px;
+            height: 3px;
+            background-color: #FFFFFF;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger:hover div { background-color: #E8F0E3; }
+
+        /* Animate to X when open */
+        .hamburger.open div:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open div:nth-child(2) { opacity: 0; }
+        .hamburger.open div:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* ── Dropdown nav menu ── */
+        .nav-dropdown {
+            position: absolute;
+            top: 80px;
+            left: 30px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            overflow: hidden;
+            z-index: 1000;
+            min-width: 220px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .nav-dropdown.open {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .nav-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 22px;
+            text-decoration: none;
+            color: #333;
             font-size: 14px;
             font-weight: 600;
-            transition: transform 0.2s ease;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f0f0;
         }
+        .nav-dropdown a:last-child { border-bottom: none; }
+        .nav-dropdown a:hover { background: #FFF3EE; color: #FF6B35; }
 
-        .icon-user-text:hover {
-            transform: scale(1.15);
+        .nav-dropdown a .nav-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #FFF3EE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
+        .nav-dropdown a:hover .nav-icon { background: #FFE0D0; }
+        .nav-dropdown a .nav-icon svg { width: 16px; height: 16px; color: #FF6B35; fill: #FF6B35; }
 
-        /* Main content */
-        main {
-            padding: 50px 20px;
-            text-align: center;
+        /* Profile link at top of dropdown — green accent */
+        .nav-dropdown a.nav-profile .nav-icon { background: #F0FAE0; }
+        .nav-dropdown a.nav-profile:hover { background: #F0FAE0; color: #6aaa00; }
+        .nav-dropdown a.nav-profile .nav-icon svg { fill: #9ACD32; color: #9ACD32; }
+
+        /* Overlay to close menu when clicking outside */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 999;
         }
+        .nav-overlay.open { display: block; }
+
+        /* ── Main ── */
+        main { padding: 50px 20px; text-align: center; }
 
         .main-icon {
             width: 80px;
@@ -109,6 +179,7 @@
             letter-spacing: 2px;
         }
 
+        /* ── Cards ── */
         .cards {
             display: flex;
             justify-content: center;
@@ -117,6 +188,8 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        .card-link { text-decoration: none; color: inherit; display: block; }
 
         .card {
             width: 320px;
@@ -128,12 +201,10 @@
             position: relative;
             transition: all 0.3s ease;
         }
-
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-
         .card img {
             width: 100%;
             height: 350px;
@@ -154,12 +225,7 @@
             justify-content: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
-
-        .icon-card svg {
-            width: 28px;
-            height: 28px;
-            color: #FF6B35;
-        }
+        .icon-card svg { width: 28px; height: 28px; color: #FF6B35; fill: #FF6B35; }
 
         .label-card {
             position: absolute;
@@ -173,15 +239,16 @@
             font-weight: 600;
             font-size: 14px;
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
             transition: all 0.3s ease;
         }
-
         .card:hover .label-card {
             background: #43A047;
             transform: translateX(-50%) scale(1.05);
         }
 
+        /* ── Footer ── */
         footer {
             background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
             padding: 20px;
@@ -190,35 +257,61 @@
             font-size: 14px;
             margin-top: 50px;
         }
-        .card-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
     </style>
 </head>
 
 <body>
+
 <header>
-    <div class="menu">
+    <!-- Hamburger -->
+    <div class="hamburger" id="hamburger">
         <div></div>
         <div></div>
         <div></div>
     </div>
+
+    <!-- Dropdown nav -->
+    <div class="nav-overlay" id="navOverlay"></div>
+    <nav class="nav-dropdown" id="navDropdown">
+        <a href="./Profile Managment/ProfileManagement.html" class="nav-profile">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            </div>
+            Profile
+        </a>
+        <a href="./Recipe Managment/SearchRecipes.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg>
+            </div>
+            Inspirations
+        </a>
+        <a href="./Recipe Managment/WeeklyPlanner.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            </div>
+            Your Schedule
+        </a>
+        <a href="./ShoppingList/ShoppingList.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            </div>
+            Shopping List
+        </a>
+        <a href="./LLM Pipeline/fridge.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/></svg>
+            </div>
+            Your Fridge
+        </a>
+    </nav>
 
     <div class="logo">MEAL | MAJOR | PREP</div>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
-        <a href="./Profile Managment/ProfileManagement.html" class="profile-btn-with-text">
-            <div class="icon-user-text">Profile</div>
-        </a>
-
-        <div class="icon-user-text" style="background:#FFCDD2;" onclick="logout()">
-            Logout
-        </div>
+    <!-- Profile + Logout -->
+    <div class="header-actions">
+        <a href="./Profile Managment/ProfileManagement.html" class="header-btn btn-profile">Profile</a>
+        <button class="header-btn btn-logout" onclick="logout()">Logout</button>
     </div>
-
 </header>
 
 <main>
@@ -227,44 +320,47 @@
     </svg>
 
     <h2 class="slogan">REAL FOOD, REAL QUALITY</h2>
-    <!-- cards unchanged -->
-     <div class="cards">
-    <!-- Card 1 -->
-    <a href="./Recipe Managment/SearchRecipes.html" class="card-link">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800" alt="Food inspiration">
-            <div class="icon-card">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
-                </svg>
+
+    <div class="cards">
+        <!-- Card 1 — Inspirations -->
+        <a href="./Recipe Managment/SearchRecipes.html" class="card-link">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800" alt="Food inspiration">
+                <div class="icon-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                    </svg>
+                </div>
+                <div class="label-card">INSPIRATIONS</div>
             </div>
-            <div class="label-card">INSPIRATIONS</div>
-        </div>
-    </a>
+        </a>
 
-    <!-- Card 2 -->
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800" alt="Shopping list">
-        <div class="icon-card">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
-            </svg>
-        </div>
-        <div class="label-card">SHOPPING LIST</div>
+        <!-- Card 2 — Your Schedule (ex Shopping List) -->
+        <a href="./Recipe Managment/WeeklyPlanner.html" class="card-link">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800" alt="Your Schedule">
+                <div class="icon-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                    </svg>
+                </div>
+                <div class="label-card">YOUR SCHEDULE</div>
+            </div>
+        </a>
+
+        <!-- Card 3 — Your Fridge -->
+        <a href="./LLM Pipeline/fridge.html" class="card-link">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800" alt="Your fridge">
+                <div class="icon-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/>
+                    </svg>
+                </div>
+                <div class="label-card">YOUR FRIDGE</div>
+            </div>
+        </a>
     </div>
-
-    <!-- Card 3 -->
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800" alt="Your fridge">
-        <div class="icon-card">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/>
-            </svg>
-        </div>
-      <div class="label-card">YOUR FRIDGE</div>
-    </div>
-</div>
-
 </main>
 
 <footer>
@@ -273,6 +369,25 @@
 
 <script type="module" src="./Authentification Managment/auth.js"></script>
 
+<script>
+    // Hamburger toggle
+    const hamburger    = document.getElementById('hamburger');
+    const navDropdown  = document.getElementById('navDropdown');
+    const navOverlay   = document.getElementById('navOverlay');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navDropdown.classList.toggle('open');
+        navOverlay.classList.toggle('open');
+    });
+
+    // Close menu when clicking outside
+    navOverlay.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navDropdown.classList.remove('open');
+        navOverlay.classList.remove('open');
+    });
+</script>
 
 </body>
 </html>

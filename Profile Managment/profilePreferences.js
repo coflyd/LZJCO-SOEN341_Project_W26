@@ -8,6 +8,8 @@ import {
 
 const auth = getAuth();
 const database = getDatabase();
+const { mapProfileToForm, buildProfileUpdate, readProfileForm } =
+  window.ProfilePreferencesHelpers;
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("settingsForm");
@@ -29,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const snapshot = await get(ref(database, `users/${user.uid}`));
       if (snapshot.exists()) {
-        const data = snapshot.val();
+        const formData = mapProfileToForm(snapshot.val());
 
         nameInput.value = data.name || "";
         document.getElementById("targetCalories").value = data.targetCalories || "";
@@ -41,21 +43,19 @@ document.addEventListener("DOMContentLoaded", () => {
         document
           .querySelectorAll("#allergyGroup input[type='checkbox']")
           .forEach(cb => {
-            cb.checked = allergies.includes(cb.value);
+            cb.checked = formData.selectedAllergies.includes(cb.value);
           });
 
         // Other allergies
-        const predefined = ["milk", "eggs", "peanuts", "gluten", "soy"];
-        const other = allergies.filter(a => !predefined.includes(a));
-        if (other.length && otherAllergyInput) {
-          otherAllergyInput.value = other.join(", ");
+        if (formData.otherAllergies && otherAllergyInput) {
+          otherAllergyInput.value = formData.otherAllergies;
         }
 
         // Preferences checkboxes
         document
           .querySelectorAll("#prefGroup input[type='checkbox']")
           .forEach(cb => {
-            cb.checked = dietPreferences.includes(cb.value);
+            cb.checked = formData.dietPreferences.includes(cb.value);
           });
       }
     } catch {
@@ -68,32 +68,19 @@ document.addEventListener("DOMContentLoaded", () => {
       message.textContent = "";
       message.className = "save-message";
 
-      const name = nameInput.value.trim();
-      if (!name) {
+      const formValues = readProfileForm(document);
+      const profileUpdate = buildProfileUpdate(
+        formValues.name,
+        formValues.selectedAllergies,
+        formValues.otherAllergies,
+        formValues.dietPreferences
+      );
+
+      if (profileUpdate.error) {
         message.textContent = "Name cannot be empty.";
         message.classList.add("error");
         return;
       }
-
-      const allergies = [];
-      const dietPreferences = [];
-
-      document
-        .querySelectorAll("#allergyGroup input[type='checkbox']:checked")
-        .forEach(cb => allergies.push(cb.value));
-
-      const otherText = otherAllergyInput?.value.trim();
-      if (otherText) {
-        otherText
-          .split(",")
-          .map(a => a.trim())
-          .filter(Boolean)
-          .forEach(a => allergies.push(a));
-      }
-
-      document
-        .querySelectorAll("#prefGroup input[type='checkbox']:checked")
-        .forEach(cb => dietPreferences.push(cb.value));
 
       try {
         await update(ref(database, `users/${user.uid}`), {

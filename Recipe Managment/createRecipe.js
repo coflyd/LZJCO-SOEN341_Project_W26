@@ -20,6 +20,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
+const {
+    validateRecipeInput,
+    buildRecipeData,
+    getMediaPreview,
+    buildRecipePreview,
+    readRecipeForm
+} = window.CreateRecipeHelpers;
 
 const urlParams = new URLSearchParams(window.location.search);
 const editId = urlParams.get('editId');
@@ -125,26 +132,21 @@ attachRemoveListeners();
 
 // Media preview
 document.getElementById('media-url').addEventListener('input', function() {
-    const url = this.value.trim();
     const previewDiv = document.getElementById('media-preview');
-    
-    if (!url) {
+    const preview = getMediaPreview(this.value);
+
+    if (preview.type === 'placeholder') {
         previewDiv.className = 'media-placeholder';
         previewDiv.innerHTML = '<i class="fas fa-image"></i><p>Media preview will appear here</p>';
         return;
     }
 
-    // Check if YouTube URL
-    const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/;
-    const match = url.match(youtubeRegex);
-    
-    if (match) {
-        const videoId = match[1];
+    if (preview.type === 'youtube') {
         previewDiv.className = '';
-        previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-    } else if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+        previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${preview.videoId}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (preview.type === 'image') {
         previewDiv.className = '';
-        previewDiv.innerHTML = `<img src="${url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
+        previewDiv.innerHTML = `<img src="${preview.url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
     }
 });
 

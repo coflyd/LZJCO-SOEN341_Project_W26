@@ -20,6 +20,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
+const {
+    validateRecipeInput,
+    buildRecipeData,
+    getMediaPreview,
+    buildRecipePreview,
+    readRecipeForm
+} = window.CreateRecipeHelpers;
 
 const urlParams = new URLSearchParams(window.location.search);
 const editId = urlParams.get('editId');
@@ -125,26 +132,21 @@ attachRemoveListeners();
 
 // Media preview
 document.getElementById('media-url').addEventListener('input', function() {
-    const url = this.value.trim();
     const previewDiv = document.getElementById('media-preview');
-    
-    if (!url) {
+    const preview = getMediaPreview(this.value);
+
+    if (preview.type === 'placeholder') {
         previewDiv.className = 'media-placeholder';
         previewDiv.innerHTML = '<i class="fas fa-image"></i><p>Media preview will appear here</p>';
         return;
     }
 
-    // Check if YouTube URL
-    const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/;
-    const match = url.match(youtubeRegex);
-    
-    if (match) {
-        const videoId = match[1];
+    if (preview.type === 'youtube') {
         previewDiv.className = '';
-        previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-    } else if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+        previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${preview.videoId}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (preview.type === 'image') {
         previewDiv.className = '';
-        previewDiv.innerHTML = `<img src="${url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
+        previewDiv.innerHTML = `<img src="${preview.url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
     }
 });
 
@@ -156,25 +158,15 @@ function updatePreview() {
     const category = document.querySelector('.category-option.selected')?.textContent.trim();
     
     const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
-        .map(input => input.value)
-        .filter(val => val.trim());
+        .map(input => input.value);
 
-    let preview = '';
-    
-    if (name) preview += `<h3>${name}</h3>`;
-    if (category || time || portions) {
-        preview += '<p>';
-        if (category) preview += `<strong>Category:</strong> ${category} `;
-        if (time) preview += `<strong>Time:</strong> ${time} min `;
-        if (portions) preview += `<strong>Servings:</strong> ${portions}`;
-        preview += '</p>';
-    }
-    
-    if (ingredients.length > 0) {
-        preview += '<p><strong>Ingredients:</strong><br>' + ingredients.join('<br>') + '</p>';
-    }
-
-    document.getElementById('preview-content').innerHTML = preview || '<p><em>Your recipe preview will appear here as you type.</em></p>';
+    document.getElementById('preview-content').innerHTML = buildRecipePreview({
+        name,
+        time,
+        portions,
+        category,
+        ingredients
+    });
 }
 
 // Update preview on input and hide messages when typing
@@ -229,51 +221,21 @@ document.getElementById('clear-btn').addEventListener('click', function() {
 
 // Save recipe
 document.getElementById('save-btn').addEventListener('click', async function() {
-
-    const name = document.getElementById('recipe-name').value.trim();
-
-    if (!name) {
-        showError('Please enter a recipe name');
-        return;
-    }
-
-    const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
-        .map(input => input.value.trim())
-        .filter(val => val);
-
-    const steps = Array.from(document.querySelectorAll('.step-input'))
-        .map(input => input.value.trim())
-        .filter(val => val);
-
-    if (ingredients.length === 0) {
-        showError('Please add at least one ingredient');
-        return;
-    }
-
-    if (steps.length === 0) {
-        showError('Please add at least one step');
-        return;
-    }
-
+    const formValues = readRecipeForm(document);
     const user = auth.currentUser;
+    const validationError = validateRecipeInput({
+        name: formValues.name,
+        ingredients: formValues.ingredients,
+        steps: formValues.steps,
+        user
+    });
 
-    if (!user) {
-        showError('You must be logged in to save recipes.');
+    if (validationError) {
+        showError(validationError);
         return;
     }
 
-    const recipeData = {
-        name: name,
-        ownerUid: user.uid,
-        cookingTime: Number(document.getElementById('cooking-time').value) || 0,
-        portions: Number(document.getElementById('portions').value) || 0,
-        category: document.getElementById('selected-category').value,
-        mediaUrl: document.getElementById('media-url').value.trim(),
-        ingredients: ingredients,
-        steps: steps,
-        notes: document.getElementById('notes').value.trim(),
-        createdAt: new Date().toISOString()
-    };
+    const recipeData = buildRecipeData(formValues, user, new Date().toISOString());
 
     try {
         if (editId) {
@@ -343,4 +305,3 @@ async function loadRecipeForEditing(id) {
 if (editId) {
     loadRecipeForEditing(editId);
 }
-

@@ -57,9 +57,15 @@ Write 2 acceptance tests
 -Edit & Delete test
 
 20/03/2026 (2 hrs)
-Added 12 unit tests for authentication
-Fixed playwright issue for CI tests not being successful
-downloaded Jest files for unit testing
+-Added 12 unit tests for authentication
+-Fixed playwright issue for CI tests not being successful
+-Downloaded Jest files for unit testing
+
+28/03/2026 (4 hrs)
+-Added 16 more unit tests for Profile and recipt managements.
+-Did total 28 unit tests for all sprint 1 and sprint 2 functionalities.
+-Resolved conflicts on github.
+
 
 
 

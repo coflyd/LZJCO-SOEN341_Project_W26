@@ -79,3 +79,11 @@ March 30 (20min)
 -Added hour to contribution
 
 -Wrote and assigned tasks for sprint 4
+
+March 31 (4h)
+
+-Refactored Octavian's code using better principles (Profile Management and weekly planner)
+
+-Used ESLint to find bugs. One of them was forgotPassword() not working
+
+-Refactored a bit of my and Cedric's code in authentification to adhere to better practices

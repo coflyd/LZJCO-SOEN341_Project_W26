@@ -169,7 +169,7 @@ class ProfileService {
       return snapshot.exists() ? snapshot.val() : null;
     } catch (error) {
       console.error('Error loading profile:', error);
-      throw new Error(ERROR_MESSAGES.LOAD_FAILED);
+      throw new Error(ERROR_MESSAGES.LOAD_FAILED, { cause: error });
     }
   }
 
@@ -201,7 +201,7 @@ class ProfileService {
       return updateData;
     } catch (error) {
       console.error('Error updating profile:', error);
-      throw new Error(ERROR_MESSAGES.UPDATE_FAILED);
+      throw new Error(ERROR_MESSAGES.UPDATE_FAILED, { cause: error });
     }
   }
 }

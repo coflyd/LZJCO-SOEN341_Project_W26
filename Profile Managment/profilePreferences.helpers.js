@@ -266,9 +266,6 @@ class ProfilePreferencesHelpers {
   static getOtherAllergies = AllergyProcessor.getCustomAllergies;
 }
 
-// Export the main helper class and utilities
-const profilePreferencesHelpers = ProfilePreferencesHelpers;
-
 // Browser environment
 if (typeof window !== "undefined") {
   window.ProfilePreferencesHelpers = ProfilePreferencesHelpers;

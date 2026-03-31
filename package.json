@@ -11,7 +11,8 @@
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
-    "test:unit": "jest --config jest.config.cjs"
+    "test:unit": "jest --config jest.config.cjs",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,10 @@
   },
   "homepage": "https://github.com/coflyd/LZJCO-SOEN341_Project_W26#readme",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.58.2",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "jest": "^30.3.0"
   }
 }

@@ -5,196 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - MealMajor</title>
     <link rel="stylesheet" href="../Authentification Managment/styles.css">
+    <link rel="stylesheet" href="./ProfileManagement.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        /* ── Header ── */
-        header{background:linear-gradient(135deg,#FF6B35 0%,#F4511E 100%);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;width:100%;box-shadow:0 4px 15px rgba(255,107,53,.3);position:relative;}
-        .logo-text{font-family:'Poppins',sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:2px;position:absolute;left:50%;transform:translateX(-50%)}
-
-        /* Profile body background */
-        .profile-body {
-            width: 100%;
-            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
-            min-height: calc(100vh - 80px);
-        }
-
-        /* Profile card */
-        .profile-card {
-            width: 480px;
-            background: #FFFFFF;
-            border-radius: 20px;
-            padding: 40px 35px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            border: 1px solid rgba(76, 175, 80, 0.1);
-            height: fit-content;
-        }
-
-        .profile-card h2 {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 700;
-            color: #333333;
-            margin-bottom: 30px;
-        }
-
-        /* Section titles */
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333333;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #E8F0E3;
-        }
-
-        /* Checkbox groups */
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #555555;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background 0.2s ease;
-        }
-
-        .checkbox-group label:hover {
-            background: #F8FAF5;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #4CAF50;
-            cursor: pointer;
-        }
-
-        .other-input {
-            margin-top: 8px;
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #E0E0E0;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            background: #FAFAFA;
-            transition: all 0.2s ease;
-        }
-
-        .other-input:focus {
-            border-color: #4CAF50;
-            background: #FFFFFF;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
-
-        /* Save button */
-        .save-btn {
-            width: 100%;
-            border: none;
-            background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .save-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        .save-btn:active {
-            transform: translateY(0);
-        }
-
-        .save-message {
-            margin-top: 14px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            min-height: 18px;
-        }
-
-        .save-message.success {
-            color: #4CAF50;
-        }
-
-        .save-message.error {
-            color: #E53935;
-        }
-
-    
-        .hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:5px;position:relative;z-index:1001;flex-shrink:0}
-        .hamburger div{width:28px;height:3px;background:#fff;border-radius:2px;transition:all .3s}
-        .hamburger.open div:nth-child(1){transform:translateY(8px) rotate(45deg)}
-        .hamburger.open div:nth-child(2){opacity:0}
-        .hamburger.open div:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-        .nav-dropdown{position:absolute;top:80px;left:30px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);overflow:hidden;z-index:1000;min-width:220px;opacity:0;pointer-events:none;transform:translateY(-10px);transition:opacity .25s,transform .25s}
-        .nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
-        .nav-dropdown a{display:flex;align-items:center;gap:12px;padding:14px 22px;text-decoration:none;color:#333;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;transition:background .15s;border-bottom:1px solid #f0f0f0;cursor:pointer}
-        .nav-dropdown a:last-child{border-bottom:none}
-        .nav-dropdown a:hover{background:#FFF3EE;color:#FF6B35}
-        .nav-dropdown a .nav-icon{width:32px;height:32px;border-radius:8px;background:#FFF3EE;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .nav-dropdown a:hover .nav-icon{background:#FFE0D0}
-        .nav-dropdown a .nav-icon svg{width:16px;height:16px;fill:#FF6B35}
-        .nav-dropdown a.nav-profile .nav-icon{background:#F0FAE0}
-        .nav-dropdown a.nav-profile:hover{background:#F0FAE0;color:#6aaa00}
-        .nav-dropdown a.nav-profile .nav-icon svg{fill:#9ACD32}
-        .nav-dropdown a.nav-logout .nav-icon{background:#FFF0F0}
-        .nav-dropdown a.nav-logout:hover{background:#FFF0F0;color:#E53935}
-        .nav-dropdown a.nav-logout .nav-icon svg{fill:#E53935}
-        .nav-overlay{display:none;position:fixed;inset:0;z-index:999}
-        .nav-overlay.open{display:block}
-    </style>
 </head>
 
 <body>
     <!-- Header -->
     <header>
-    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-    <div class="nav-overlay" id="navOverlay"></div>
-    <nav class="nav-dropdown" id="navDropdown">
-        <a href="../HomePage.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>Home Page
-        </a>
-        <a href="../Profile Managment/ProfileManagement.html" class="nav-profile">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>Profile
-        </a>
-        <a href="../Recipe Managment/SearchRecipes.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg></div>Inspirations
-        </a>
-        <a href="../Recipe Managment/WeeklyPlanner.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg></div>Your Schedule
-        </a>
-        <a href="../ShoppingList/ShoppingList.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>Shopping List
-        </a>
-        <a href="../LLM Pipeline/fridge.html">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/></svg></div>Your Fridge
-        </a>
-        <a class="nav-logout" onclick="logout()">
-            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>Logout
-        </a>
-    </nav>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-overlay" id="navOverlay"></div>
+        <nav class="nav-dropdown" id="navDropdown">
+            <a href="../HomePage.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </div>
+                Home Page
+            </a>
+            <a href="../Profile Managment/ProfileManagement.html" class="nav-profile">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                    </svg>
+                </div>
+                Profile
+            </a>
+            <a href="../Recipe Managment/SearchRecipes.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                    </svg>
+                </div>
+                Inspirations
+            </a>
+            <a href="../Recipe Managment/WeeklyPlanner.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                    </svg>
+                </div>
+                Your Schedule
+            </a>
+            <a href="../ShoppingList/ShoppingList.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                </div>
+                Shopping List
+            </a>
+            <a href="../LLM Pipeline/fridge.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/>
+                    </svg>
+                </div>
+                Your Fridge
+            </a>
+            <a class="nav-logout" onclick="logout()">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                </div>
+                Logout
+            </a>
+        </nav>
         <div class="logo-text">MEAL | MAJOR | PREP</div>
         <div style="width:48px"></div>
     </header>
@@ -204,57 +85,88 @@
         <div class="profile-card">
             <h2>Your Profile</h2>
 
-            <form id="settingsForm" onsubmit="return false;">
+            <form id="settingsForm" novalidate>
                 <!-- Name -->
                 <div class="field">
-                    <label for="name">Name<span class="error-text" id="name-error"></span></label>
-                    <input type="text" id="name" placeholder="Enter your name">
+                    <label for="name">
+                        Name
+                        <span class="error-text" id="name-error"></span>
+                    </label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
                 </div>
 
-                <!--Target Calories-->
+                <!-- Target Calories -->
                 <div class="field">
-                    <label for="targetCalories">Daily Calorie Target</label>
-                    <input type="number" id="targetCalories" placeholder="e.g. 2000">
+                    <label for="targetCalories">
+                        Daily Calorie Target
+                        <span class="error-text" id="targetCalories-error"></span>
+                    </label>
+                    <input type="number" id="targetCalories" placeholder="e.g. 2000" min="0" max="5000">
                 </div>
 
                 <!-- Allergies -->
                 <h3 class="section-title">Allergies</h3>
                 <div class="checkbox-group" id="allergyGroup">
-                    <label><input type="checkbox" value="milk"> Milk</label>
-                    <label><input type="checkbox" value="eggs"> Eggs</label>
-                    <label><input type="checkbox" value="peanuts"> Peanuts</label>
-                    <label><input type="checkbox" value="gluten"> Gluten</label>
-                    <label><input type="checkbox" value="soy"> Soy</label>
-                    <input class="other-input" id="Allergies" placeholder="Other allergies...">
+                    <label>
+                        <input type="checkbox" value="milk" name="allergies">
+                        Milk
+                    </label>
+                    <label>
+                        <input type="checkbox" value="eggs" name="allergies">
+                        Eggs
+                    </label>
+                    <label>
+                        <input type="checkbox" value="peanuts" name="allergies">
+                        Peanuts
+                    </label>
+                    <label>
+                        <input type="checkbox" value="gluten" name="allergies">
+                        Gluten
+                    </label>
+                    <label>
+                        <input type="checkbox" value="soy" name="allergies">
+                        Soy
+                    </label>
+                    <input class="other-input" id="Allergies" placeholder="Other allergies (comma-separated)..." aria-label="Other allergies">
                 </div>
 
                 <!-- Preferences -->
-                <h3 class="section-title">Preferences</h3>
+                <h3 class="section-title">Dietary Preferences</h3>
                 <div class="checkbox-group" id="prefGroup">
-                    <label><input type="checkbox" value="vegan"> Vegan</label>
-                    <label><input type="checkbox" value="vegetarian"> Vegetarian</label>
-                    <label><input type="checkbox" value="keto"> Keto</label>
-                    <label><input type="checkbox" value="low-carb"> Low Carb</label>
-                    <label><input type="checkbox" value="high-protein"> High Protein</label>
+                    <label>
+                        <input type="checkbox" value="vegan" name="preferences">
+                        Vegan
+                    </label>
+                    <label>
+                        <input type="checkbox" value="vegetarian" name="preferences">
+                        Vegetarian
+                    </label>
+                    <label>
+                        <input type="checkbox" value="keto" name="preferences">
+                        Keto
+                    </label>
+                    <label>
+                        <input type="checkbox" value="low-carb" name="preferences">
+                        Low Carb
+                    </label>
+                    <label>
+                        <input type="checkbox" value="high-protein" name="preferences">
+                        High Protein
+                    </label>
                 </div>
 
-                <button class="save-btn" type="submit">Save Changes</button>
-                <p id="save-message" class="save-message"></p>
-
+                <button class="save-btn" type="submit" id="saveButton">
+                    Save Changes
+                </button>
+                <div id="save-message" class="save-message" role="alert" aria-live="polite"></div>
             </form>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="./navigation.js"></script>
     <script src="./profilePreferences.helpers.js"></script>
     <script type="module" src="../Authentification Managment/auth.js"></script>
     <script type="module" src="./profilePreferences.js"></script>
-
-    <script>
-        const hamburger=document.getElementById('hamburger');
-        const navDropdown=document.getElementById('navDropdown');
-        const navOverlay=document.getElementById('navOverlay');
-        hamburger.addEventListener('click',()=>{hamburger.classList.toggle('open');navDropdown.classList.toggle('open');navOverlay.classList.toggle('open');});
-        navOverlay.addEventListener('click',()=>{hamburger.classList.remove('open');navDropdown.classList.remove('open');navOverlay.classList.remove('open');});
-    </script>
 </body>
 </html>

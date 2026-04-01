@@ -1,7 +1,15 @@
+const {
+    validateMealGenerationInput,
+    buildMealsRequestPayload,
+    parseRecipesResponse,
+    renderRecipeMarkup,
+    renderRecipesMarkup
+} = window.FridgeHelpers;
+
 window.generateMeals = async function () {
 
-    const ingredients = document.getElementById("ingredients").value.trim();
-    const calories = document.getElementById("calories").value.trim();
+    const rawIngredients = document.getElementById("ingredients").value;
+    const rawCalories = document.getElementById("calories").value;
 
     const ingredientsError = document.getElementById("ingredientsError");
     const caloriesError = document.getElementById("caloriesError");
@@ -10,17 +18,13 @@ window.generateMeals = async function () {
     // Get the button element
     const button = document.querySelector('button[onclick="generateMeals()"]');
     
-    ingredientsError.innerText = "";
-    caloriesError.innerText = "";
+    const validation = validateMealGenerationInput(rawIngredients, rawCalories);
+
+    ingredientsError.innerText = validation.ingredientsError;
+    caloriesError.innerText = validation.caloriesError;
     apiError.innerText = "";
 
-    if (!ingredients) {
-        ingredientsError.innerText = "Please enter ingredients.";
-        return;
-    }
-
-    if (!calories) {
-        caloriesError.innerText = "Please enter a calorie target.";
+    if (validation.ingredientsError || validation.caloriesError) {
         return;
     }
 
@@ -31,15 +35,14 @@ window.generateMeals = async function () {
 
     try {
 
+        const payload = buildMealsRequestPayload(rawIngredients, rawCalories);
+
         const response = await fetch("https://generaterecipes-yraqufr7gq-uc.a.run.app", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                ingredients: ingredients,
-                calories: calories
-            })
+            body: JSON.stringify(payload)
         });
 
         const result = await response.json();
@@ -71,12 +74,7 @@ window.generateMeals = async function () {
 
 window.displayRecipes = function(text) {
     try {
-        // Extract JSON from the response (remove code block markers)
-        const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/);
-        const jsonText = jsonMatch ? jsonMatch[1] : text;
-        
-        const data = JSON.parse(jsonText);
-        const recipes = data.recipes;
+        const recipes = parseRecipesResponse(text);
         
         const resultsDiv = document.getElementById("results");
         resultsDiv.innerHTML = "";
@@ -85,26 +83,12 @@ window.displayRecipes = function(text) {
             recipes.forEach(recipe => {
                 const recipeDiv = document.createElement("div");
                 recipeDiv.className = "recipe";
-                
-                recipeDiv.innerHTML = `
-                    <h3>${recipe.name}</h3>
-                    <p><strong>Calories:</strong> ${recipe.calories}</p>
-                    
-                    <h4>Ingredients:</h4>
-                    <ul>
-                        ${recipe.ingredients.map(ing => `<li>${ing.amount} ${ing.name}</li>`).join('')}
-                    </ul>
-                    
-                    <h4>Instructions:</h4>
-                    <ol>
-                        ${recipe.steps.map(step => `<li>${step}</li>`).join('')}
-                    </ol>
-                `;
+                recipeDiv.innerHTML = renderRecipeMarkup(recipe);
                 
                 resultsDiv.appendChild(recipeDiv);
             });
         } else {
-            resultsDiv.innerHTML = '<p>No recipes were generated. Please try with different ingredients.</p>';
+            resultsDiv.innerHTML = renderRecipesMarkup(recipes);
         }
         
     } catch (error) {

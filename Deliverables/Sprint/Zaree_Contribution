@@ -23,10 +23,10 @@
 -Added issues and assigned them to each team members
 
 18/02/2026 (4 hrs)
--Created first acceptance test:
--Testing register functionality
--Testing login functionality
--Testing redirecting functionality
+      -Created first acceptance test:
+      -Testing register functionality
+      -Testing login functionality
+      -Testing redirecting functionality
 
 24/02/2026 (3 hrs)
 Modification of first test:
@@ -73,6 +73,12 @@ Added 12 more unit tests for calories related features
     -Over calories limit exceeded logic.
     -Warning message.
 
+01/04/2026 (3 hrs)
+Added 5 unit tests for  fridge related.
 
-
-
+      -Validation for empty ingredients
+      -Validation for empty calories
+      -JSON parsing tests
+      -Recipe rendering
+      
+      

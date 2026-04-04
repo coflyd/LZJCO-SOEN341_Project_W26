@@ -23,38 +23,38 @@
 -Added issues and assigned them to each team members
 
 18/02/2026 (4 hrs)
--Created first acceptance test:
--Testing register functionality
--Testing login functionality
--Testing redirecting functionality
+      -Created first acceptance test:
+      -Testing register functionality
+      -Testing login functionality
+      -Testing redirecting functionality
 
 24/02/2026 (3 hrs)
 Modification of first test:
--Authentication test
--Few errors were noticed in the first test
--Modified it so everything is consistent and working
+      -Authentication test
+      -Few errors were noticed in the first test
+      -Modified it so everything is consistent and working
 Built the second acceptance test:
--Profile Preferences test
--Test passed, working and consistent
+      -Profile Preferences test
+      -Test passed, working and consistent
 
 24/02/2026 (3 hrs)
 Added Categories in the search box:
--HTML code added
--Javascript code added
--Resolved merging conflicts
- 🍗 Main Course
- 🍰 Dessert
- 🍳 Breakfast
- 🥗 Entree
- 🥤 Beverage
+     -HTML code added
+     -Javascript code added
+     -Resolved merging conflicts
+      🍗 Main Course
+      🍰 Dessert
+      🍳 Breakfast
+      🥗 Entree
+      🥤 Beverage
 
 24/02/2026 (1 hr)
 Added Ci in VS and Github
 
 17/03/2026 (4 hrs)
 Write 2 acceptance tests
--Create Recipt test
--Edit & Delete test
+     -Create Recipt test
+     -Edit & Delete test
 
 20/03/2026 (2 hrs)
 -Added 12 unit tests for authentication
@@ -66,6 +66,19 @@ Write 2 acceptance tests
 -Did total 28 unit tests for all sprint 1 and sprint 2 functionalities.
 -Resolved conflicts on github.
 
+31/03/2026 (3 hrs)
+Added 12 more unit tests for calories related features
+    -Getting meals for a specific day.
+    -Daily calories calculation.
+    -Over calories limit exceeded logic.
+    -Warning message.
 
+01/04/2026 (3 hrs)
+Added 5 unit tests for  fridge related.
 
-
+      -Validation for empty ingredients
+      -Validation for empty calories
+      -JSON parsing tests
+      -Recipe rendering
+      
+      

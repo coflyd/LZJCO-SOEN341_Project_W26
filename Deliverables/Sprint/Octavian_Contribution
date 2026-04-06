@@ -33,3 +33,4 @@ Final changes;
 - Polished the interface from the Meal planner to be full witdh
 - Used ESLint to find bugs/unused variables.
 - Created new .css files to clean up the .html ones and make them more readable
+- Updated a test file

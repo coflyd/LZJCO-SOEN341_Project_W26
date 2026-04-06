@@ -1254,6 +1254,7 @@ header {
 /* Footer */
 footer {
     background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+    width: 100%;
     padding: 20px;
     text-align: center;
     color: #fff;

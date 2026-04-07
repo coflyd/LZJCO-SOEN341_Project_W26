@@ -1,8 +1,17 @@
-// searchRecipes.js - Load and filter recipes from Firebase
+// searchRecipes.js 
+// Load and filter recipes from Firebase
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+const {
+    formatCategory,
+    getRecipeThumbnail,
+    sortRecipes,
+    applyRecipeFilters,
+    buildClearedFiltersState
+} = window.SearchRecipesHelpers;
 
 // Firebase config
 const firebaseConfig = {
@@ -79,20 +88,7 @@ function createRecipeCard(recipe) {
     const ingredients = recipe.ingredients || [];
     const displayIngredients = ingredients.slice(0, 4);
     const moreCount = ingredients.length - 4;
-    //Fix YTB -  visual 
-    let thumbnail = '';
-    if (recipe.mediaUrl) {
-        const isYoutube = recipe.mediaUrl.includes('youtube') || recipe.mediaUrl.includes('youtu.be');
-        const isImage = recipe.mediaUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i);
-            if (isYoutube) {
-                const videoId = getYoutubeId(recipe.mediaUrl);
-                if (videoId) {
-                    thumbnail = `<img class="card-thumbnail" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${recipe.name}" onerror="this.style.display='none'">`;
-                }
-            } else if (isImage) {
-                thumbnail = `<img class="card-thumbnail" src="${recipe.mediaUrl}" alt="${recipe.name}" onerror="this.style.display='none'">`;
-            }
-    }
+    const thumbnail = getRecipeThumbnail(recipe);
     
     return `
         <div class="recipe-card" data-id="${recipe.id}">
@@ -122,109 +118,18 @@ function createRecipeCard(recipe) {
     `;
 }
 
-// Format category name
-function formatCategory(category) {
-    if (!category) return '';
-    return category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-}
-
 // Search and filter recipes (Task 9)
 function filterRecipes() {
-    let filtered = [...allRecipes];
-    
-    // Search by name or ingredient
-    const searchTerm = searchInput?.value.toLowerCase().trim();
-    if (searchTerm) {
-        filtered = filtered.filter(recipe => {
-            const nameMatch = recipe.name?.toLowerCase().includes(searchTerm);
-            const ingredientMatch = recipe.ingredients?.some(ing => 
-                ing.toLowerCase().includes(searchTerm)
-            );
-            return nameMatch || ingredientMatch;
-        });
-    }
-    
-    // Filter by servings
-    const servings = servingsFilter?.value;
-    if (servings) {
-        filtered = filtered.filter(recipe => {
-            const portions = recipe.portions || 0;
-            switch (servings) {
-                case '1-2': return portions >= 1 && portions <= 2;
-                case '3-4': return portions >= 3 && portions <= 4;
-                case '5-6': return portions >= 5 && portions <= 6;
-                case '7+': return portions >= 7;
-                default: return true;
-            }
-        });
-    }
-    
-    // Filter by prep time
-    const prepTime = prepTimeFilter?.value;
-    if (prepTime) {
-        filtered = filtered.filter(recipe => {
-            const time = recipe.cookingTime || 0;
-            switch (prepTime) {
-                case '0-15': return time >= 0 && time <= 15;
-                case '16-30': return time >= 16 && time <= 30;
-                case '31-60': return time >= 31 && time <= 60;
-                case '61+': return time > 60;
-                default: return true;
-            }
-        });
-    }
-    
-    // Filter by total time
-    const totalTime = totalTimeFilter?.value;
-    if (totalTime) {
-        filtered = filtered.filter(recipe => {
-            const time = recipe.cookingTime || 0;
-            switch (totalTime) {
-                case '0-30': return time >= 0 && time <= 30;
-                case '31-60': return time >= 31 && time <= 60;
-                case '61-90': return time >= 61 && time <= 90;
-                case '91+': return time > 90;
-                default: return true;
-            }
-        });
-    }
-    
-    // Filter by category checkboxes (Task 15 - Zaree)
-    if (selectedCategories.length > 0) {
-        filtered = filtered.filter(recipe => 
-            selectedCategories.includes(recipe.category)
-        );
-    }
-    
-    // Sort recipes
-    const sortBy = sortFilter?.value;
-    if (sortBy) {
-        filtered = sortRecipes(filtered, sortBy);
-    }
-    
-    displayRecipes(filtered);
-}
+    const filtered = applyRecipeFilters(allRecipes, {
+        searchTerm: searchInput?.value || '',
+        servings: servingsFilter?.value || '',
+        prepTime: prepTimeFilter?.value || '',
+        totalTime: totalTimeFilter?.value || '',
+        selectedCategories,
+        sortBy: sortFilter?.value || ''
+    });
 
-// Sort recipes
-function sortRecipes(recipes, sortBy) {
-    const sorted = [...recipes];
-    
-    switch (sortBy) {
-        case 'name':
-            return sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-        case 'name-desc':
-            return sorted.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
-        case 'time-asc':
-            return sorted.sort((a, b) => (a.cookingTime || 0) - (b.cookingTime || 0));
-        case 'time-desc':
-            return sorted.sort((a, b) => (b.cookingTime || 0) - (a.cookingTime || 0));
-        case 'servings-asc':
-            return sorted.sort((a, b) => (a.portions || 0) - (b.portions || 0));
-        case 'servings-desc':
-            return sorted.sort((a, b) => (b.portions || 0) - (a.portions || 0));
-        default:
-            return sorted;
-    }
+    displayRecipes(filtered);
 }
 
 // Filter by category checkboxes (Task 15 - Zaree)
@@ -243,15 +148,16 @@ function setupCategoryCheckboxes() {
 
 // Clear all filters
 window.clearFilters = function() {
-    if (searchInput) searchInput.value = '';
-    if (servingsFilter) servingsFilter.value = '';
-    if (prepTimeFilter) prepTimeFilter.value = '';
-    if (totalTimeFilter) totalTimeFilter.value = '';
-    if (sortFilter) sortFilter.value = 'name';
+    const cleared = buildClearedFiltersState();
+    if (searchInput) searchInput.value = cleared.search;
+    if (servingsFilter) servingsFilter.value = cleared.servings;
+    if (prepTimeFilter) prepTimeFilter.value = cleared.prepTime;
+    if (totalTimeFilter) totalTimeFilter.value = cleared.totalTime;
+    if (sortFilter) sortFilter.value = cleared.sort;
     
     // Clear category checkboxes (Task 15 - Zaree)
     document.querySelectorAll('.category-checkbox').forEach(cb => cb.checked = false);
-    selectedCategories = [];
+    selectedCategories = cleared.selectedCategories;
     
     displayRecipes(allRecipes);
 };
@@ -336,12 +242,6 @@ window.closeRecipeModal = function() {
         document.body.style.overflow = '';
     }
 };
-
-// Get YouTube video ID from URL
-function getYoutubeId(url) {
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
-    return match ? match[1] : '';
-}
 
 // Delete recipe
 window.deleteRecipe = async function(recipeId) {

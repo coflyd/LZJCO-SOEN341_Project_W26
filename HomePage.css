@@ -1,0 +1,342 @@
+/* HomePage.css - Styles for MealMajor Home Page */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+    min-height: 100vh;
+}
+
+/* ── Header ── */
+header {
+    background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    position: relative;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 3px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ── Header buttons (Profile + Logout) ── */
+.header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.header-btn {
+    height: 45px;
+    padding: 0 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.btn-profile {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.btn-logout {
+    background: #E53935;
+    color: #fff;
+}
+
+/* ── Hamburger ── */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
+    position: relative;
+    z-index: 1001;
+}
+
+.hamburger div {
+    width: 28px;
+    height: 3px;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover div { 
+    background-color: #E8F0E3; 
+}
+
+/* Animate to X when open */
+.hamburger.open div:nth-child(1) { 
+    transform: translateY(8px) rotate(45deg); 
+}
+
+.hamburger.open div:nth-child(2) { 
+    opacity: 0; 
+}
+
+.hamburger.open div:nth-child(3) { 
+    transform: translateY(-8px) rotate(-45deg); 
+}
+
+/* ── Dropdown nav menu ── */
+.nav-dropdown {
+    position: absolute;
+    top: 80px;
+    left: 30px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    overflow: hidden;
+    z-index: 1000;
+    min-width: 220px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.nav-dropdown.open {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.nav-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.15s;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-dropdown a:last-child { 
+    border-bottom: none; 
+}
+
+.nav-dropdown a:hover { 
+    background: #FFF3EE; 
+    color: #FF6B35; 
+}
+
+.nav-dropdown a .nav-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #FFF3EE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-dropdown a:hover .nav-icon { 
+    background: #FFE0D0; 
+}
+
+.nav-dropdown a .nav-icon svg { 
+    width: 16px; 
+    height: 16px; 
+    color: #FF6B35; 
+    fill: #FF6B35; 
+}
+
+/* Profile link at top of dropdown — green accent */
+.nav-dropdown a.nav-profile .nav-icon { 
+    background: #F0FAE0; 
+}
+
+.nav-dropdown a.nav-profile:hover { 
+    background: #F0FAE0; 
+    color: #6aaa00; 
+}
+
+.nav-dropdown a.nav-profile .nav-icon svg { 
+    fill: #9ACD32; 
+    color: #9ACD32; 
+}
+
+/* Overlay to close menu when clicking outside */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+}
+
+.nav-overlay.open { 
+    display: block; 
+}
+
+/* ── Main ── */
+main { 
+    padding: 50px 20px; 
+    text-align: center; 
+}
+
+.main-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    color: #4CAF50;
+}
+
+.slogan {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+
+/* ── Cards ── */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-link { 
+    text-decoration: none; 
+    color: inherit; 
+    display: block; 
+}
+
+.card {
+    width: 320px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.icon-card {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.icon-card svg { 
+    width: 28px; 
+    height: 28px; 
+    color: #FF6B35; 
+    fill: #FF6B35; 
+}
+
+.label-card {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4CAF50;
+    color: #FFFFFF;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+    transition: all 0.3s ease;
+}
+
+.card:hover .label-card {
+    background: #43A047;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* ── Footer ── */
+footer {
+    background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+    padding: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 14px;
+    margin-top: 50px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+    }
+    
+    .logo {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+    
+    .header-btn {
+        height: 38px;
+        padding: 0 14px;
+        font-size: 12px;
+    }
+    
+    .slogan {
+        font-size: 24px;
+    }
+    
+    .card {
+        width: 280px;
+    }
+    
+    .card img {
+        height: 280px;
+    }
+}

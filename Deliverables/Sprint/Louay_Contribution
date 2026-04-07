@@ -1,4 +1,4 @@
-January 29
+January 29 (2h)
 
 -Designed and implemented the initial prototype for the Login and Registration pages.
 
@@ -8,13 +8,13 @@ January 29
 
 -Integrated Firebase Authentication with the frontend to enable basic login/register functionality.
 
-January 31
+January 31 (2h)
 
 -Implemented input validation and verification logic for both login and registration flows.
 
 -Ensured proper handling of invalid credentials and missing/incorrect user inputs.
 
-February 03
+February 03 (3h)
 
 -Improved and finalized verification logic across authentication flows.
 
@@ -26,13 +26,13 @@ February 03
 
 	UI/UX (cleaner layout and better visual feedback)
 
-February 05
+February 05 (1h:30min)
 
 -Implemented the saving preferences/allergies feature
 
 -Added Logout
 
-February 15
+February 15 (1h)
 
 -Reorganized the structure of the project
 
@@ -40,19 +40,19 @@ February 15
 
 -Fixed the usage of error handling (no more alert)
 
-February 18
+February 18 (1h)
 
 -removed nodem_modules tracking through .gitignore
 
 -fixed broken references in the last commit made
 
-February 25
+February 25 (4h)
 
 -Attempted to implement Firebase emulators to prevent test user pollution in CI/CD pipeline
 
 -Pivoted strategy: implemented automatic test user cleanup after test execution instead
 
-March 17
+March 17 (3h)
 
 -Created Firebase Cloud Functions for AI recipe generation using OpenAI API
 
@@ -62,14 +62,28 @@ March 17
 
 -Implemented API call logic for generating meal recipes based on user ingredients
 
-March 18
+March 18 (1h)
 
 -Finished LLM pipeline
 
 -Finished AI integration
 
-March 23
+March 23 (3h)
 
 -Finished the special feature of Adding calorie tracking to the calendar
 
 -Updated the information saved to firebase
+
+March 30 (20min)
+
+-Added hour to contribution
+
+-Wrote and assigned tasks for sprint 4
+
+March 31 (4h)
+
+-Refactored Octavian's code using better principles (Profile Management and weekly planner)
+
+-Used ESLint to find bugs. One of them was forgotPassword() not working
+
+-Refactored a bit of my and Cedric's code in authentification to adhere to better practices

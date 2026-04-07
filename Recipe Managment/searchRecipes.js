@@ -162,6 +162,15 @@ window.clearFilters = function() {
     displayRecipes(allRecipes);
 };
 
+// Close recipe modal - DEFINED BEFORE viewRecipe to fix ESLint error
+window.closeRecipeModal = function() {
+    const modal = document.getElementById('recipeModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+};
+
 // View recipe details in modal
 window.viewRecipe = function(recipeId) {
     const recipe = allRecipes.find(r => r.id === recipeId);
@@ -175,15 +184,15 @@ window.viewRecipe = function(recipeId) {
         modal.className = 'recipe-modal';
         modal.innerHTML = `
             <div class="recipe-modal-content">
-                <button class="modal-close" onclick="closeRecipeModal()">&times;</button>
+                <button class="modal-close" onclick="window.closeRecipeModal()">&times;</button>
                 <div id="recipeModalBody"></div>
             </div>
         `;
         document.body.appendChild(modal);
         
-        // Close modal when clicking outside
+        // Close modal when clicking outside - use window.closeRecipeModal
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeRecipeModal();
+            if (e.target === modal) window.closeRecipeModal();
         });
     }
     
@@ -242,6 +251,11 @@ window.closeRecipeModal = function() {
         document.body.style.overflow = '';
     }
 };
+// Get YouTube video ID from URL
+function getYoutubeId(url) {
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+    return match ? match[1] : '';
+}
 
 // Delete recipe
 window.deleteRecipe = async function(recipeId) {
@@ -262,7 +276,7 @@ window.deleteRecipe = async function(recipeId) {
     }
 };
 
-//Edit recipe - redirects to CreateRecipes.html with editId param
+// Edit recipe - redirects to CreateRecipes.html with editId param
 window.editRecipe = function(recipeId) {
     window.location.href = `CreateRecipes.html?editId=${recipeId}`;
 };
@@ -333,8 +347,3 @@ onAuthStateChanged(auth, (user) => {
         // window.location.href = '../index.html';
     }
 });
-
-//Edit
-window.editRecipe = function(recipeId) {
-    window.location.href = `CreateRecipes.html?editId=${recipeId}`;
-};

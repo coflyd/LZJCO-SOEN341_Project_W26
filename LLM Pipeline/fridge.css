@@ -1,0 +1,180 @@
+     * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial;
+            background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+            position: relative;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 3px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .icon-user-text {
+            width: 70px;
+            height: 45px;
+            background: #9ACD32;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .icon-user-text:hover {
+            transform: scale(1.1);
+        }
+
+        /* MAIN */
+
+        main {
+            flex: 1;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        /* Generator Card */
+
+        .generator {
+            background: #fff;
+            max-width: 700px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        textarea,
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            font-family: Poppins;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #43A047;
+            transform: scale(1.05);
+        }
+
+        /* Recipes */
+
+        .results {
+            margin-top: 40px;
+        }
+
+        .recipe {
+            background: #fff;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+
+        .recipe h3 {
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .recipe ul,
+        .recipe ol {
+            margin-left: 20px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .error-text {
+            color: #e53935;
+            font-size: 13px;
+            margin-top: -12px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+    
+        .hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:5px;position:relative;z-index:1001;flex-shrink:0}
+        .hamburger div{width:28px;height:3px;background:#fff;border-radius:2px;transition:all .3s}
+        .hamburger.open div:nth-child(1){transform:translateY(8px) rotate(45deg)}
+        .hamburger.open div:nth-child(2){opacity:0}
+        .hamburger.open div:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+        .nav-dropdown{position:absolute;top:80px;left:30px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);overflow:hidden;z-index:1000;min-width:220px;opacity:0;pointer-events:none;transform:translateY(-10px);transition:opacity .25s,transform .25s}
+        .nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+        .nav-dropdown a{display:flex;align-items:center;gap:12px;padding:14px 22px;text-decoration:none;color:#333;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;transition:background .15s;border-bottom:1px solid #f0f0f0;cursor:pointer}
+        .nav-dropdown a:last-child{border-bottom:none}
+        .nav-dropdown a:hover{background:#FFF3EE;color:#FF6B35}
+        .nav-dropdown a .nav-icon{width:32px;height:32px;border-radius:8px;background:#FFF3EE;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .nav-dropdown a:hover .nav-icon{background:#FFE0D0}
+        .nav-dropdown a .nav-icon svg{width:16px;height:16px;fill:#FF6B35}
+        .nav-dropdown a.nav-profile .nav-icon{background:#F0FAE0}
+        .nav-dropdown a.nav-profile:hover{background:#F0FAE0;color:#6aaa00}
+        .nav-dropdown a.nav-profile .nav-icon svg{fill:#9ACD32}
+        .nav-dropdown a.nav-logout .nav-icon{background:#FFF0F0}
+        .nav-dropdown a.nav-logout:hover{background:#FFF0F0;color:#E53935}
+        .nav-dropdown a.nav-logout .nav-icon svg{fill:#E53935}
+        .nav-overlay{display:none;position:fixed;inset:0;z-index:999}
+        .nav-overlay.open{display:block}

@@ -1,7 +1,7 @@
 import { getDatabase, ref, push, set, get, update } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-import { getAuth, onAuthStateChanged } from 
+import { getAuth } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 import { initializeApp } from 
@@ -20,13 +20,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
-const {
-    validateRecipeInput,
-    buildRecipeData,
-    getMediaPreview,
-    buildRecipePreview,
-    readRecipeForm
-} = window.CreateRecipeHelpers;
 
 const urlParams = new URLSearchParams(window.location.search);
 const editId = urlParams.get('editId');
@@ -132,29 +125,34 @@ attachRemoveListeners();
 
 // Media preview
 document.getElementById('media-url').addEventListener('input', function() {
+    const url = this.value.trim();
     const previewDiv = document.getElementById('media-preview');
-    const preview = getMediaPreview(this.value);
-
-    if (preview.type === 'placeholder') {
+    
+    if (!url) {
         previewDiv.className = 'media-placeholder';
         previewDiv.innerHTML = '<i class="fas fa-image"></i><p>Media preview will appear here</p>';
         return;
     }
 
-    if (preview.type === 'youtube') {
+    // Check if YouTube URL
+    const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/;
+    const match = url.match(youtubeRegex);
+    
+    if (match) {
+        const videoId = match[1];
         previewDiv.className = '';
-        previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${preview.videoId}" frameborder="0" allowfullscreen></iframe>`;
-    } else if (preview.type === 'image') {
+        previewDiv.innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
         previewDiv.className = '';
-        previewDiv.innerHTML = `<img src="${preview.url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
+        previewDiv.innerHTML = `<img src="${url}" alt="Recipe image" style="max-width: 100%; border-radius: 10px;">`;
     }
 });
 
+// Preview update
 function updatePreview() {
     const name = document.getElementById('recipe-name').value;
     const time = document.getElementById('cooking-time').value;
     const portions = document.getElementById('portions').value;
-    const calories = document.getElementById('calories').value;
     const category = document.querySelector('.category-option.selected')?.textContent.trim();
     
     const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
@@ -164,12 +162,11 @@ function updatePreview() {
     let preview = '';
     
     if (name) preview += `<h3>${name}</h3>`;
-    if (category || time || portions || calories) {
+    if (category || time || portions) {
         preview += '<p>';
         if (category) preview += `<strong>Category:</strong> ${category} `;
         if (time) preview += `<strong>Time:</strong> ${time} min `;
-        if (portions) preview += `<strong>Servings:</strong> ${portions} `;
-        if (calories) preview += `<strong>Calories:</strong> ${calories} kcal/serving`;
+        if (portions) preview += `<strong>Servings:</strong> ${portions}`;
         preview += '</p>';
     }
     
@@ -181,7 +178,7 @@ function updatePreview() {
 }
 
 // Update preview on input and hide messages when typing
-['recipe-name', 'cooking-time', 'portions', 'calories'].forEach(id => {
+['recipe-name', 'cooking-time', 'portions'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
         updatePreview();
         hideMessages();
@@ -200,7 +197,6 @@ document.getElementById('clear-btn').addEventListener('click', function() {
         document.getElementById('recipe-name').value = '';
         document.getElementById('cooking-time').value = '';
         document.getElementById('portions').value = '';
-        document.getElementById('calories').value = '';
         document.getElementById('media-url').value = '';
         document.getElementById('notes').value = '';
         document.querySelectorAll('.category-option').forEach(opt => opt.classList.remove('selected'));
@@ -259,14 +255,10 @@ document.getElementById('save-btn').addEventListener('click', async function() {
         return;
     }
 
-    // Wait for Firebase Auth to resolve (currentUser can be null on first load)
-    const user = await new Promise((resolve) => {
-        if (auth.currentUser) { resolve(auth.currentUser); return; }
-        const unsubscribe = auth.onAuthStateChanged((u) => { unsubscribe(); resolve(u); });
-    });
+    const user = auth.currentUser;
 
     if (!user) {
-        showError("You must be logged in to save recipes.");
+        showError('You must be logged in to save recipes.');
         return;
     }
 
@@ -275,7 +267,6 @@ document.getElementById('save-btn').addEventListener('click', async function() {
         ownerUid: user.uid,
         cookingTime: Number(document.getElementById('cooking-time').value) || 0,
         portions: Number(document.getElementById('portions').value) || 0,
-        calories: Number(document.getElementById('calories').value) || 0,
         category: document.getElementById('selected-category').value,
         mediaUrl: document.getElementById('media-url').value.trim(),
         ingredients: ingredients,
@@ -313,7 +304,6 @@ async function loadRecipeForEditing(id) {
     document.getElementById('recipe-name').value  = recipe.name || '';
     document.getElementById('cooking-time').value = recipe.cookingTime || '';
     document.getElementById('portions').value = recipe.portions || '';
-    document.getElementById('calories').value = recipe.calories || '';
     document.getElementById('media-url').value = recipe.mediaUrl || '';
     document.getElementById('notes').value = recipe.notes || '';
 

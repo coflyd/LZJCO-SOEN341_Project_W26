@@ -1,5 +1,13 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const { defineSecret } = require("firebase-functions/params");
+const {
+  applyCorsHeaders,
+  isPreflightRequest,
+  hasValidMealRequest,
+  buildRecipePrompt,
+  buildOpenAiRequestOptions,
+  parseOpenAiRecipeResponse
+} = require("./recipeGeneration.helpers");
 
 // Define the secret for OpenAI API key
 const openaiApiKey = defineSecret("OPENAI_API_KEY");
@@ -12,13 +20,10 @@ exports.generateRecipes = onRequest(
   async (request, response) => {
 
     // Set CORS headers first, before any other logic
-    response.set("Access-Control-Allow-Origin", "*");
-    response.set("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    response.set("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Accept,Origin,Referer,User-Agent");
-    response.set("Access-Control-Max-Age", "3600");
+    applyCorsHeaders(response);
     
     // Handle preflight requests
-    if (request.method === "OPTIONS") {
+    if (isPreflightRequest(request.method)) {
       console.log("Handling OPTIONS request");
       return response.status(204).send("");
     }
@@ -28,7 +33,7 @@ exports.generateRecipes = onRequest(
 
     const { ingredients, calories } = request.body;
 
-    if (!ingredients || !calories) {
+    if (!hasValidMealRequest({ ingredients, calories })) {
       console.log("Missing ingredients or calories:", { ingredients, calories });
       return response.status(400).json({
         error: "Ingredients and calories are required"
@@ -47,48 +52,17 @@ exports.generateRecipes = onRequest(
       });
     }
 
-    const prompt = `
-Generate 3 healthy meal recipes.
-
-Ingredients available: ${ingredients}
-Target calories per meal: ${calories}
-
-Return ONLY JSON in this format:
-
-{
- "recipes":[
-  {
-   "name":"",
-   "ingredients":[{"name":"","amount":""}],
-   "steps":[],
-   "calories":0
-  }
- ]
-}
-`;
+    const prompt = buildRecipePrompt(ingredients, calories);
 
     console.log("About to call OpenAI API");
     console.log("Prompt:", prompt);
 
     try {
 
-      const openaiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "user",
-              content: prompt
-            }
-          ],
-          temperature: 0.7
-        })
-      });
+      const openaiResponse = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        buildOpenAiRequestOptions(API_KEY, prompt)
+      );
 
       console.log("OpenAI response status:", openaiResponse.status);
       console.log("OpenAI response ok:", openaiResponse.ok);
@@ -96,12 +70,7 @@ Return ONLY JSON in this format:
       const result = await openaiResponse.json();
       console.log("OpenAI result:", result);
 
-      if (!result.choices || result.choices.length === 0) {
-        console.log("Invalid OpenAI response - no choices:", result);
-        throw new Error("Invalid OpenAI response");
-      }
-
-      const text = result.choices[0].message.content;
+      const text = parseOpenAiRecipeResponse(result);
       console.log("Generated text:", text);
 
       return response.json({ text });

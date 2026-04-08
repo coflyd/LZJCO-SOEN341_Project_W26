@@ -88,6 +88,15 @@ Added 5 unit tests for  fridge related.
 07/04/2026 (2 hrs)
 Worked on Final project report
 
+08/04/2026 (4 hrs)
+Added more acceptance tests:
+      -Auth: invalid login test 
+      -Profile: login-required access test 
+      -Fridge: empty input validation + successful meal 
+      -Weekly Planner: homepage schedule card + menu schedule link
+
+
+
 
                   
             

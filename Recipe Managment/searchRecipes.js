@@ -1,9 +1,12 @@
 // searchRecipes.js 
 // Load and filter recipes from Firebase
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+/*import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, get, remove } from 
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getAuth, onAuthStateChanged } from 
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const {
     formatCategory,
@@ -22,7 +25,11 @@ const firebaseConfig = {
     storageBucket: "louay-testing.firebasestorage.app",
     messagingSenderId: "123255076909",
     appId: "1:123255076909:web:c2ba7c881ed4588b7ba0a4"
-};
+};*/
+
+import { ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { auth, database } from "./firebase-config.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

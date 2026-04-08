@@ -23,7 +23,7 @@ const auth = getAuth(app);*/
 
 import { ref, push, set, get, update } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { auth, database } from "./firebase-config.js";
+import { auth, database } from "../firebase-config.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const editId = urlParams.get('editId');

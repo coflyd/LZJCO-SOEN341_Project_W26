@@ -93,3 +93,15 @@ test("MealMajor Test: Register/Login", async ({ page }) => {
   // Clean up test user
   await cleanupTestUser(page);
 });
+
+test("MealMajor Test: Invalid Login Shows Error", async ({ page }) => {
+  const LOGIN_PAGE = "https://lzjco-soen-341-project-w26.vercel.app/index.html";
+
+  await page.goto(LOGIN_PAGE);
+  await page.fill("#email", `wrong_user_${Date.now()}@gmail.com`);
+  await page.fill("#password", "WrongPassword123");
+  await page.click("button.primary-btn");
+
+  await expect(page).toHaveURL(/index.html/);
+  await expect(page.locator("#form-error")).not.toHaveText("");
+});

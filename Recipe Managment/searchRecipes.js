@@ -251,13 +251,14 @@ window.viewRecipe = function(recipeId) {
 };
 
 // Close recipe modal
-window.closeRecipeModal = function() {
+/*window.closeRecipeModal = function() {
     const modal = document.getElementById('recipeModal');
     if (modal) {
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
-};
+};*/
+
 // Get YouTube video ID from URL
 function getYoutubeId(url) {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);

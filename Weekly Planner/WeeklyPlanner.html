@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Meal Plan - MealMajor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Authentification Managment/styles.css">
+    <link rel="stylesheet" href="./WeeklyPlanner.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-overlay" id="navOverlay"></div>
+        <nav class="nav-dropdown" id="navDropdown">
+            <a href="../HomePage.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </div>
+                Home Page
+            </a>
+            <a href="../Profile Managment/ProfileManagement.html" class="nav-profile">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                    </svg>
+                </div>
+                Profile
+            </a>
+            <a href="../Recipe Managment/SearchRecipes.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                    </svg>
+                </div>
+                Inspirations
+            </a>
+            <a href="./WeeklyPlanner.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                    </svg>
+                </div>
+                Your Schedule
+            </a>
+            <a href="../LLM Pipeline/fridge.html">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6v-9h12v9zm0-11H6V4h12v5zM8 5h2v3H8V5zm0 7h2v5H8v-5z"/>
+                    </svg>
+                </div>
+                Your Fridge
+            </a>
+            <a class="nav-logout" onclick="logout()">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                </div>
+                Logout
+            </a>
+        </nav>
+        <div class="logo-text">MEAL | MAJOR | PREP</div>
+        <div style="width:48px"></div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="meal-plan-page">    
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-calendar-week"></i>
+                Weekly <span>Meal Plan</span>
+            </h1>
+            <div class="week-start-toggle">
+                <label>Week starts:</label>
+                <div class="toggle-btn" id="weekStartToggle">
+                    <span data-value="sun" class="active">Sun</span>
+                    <span data-value="mon">Mon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week navigation -->
+        <div class="week-nav">
+            <button class="nav-arrow" id="prevWeek" title="Previous week">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="week-label" id="weekLabel"></span>
+            <button class="nav-arrow" id="nextWeek" title="Next week">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="today-btn" id="todayBtn">Today</button>
+            <button class="reuse-btn" id="reuseLastWeekBtn" title="Copy all meals from last week">
+                <i class="fas fa-copy"></i>
+                Reuse Last Week
+            </button>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot breakfast"></div>
+                Breakfast
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot lunch"></div>
+                Lunch
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dinner"></div>
+                Dinner
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot snack"></div>
+                Snack
+            </div>
+        </div>
+
+        <!-- 7-day grid -->
+        <div class="week-grid" id="weekGrid"></div>
+    </div>
+
+    <!-- Side panel overlay -->
+    <div class="panel-overlay" id="panelOverlay"></div>
+
+    <!-- Side panel -->
+    <div class="side-panel" id="sidePanel">
+        <div class="panel-header">
+            <div class="panel-header-info">
+                <h2 id="panelDayTitle">Day</h2>
+                <p id="panelDayDate">Date</p>
+            </div>
+            <button class="panel-close" id="panelClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="panel-body">
+            <!-- Filter tabs -->
+            <div class="type-tabs" id="typeTabs">
+                <div class="type-tab active" data-filter="all">All</div>
+                <div class="type-tab" data-filter="breakfast">Breakfast</div>
+                <div class="type-tab" data-filter="lunch">Lunch</div>
+                <div class="type-tab" data-filter="dinner">Dinner</div>
+                <div class="type-tab" data-filter="snack">Snack</div>
+            </div>
+
+            <!-- Meals list -->
+            <div class="panel-meals" id="panelMeals"></div>
+
+            <!-- Add meal button -->
+            <button class="add-meal-trigger" id="showAddForm">
+                <i class="fas fa-plus"></i>
+                Add New Meal
+            </button>
+
+            <!-- Edit form (only shown when editing an existing meal) -->
+            <div class="meal-form" id="mealForm">
+                <h3 id="formTitle">Edit Meal</h3>
+                <div class="duplicate-warning" id="duplicateWarning">
+                    A meal with this name and type already exists for this day.
+                </div>
+                <div class="form-group">
+                    <label for="mealNameInput">Meal Name</label>
+                    <input type="text" id="mealNameInput" placeholder="Enter meal name" required>
+                </div>
+                <div class="form-group">
+                    <label for="mealTypeInput">Meal Type</label>
+                    <select id="mealTypeInput" required>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="snack">Snack</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mealCaloriesInput">Calories</label>
+                    <input type="number" id="mealCaloriesInput" value="200" min="0" max="2000">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-primary" id="saveMealBtn">Save</button>
+                    <button type="button" class="btn-secondary" id="cancelFormBtn">Cancel</button>
+                </div>
+                <input type="hidden" id="editMealId">
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Picker Modal -->
+    <div class="recipe-picker-overlay" id="recipePickerOverlay">
+        <div class="recipe-picker-modal">
+            <div class="recipe-picker-header">
+                <h3>Choose a Recipe</h3>
+                <button class="recipe-picker-close" id="recipePickerClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="recipe-picker-controls">
+                <input type="text" class="recipe-picker-search" id="recipePickerSearch" 
+                       placeholder="Search recipes...">
+                <div class="recipe-picker-type">
+                    <label>Add as:</label>
+                    <select id="recipePickerMealType">
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="snack">Snack</option>
+                    </select>
+                </div>
+            </div>
+            <div class="picker-dup-warning" id="pickerDupWarning">
+                This recipe is already added as <span id="dupMealType"></span> for this day.
+            </div>
+            <div class="recipe-picker-list" id="recipePickerList">
+                <div class="recipe-picker-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Loading recipes...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="reuse-toast" id="reuseToast"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            © 2026 MealMajor - All rights reserved
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../Profile Managment/navigation.js"></script>
+    <script type="module" src="../Authentification Managment/auth.js"></script>
+    <script type="module" src="./weeklyPlannerServices.js"></script>
+    <script type="module" src="./WeeklyPlanner.js"></script>
+</body>
+</html>

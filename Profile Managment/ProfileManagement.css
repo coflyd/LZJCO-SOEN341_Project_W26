@@ -1,0 +1,352 @@
+/*
+ * ProfileManagement.css - Profile Management Styles for MealMajor
+ * SOEN 341 - Software Process, Winter 2026
+ * Team LZJCO
+ */
+
+/* ── Header ── */
+header {
+    background: linear-gradient(135deg, #FF6B35 0%, #F4511E 100%);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, .3);
+    position: relative;
+}
+
+.logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Profile body background */
+.profile-body {
+    width: 100%;
+    background: linear-gradient(180deg, #F8FAF5 0%, #E8F0E3 100%);
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: calc(100vh - 80px);
+}
+
+/* Profile card */
+.profile-card {
+    width: 480px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 40px 35px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(76, 175, 80, 0.1);
+    height: fit-content;
+}
+
+.profile-card h2 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 30px;
+}
+
+/* Form fields */
+.field {
+    margin-bottom: 20px;
+}
+
+.field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+.field input[type="text"],
+.field input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FAFAFA;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.field input[type="text"]:focus,
+.field input[type="number"]:focus {
+    border-color: #4CAF50;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.field input.error {
+    border-color: #E53935;
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+}
+
+.error-text {
+    color: #E53935;
+    font-size: 12px;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+/* Section titles */
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333333;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #E8F0E3;
+}
+
+/* Checkbox groups */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.checkbox-group label:hover {
+    background: #F8FAF5;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4CAF50;
+    cursor: pointer;
+}
+
+.other-input {
+    margin-top: 8px;
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FAFAFA;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.other-input:focus {
+    border-color: #4CAF50;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* Save button */
+.save-btn {
+    width: 100%;
+    border: none;
+    background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+.save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.save-message {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    min-height: 18px;
+}
+
+.save-message.success {
+    color: #4CAF50;
+}
+
+.save-message.error {
+    color: #E53935;
+}
+
+/* Navigation styles */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
+    position: relative;
+    z-index: 1001;
+    flex-shrink: 0;
+}
+
+.hamburger div {
+    width: 28px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all .3s;
+}
+
+.hamburger.open div:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.open div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open div:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: 80px;
+    left: 30px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .18);
+    overflow: hidden;
+    z-index: 1000;
+    min-width: 220px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity .25s, transform .25s;
+}
+
+.nav-dropdown.open {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.nav-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    text-decoration: none;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background .15s;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.nav-dropdown a:last-child {
+    border-bottom: none;
+}
+
+.nav-dropdown a:hover {
+    background: #FFF3EE;
+    color: #FF6B35;
+}
+
+.nav-dropdown a .nav-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #FFF3EE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-dropdown a:hover .nav-icon {
+    background: #FFE0D0;
+}
+
+.nav-dropdown a .nav-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: #FF6B35;
+}
+
+.nav-dropdown a.nav-profile .nav-icon {
+    background: #F0FAE0;
+}
+
+.nav-dropdown a.nav-profile:hover {
+    background: #F0FAE0;
+    color: #6aaa00;
+}
+
+.nav-dropdown a.nav-profile .nav-icon svg {
+    fill: #9ACD32;
+}
+
+.nav-dropdown a.nav-logout .nav-icon {
+    background: #FFF0F0;
+}
+
+.nav-dropdown a.nav-logout:hover {
+    background: #FFF0F0;
+    color: #E53935;
+}
+
+.nav-dropdown a.nav-logout .nav-icon svg {
+    fill: #E53935;
+}
+
+.nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+}
+
+.nav-overlay.open {
+    display: block;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}

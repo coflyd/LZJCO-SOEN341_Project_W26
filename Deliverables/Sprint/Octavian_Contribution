@@ -26,3 +26,11 @@ Created the UI for the weekly interface
 18/03/2026
 Pushed the UI for the weekly interface
 - Made some final changes to the header to match the UI of the rest of the site.
+
+06/04/2026
+Final changes;
+- Removed the Shopping list buttons (isn't created under this name, so it gave an error)
+- Polished the interface from the Meal planner to be full witdh
+- Used ESLint to find bugs/unused variables.
+- Created new .css files to clean up the .html ones and make them more readable
+- Updated a test file

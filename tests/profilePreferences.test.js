@@ -50,7 +50,7 @@ test("MealMajor Test: Profile Preferences", async ({ page }) => {
   await page.fill("#password", password);
   await page.fill("#confirm-password", password);
   await page.click("button.primary-btn");
-  await expect(page).toHaveURL(/index.html/);
+  await expect(page).toHaveURL(/(index\.html|HomePage\.html)$/);
 
   // Now login
   await page.goto(LOGIN_PAGE);

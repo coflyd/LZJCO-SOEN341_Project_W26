@@ -1,4 +1,4 @@
-import { getDatabase, ref, push, set, get, update } from 
+/*import { getDatabase, ref, push, set, get, update } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 import { getAuth } from 
@@ -19,7 +19,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const auth = getAuth(app);
+const auth = getAuth(app);*/
+
+import { ref, push, set, get, update } from 
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { auth, database } from "./firebase-config.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const editId = urlParams.get('editId');

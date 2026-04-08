@@ -7,7 +7,7 @@ import { getDatabase, ref, get, remove } from
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth, onAuthStateChanged } from 
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+*/
 const {
     formatCategory,
     getRecipeThumbnail,
@@ -15,7 +15,7 @@ const {
     applyRecipeFilters,
     buildClearedFiltersState
 } = window.SearchRecipesHelpers;
-
+/*
 // Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyDSozt6vIF6RrLQei26G-teUd2cPSTdPIQ",
@@ -30,12 +30,12 @@ const firebaseConfig = {
 import { ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { auth, database } from "./firebase-config.js";
-
+/*
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
-
+*/
 // Store all recipes
 let allRecipes = [];
 

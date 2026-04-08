@@ -123,3 +123,11 @@ test("MealMajor Test: Profile Preferences", async ({ page }) => {
   // Clean up test user
   await cleanupTestUser(page, uniqueEmail, password);
 });
+
+test("MealMajor Test: Profile Requires Login", async ({ page }) => {
+  const PROFILE_PAGE = "https://lzjco-soen-341-project-w26.vercel.app/Profile%20Managment/ProfileManagement.html";
+
+  await page.goto(PROFILE_PAGE);
+  await page.waitForSelector("#settingsForm");
+  await expect(page.locator("#save-message")).toContainText("Please log in to access your profile.");
+});

@@ -68,3 +68,17 @@
     Logout correctly wired to auth.js window.logout()
 
     => ADD space for Shooping list Idea for additionnal features
+
+08/04/2026 (2h05)
+    -> Work on the jcedrik's code
+    -> refactoring code dupliacte (code smell) use the firebase-config.js 
+        in createRecipe.js
+        and in searchRecipe.js
+    avoid dupliaction 
+    -> refactoring a double definition of a fonction window.closeRecipeModal in searchRecipes.js
+    -> fix the error this refactoring created
+
+09/04/2026 (2h37)
+    -> Create all the slide for the presentation 
+    -> Sumbit it 
+    -> Peer assessment

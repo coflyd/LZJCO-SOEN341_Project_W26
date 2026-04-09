@@ -29,7 +29,7 @@ const firebaseConfig = {
 
 import { ref, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { auth, database } from "./firebase-config.js";
+import { auth, database } from "../firebase-config.js";
 /*
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -87,3 +87,7 @@ March 31 (4h)
 -Used ESLint to find bugs. One of them was forgotPassword() not working
 
 -Refactored a bit of my and Cedric's code in authentification to adhere to better practices
+
+April 9 (30min)
+
+-Fixed Firebase import path issue in Recipe Management searchRecipes.js and implemented text wrapping for long recipe titles in weekly planner to prevent day card stretching

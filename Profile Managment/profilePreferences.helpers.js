@@ -266,6 +266,57 @@ class ProfilePreferencesHelpers {
   static getOtherAllergies = AllergyProcessor.getCustomAllergies;
 }
 
+function splitCommaList(value) {
+  return StringUtils.splitCommaList(value);
+}
+
+function getOtherAllergies(allergies) {
+  return AllergyProcessor.getCustomAllergies(allergies);
+}
+
+function mapProfileToForm(data) {
+  const formData = ProfilePreferencesHelpers.mapProfileToForm(data);
+
+  if (data?.targetCalories === undefined) {
+    const { targetCalories, ...legacyFormData } = formData;
+    return legacyFormData;
+  }
+
+  return formData;
+}
+
+function buildProfileUpdate(name, selectedAllergies, otherAllergies, dietPreferences, targetCalories) {
+  const updatePayload = ProfilePreferencesHelpers.buildProfileUpdate(
+    name,
+    selectedAllergies,
+    otherAllergies,
+    dietPreferences,
+    targetCalories
+  );
+
+  if (updatePayload.error?.name) {
+    return { error: 'Name cannot be empty.' };
+  }
+
+  if (targetCalories === undefined) {
+    const { targetCalories: omittedCalories, ...legacyPayload } = updatePayload;
+    return legacyPayload;
+  }
+
+  return updatePayload;
+}
+
+function readProfileForm(documentRef) {
+  const formData = ProfilePreferencesHelpers.readProfileForm(documentRef);
+
+  if (!documentRef.getElementById("targetCalories")) {
+    const { targetCalories, ...legacyFormData } = formData;
+    return legacyFormData;
+  }
+
+  return formData;
+}
+
 // Browser environment
 if (typeof window !== "undefined") {
   window.ProfilePreferencesHelpers = ProfilePreferencesHelpers;
@@ -278,6 +329,11 @@ if (typeof window !== "undefined") {
 // Node.js environment
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
+    splitCommaList,
+    getOtherAllergies,
+    mapProfileToForm,
+    buildProfileUpdate,
+    readProfileForm,
     ProfilePreferencesHelpers,
     StringUtils,
     ArrayUtils,

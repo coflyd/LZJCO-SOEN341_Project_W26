@@ -95,6 +95,10 @@ Added more acceptance tests:
       -Fridge: empty input validation + successful meal 
       -Weekly Planner: homepage schedule card + menu schedule link
 
+10/04/2026 (1 hr)
+Re ran test suits and 6 unit tests  were failing,
+fixed them.
+
 
 
 

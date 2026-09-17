@@ -13,7 +13,7 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-s
 const firebaseConfig = {
     apiKey: "AIzaSyBtSQZIfafNiwpjT0OG_sQqknZ1eB6vyXc",
     authDomain: "lzjco-soenproject.firebaseapp.com",
-    databaseURL: "REMPLACE_PAR_TA_VRAIE_URL",
+    databaseURL: "https://lzjco-soenproject-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "lzjco-soenproject",
     storageBucket: "lzjco-soenproject.firebasestorage.app",
     messagingSenderId: "549082545321",

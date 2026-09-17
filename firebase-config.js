@@ -1,3 +1,4 @@
+
 /*
  * firebase-config.js - Firebase Configuration for MealMajor
  * SOEN 341 - Software Process, September 2026
